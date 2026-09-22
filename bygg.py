@@ -34,12 +34,15 @@ a{color:inherit}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
 button,input,textarea{font:inherit;color:inherit}
 
-.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:56px;max-width:1080px;margin:0 auto;padding:40px clamp(16px,4vw,32px) 48px}
+.layout{display:grid;grid-template-columns:240px minmax(0,1fr);column-gap:56px;row-gap:56px;max-width:1080px;margin:0 auto;padding:40px clamp(16px,4vw,32px) 48px}
+.layout.has-hero{row-gap:22px}
+.hero-banner{grid-column:1/-1;border-radius:16px;overflow:hidden;height:clamp(200px,28vw,360px);background:var(--line)}
+.hero-banner img{width:100%;height:100%;object-fit:cover;object-position:center 38%}
 .side{position:sticky;top:40px;align-self:start}
-.brand{background:var(--mint);border-radius:16px;padding:22px 20px 24px;font-family:var(--display);font-weight:700;font-size:2.3rem;line-height:1;letter-spacing:-.03em;text-decoration:none;display:block;text-wrap:balance}
+.has-hero .side{margin-top:-78px;z-index:2}
+.brand{position:relative;background:var(--mint);border-radius:16px;padding:22px 20px 24px;font-family:var(--display);font-weight:700;font-size:2.3rem;line-height:1;letter-spacing:-.03em;text-decoration:none;display:block;text-wrap:balance;box-shadow:0 10px 26px rgba(27,41,50,.16)}
 .street{width:100%;height:auto;display:block;margin-bottom:18px}
 .street .g{stroke:var(--ink);stroke-width:2}.street .w{fill:var(--mint)}
-.brand small{display:block;font:400 .95rem/1.4 var(--body);letter-spacing:0;color:#3d5a50;margin-top:10px}
 .nav{margin-top:28px;display:grid;gap:4px;font:.82rem var(--mono);letter-spacing:.06em;text-transform:uppercase}
 .nav a{color:var(--muted);text-decoration:none;padding:6px 0;border-bottom:1.5px solid transparent;width:max-content}
 .nav a:hover{color:var(--ink);border-bottom-color:var(--ink)}
@@ -95,6 +98,9 @@ footer{margin-top:64px;padding-top:20px;border-top:1px dashed var(--line);font:.
 @media(max-width:820px){
  .brand{font-size:1.8rem;padding:16px 16px 18px}.street{max-width:220px;margin-bottom:12px}
  .layout{grid-template-columns:minmax(0,1fr);gap:28px;padding-top:20px}
+ .layout.has-hero{row-gap:16px}
+ .hero-banner{height:clamp(160px,52vw,220px)}
+ .has-hero .side{margin-top:-40px}
  .side{position:static}
  .nav{margin-top:14px;display:flex;gap:18px}
  .posts{gap:44px}.section{margin-top:56px}
@@ -103,17 +109,18 @@ footer{margin-top:64px;padding-top:20px;border-top:1px dashed var(--line);font:.
 ''')
 
 # ---------- Felles hode ----------
-def head(title, desc, pre, img):
+def head(title, desc, pre, img, hero=None):
     t, d = html.escape(title), html.escape(desc)
-    og = f'<meta property="og:image" content="{pre}bilder/{img}.svg">' if img else ''
+    og = f'<meta property="og:image" content="{pre}bilder/{img}.svg">' if img else (f'<meta property="og:image" content="{pre}bilder/{hero}">' if hero else '')
+    hero_html = f'<div class="hero-banner"><img src="{pre}bilder/{hero}" alt="Historisk kobberstikk av Bergen, sett fra sjøsiden" loading="eager"></div>' if hero else ''
     return f'''<!doctype html>
 <html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{t}</title><meta name="description" content="{d}">
 <meta property="og:title" content="{t}"><meta property="og:description" content="{d}">{og}
 <link rel="icon" href="{pre}favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400&family=Instrument+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="{pre}style.css"></head><body><div class="layout">
-<header class="side"><a class="brand" href="{pre}index.html"><svg class="street" viewBox="0 0 300 74" role="img" aria-label="Trehusene på Bryggen"><polygon fill="#C08A1E" points="0,72 0,34 23,10 46,34 46,72"/><rect class="w" x="19" y="26" width="8" height="8"/><rect class="w" x="17" y="46" width="12" height="12"/><polygon fill="#B23A2B" points="50,72 50,36 73,14 96,36 96,72"/><rect class="w" x="69" y="28" width="8" height="8"/><rect class="w" x="67" y="48" width="12" height="12"/><polygon fill="#F7F5EE" stroke="#A9BDB3" points="100,72 100,32 123,8 146,32 146,72"/><rect class="w" x="119" y="24" width="8" height="8"/><rect class="w" x="117" y="44" width="12" height="12"/><polygon fill="#2F6F8F" points="150,72 150,35 173,12 196,35 196,72"/><rect class="w" x="169" y="27" width="8" height="8"/><rect class="w" x="167" y="47" width="12" height="12"/><polygon fill="#C08A1E" points="200,72 200,34 223,10 246,34 246,72"/><rect class="w" x="219" y="26" width="8" height="8"/><rect class="w" x="217" y="46" width="12" height="12"/><polygon fill="#4C7A5A" points="250,72 250,37 273,15 296,37 296,72"/><rect class="w" x="269" y="29" width="8" height="8"/><rect class="w" x="267" y="49" width="12" height="12"/><line class="g" x1="0" y1="73" x2="300" y2="73"/></svg>Joa's Bergen<small>Notater fra en regnfull by.</small></a>
+<link rel="stylesheet" href="{pre}style.css"></head><body><div class="layout{' has-hero' if hero else ''}">
+{hero_html}<header class="side"><a class="brand" href="{pre}index.html"><svg class="street" viewBox="0 0 300 74" role="img" aria-label="Trehusene på Bryggen"><polygon fill="#C08A1E" points="0,72 0,34 23,10 46,34 46,72"/><rect class="w" x="19" y="26" width="8" height="8"/><rect class="w" x="17" y="46" width="12" height="12"/><polygon fill="#B23A2B" points="50,72 50,36 73,14 96,36 96,72"/><rect class="w" x="69" y="28" width="8" height="8"/><rect class="w" x="67" y="48" width="12" height="12"/><polygon fill="#F7F5EE" stroke="#A9BDB3" points="100,72 100,32 123,8 146,32 146,72"/><rect class="w" x="119" y="24" width="8" height="8"/><rect class="w" x="117" y="44" width="12" height="12"/><polygon fill="#2F6F8F" points="150,72 150,35 173,12 196,35 196,72"/><rect class="w" x="169" y="27" width="8" height="8"/><rect class="w" x="167" y="47" width="12" height="12"/><polygon fill="#C08A1E" points="200,72 200,34 223,10 246,34 246,72"/><rect class="w" x="219" y="26" width="8" height="8"/><rect class="w" x="217" y="46" width="12" height="12"/><polygon fill="#4C7A5A" points="250,72 250,37 273,15 296,37 296,72"/><rect class="w" x="269" y="29" width="8" height="8"/><rect class="w" x="267" y="49" width="12" height="12"/><line class="g" x1="0" y1="73" x2="300" y2="73"/></svg>Joa's Bergen</a>
 <nav class="nav" aria-label="Meny"><a href="{pre}index.html#om">Om meg</a><a href="{pre}index.html#kontakt">Kontakt</a></nav></header>
 '''
 
@@ -138,7 +145,7 @@ empty = "" if POSTS else '<p class="none">Innleggene kommer snart.</p>'
 CATS = sorted(["Byvandring", "Fotturer", "Historie", "Leserinnlegg", "Mat og drikke", "Solforhold"], key=str.casefold)
 chips = "".join(f'<button type="button" class="chip" aria-pressed="false" data-cat="{c}">{c}</button>' for c in CATS) + '<button type="button" class="chip rain" aria-pressed="false">☔ Regnværsdag</button>'
 
-w("index.html", head("Joa's Bergen – blogg", "Notater fra en regnfull by.", "", "") + f'''<main>
+w("index.html", head("Joa's Bergen – blogg", "Blogg om Bergen: mat, turer og historie.", "", "", hero="forside.webp") + f'''<main>
 <div class="filters" role="group" aria-label="Filtrer innlegg"{" hidden" if not POSTS else ""}>
 <div class="chips">{chips}</div>
 <div class="fmeta"><span id="count" aria-live="polite"></span><button type="button" id="reset" hidden>Nullstill filter</button></div></div>
@@ -166,8 +173,8 @@ var chips=[].slice.call(document.querySelectorAll(".chip")),cards=[].slice.call(
 function filt(){{var cats=chips.filter(function(c){{return c.dataset.cat&&c.getAttribute("aria-pressed")==="true"}}).map(function(c){{return c.dataset.cat}}),rain=document.querySelector(".chip.rain").getAttribute("aria-pressed")==="true",n=0;
 cards.forEach(function(k){{var ok=(!cats.length||cats.some(function(c){{return k.dataset.cats.split("|").indexOf(c)>-1}}))&&(!rain||k.dataset.rain==="1");k.hidden=!ok;if(ok)n++}});
 cnt.textContent=n+" innlegg";none.hidden=n>0;rs.hidden=!(cats.length||rain)}}
-chips.forEach(function(c){{c.addEventListener("click",function(){{c.setAttribute("aria-pressed",c.getAttribute("aria-pressed")==="true"?"false":"true");filt()}})}});
-rs.addEventListener("click",function(){{chips.forEach(function(c){{c.setAttribute("aria-pressed","false")}});filt()}});filt();
+if(cards.length){{chips.forEach(function(c){{c.addEventListener("click",function(){{c.setAttribute("aria-pressed",c.getAttribute("aria-pressed")==="true"?"false":"true");filt()}})}});
+rs.addEventListener("click",function(){{chips.forEach(function(c){{c.setAttribute("aria-pressed","false")}});filt()}});filt()}}
 var f=document.getElementById("contact"),st=document.getElementById("st");
 function chk(id,eid,ok,msg){{var i=document.getElementById(id),v=i.value.trim(),r=ok(v);document.getElementById(eid).textContent=r?"":msg;if(r)i.removeAttribute("aria-invalid");else i.setAttribute("aria-invalid","true");return r}}
 f.addEventListener("submit",function(x){{x.preventDefault();st.textContent="";st.className="status";
