@@ -15,13 +15,14 @@ def w(path, text):
 # dict(slug="url-navn", img="bildefil.webp/.jpg/.svg", cats=["Fotturer"], rain=False, date="2026-09-14", label="14. september 2026",
 #      title="Tittel", lead="Kort ingress.", body="<p>Tekst</p><h2>Mellomtittel</h2><p>Mer tekst</p>"),
 # Legg til kart=True for å sette inn det interaktive bydelskartet i innlegget.
+# enkel=True: ingen stort bilde øverst i innlegget, og kortet på forsiden viser kun overskrift.
 POSTS = [
     dict(slug="strok-eller-nabolag", img="strok-kart.webp", cats=["Historie"], rain=False,
          date="2026-09-22", label="22. september 2026",
          title="Strøk eller nabolag i Bergen",
          lead="Et interaktivt kart over strøkene i sentrum av Bergen.",
          body="<p>Bergen sentrum er delt opp i en mengde små strøk og nabolag, og de færreste vet nøyaktig hvor grensene mellom dem går. Under er et forsøk på å tegne dem opp.</p>",
-         kart=True),
+         kart=True, enkel=True),
 ]
 POSTS.sort(key=lambda p: p["date"], reverse=True)
 
@@ -41,7 +42,7 @@ BYDEL_INFO = {
     "Skansen":     dict(nabolag="Skansen/Fjellsiden", gate="Fjellveien"),
     "Marken":      dict(nabolag="Marken", gate="Kong Oscars gate"),
     "Vågsbunnen":  dict(nabolag="Sentrum", gate="Skostredet, Lille Øvregaten"),
-    "Fjellet":     dict(nabolag="", gate="Vetrlidsallmenningen"),
+    "Fjellet":     dict(nabolag="Sentrum", gate="Vetrlidsallmenningen"),
     "Bryggen":     dict(nabolag="Bryggen", gate="Øvregaten"),
     "Bergenhus":   dict(nabolag="Bryggen / Skuteviken", gate="Bontelabo"),
     "Skuteviken":  dict(nabolag="Sandviken", gate="Sjøgaten"),
@@ -133,6 +134,14 @@ button,input,textarea{font:inherit;color:inherit}
 .card h2{font:700 clamp(1.5rem,3vw,2rem)/1.15 var(--display);letter-spacing:-.015em;margin:6px 0 0;text-wrap:balance}
 .card:hover h2{color:var(--accent)}
 .card p{margin:8px 0 0;color:var(--muted);max-width:60ch}
+.card-enkel{padding:20px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
+.card-enkel h2{margin:0}
+
+.kommentar-liste{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:18px}
+.kommentar{border-top:1px dashed var(--line);padding-top:14px}
+.kommentar-meta{margin:0 0 4px;font-size:.85rem;color:var(--muted)}
+.kommentar p:last-child{margin:0}
+.ingen-kommentarer{color:var(--muted);margin:0 0 28px}
 
 .section{margin-top:72px;padding-top:44px;border-top:1px dashed var(--line)}
 .section h2.h{font:700 1.8rem/1.1 var(--display);letter-spacing:-.015em;margin:0 0 20px}
@@ -433,6 +442,38 @@ def kart_spesialtekst_js():
 import glob
 for old in glob.glob(f"{BASE}/innlegg/*.html"):
     os.remove(old)
+def kommentar_html(p):
+    liste = p.get("kommentarer") or []
+    if liste:
+        items = "".join(
+            f'<li class="kommentar"><p class="kommentar-meta"><strong>{html.escape(k["navn"])}</strong> · {k["dato"]}</p><p>{html.escape(k["tekst"])}</p></li>'
+            for k in liste
+        )
+        liste_html = f'<ul class="kommentar-liste">{items}</ul>'
+    else:
+        liste_html = '<p class="ingen-kommentarer">Ingen kommentarer ennå. Bli den første!</p>'
+    navn = f"kommentar-{p['slug']}"
+    return f'''<section class="section" id="kommentarer"><h2 class="h">Kommentarer</h2>
+{liste_html}
+<form id="kommentar-form" name="{navn}" method="POST" data-netlify="true" netlify-honeypot="kbot" novalidate>
+<input type="hidden" name="form-name" value="{navn}"><p hidden><label>Ikke fyll ut: <input name="kbot"></label></p>
+<div class="field"><label for="kn">Navn</label><input id="kn" name="navn" type="text" autocomplete="name" required><p class="err" id="ken" role="alert"></p></div>
+<div class="field"><label for="kk">Kommentar</label><textarea id="kk" name="kommentar" required></textarea><p class="err" id="kek" role="alert"></p></div>
+<div><button class="btn" type="submit">Send kommentar</button><p class="status" id="kst" aria-live="polite"></p></div>
+<p class="hint">Kommentarer blir lest gjennom før de eventuelt legges ut.</p>
+</form></section>'''
+
+def kommentar_script():
+    return '''<script>
+var kf=document.getElementById("kommentar-form"),kst=document.getElementById("kst");
+function kchk(id,eid,ok,msg){var i=document.getElementById(id),v=i.value.trim(),r=ok(v);document.getElementById(eid).textContent=r?"":msg;if(r)i.removeAttribute("aria-invalid");else i.setAttribute("aria-invalid","true");return r}
+kf.addEventListener("submit",function(x){x.preventDefault();kst.textContent="";kst.className="status";
+var a=kchk("kn","ken",function(v){return v},"Skriv inn navnet ditt."),b=kchk("kk","kek",function(v){return v.length>=2},"Skriv en kommentar.");
+if(!(a&&b))return;
+var btn=kf.querySelector("button");btn.disabled=true;
+fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(kf)).toString()}).then(function(r){if(!r.ok)throw 0;kst.className="status ok";kst.textContent="Takk! Kommentaren er sendt inn.";kf.reset()}).catch(function(){kst.textContent="Noe gikk galt. Prøv igjen litt senere."}).then(function(){btn.disabled=false})});
+</script>'''
+
 for p in POSTS:
     kart_del = ""
     if p.get("kart"):
@@ -440,18 +481,24 @@ for p in POSTS:
 <figcaption>Interaktivt kart over Bergens strøk. Zoom inn og ut. Det er noe cirka laget, og noen hull og glipper i mellom strøkene, da mine datakunnskaper er begrenset.</figcaption>
 {kart_section_html("../")}
 </figure>'''
-    slutt_script = kart_script() if p.get("kart") else ""
-    w(f"innlegg/{p['slug']}.html", head(f"{p['title']} – Joa's Bergen", p["lead"], "../", p["img"]) + f'''<main><article class="article"><div class="hero"><img src="../bilder/{p['img']}" alt=""></div>
+    slutt_script = (kart_script() if p.get("kart") else "") + kommentar_script()
+    hero_html = "" if p.get("enkel") else f'<div class="hero"><img src="../bilder/{p["img"]}" alt=""></div>'
+    lead_html = "" if p.get("enkel") else f'<p><strong>{html.escape(p["lead"])}</strong></p>'
+    w(f"innlegg/{p['slug']}.html", head(f"{p['title']} – Joa's Bergen", p["lead"], "../", p["img"]) + f'''<main><article class="article">{hero_html}
 <span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h1>{html.escape(p['title'])}</h1>
-<div class="body"><p><strong>{html.escape(p['lead'])}</strong></p>{p['body']}</div>
+<div class="body">{lead_html}{p['body']}</div>
 {kart_del}
 <a class="back" href="../index.html">&larr; Alle innlegg</a></article>
+{kommentar_html(p)}
 {FOOT}</main></div>{slutt_script}</body></html>
 ''')
 
-cards = "\n".join(
-    f'''<a class="card" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><div class="img"><img src="bilder/{p['img']}" alt="" loading="lazy"></div><span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h2>{html.escape(p['title'])}</h2><p>{html.escape(p['lead'])}</p></a>'''
-    for p in POSTS)
+def card_html(p):
+    if p.get("enkel"):
+        return f'''<a class="card card-enkel" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><h2>{html.escape(p['title'])}</h2></a>'''
+    return f'''<a class="card" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><div class="img"><img src="bilder/{p['img']}" alt="" loading="lazy"></div><span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h2>{html.escape(p['title'])}</h2><p>{html.escape(p['lead'])}</p></a>'''
+
+cards = "\n".join(card_html(p) for p in POSTS)
 
 empty = "" if POSTS else '<p class="none">Innleggene kommer snart.</p>'
 CATS = sorted(["Byvandring", "Fotturer", "Historie", "Leserinnlegg", "Mat og drikke", "Solforhold"], key=str.casefold)
