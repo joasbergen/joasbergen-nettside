@@ -18,36 +18,60 @@ POSTS = []
 POSTS.sort(key=lambda p: p["date"], reverse=True)
 
 # ---------- Interaktivt kart (bydeler i sentrum). Formene er trukket ut fra bergenskart.webp.
-# Legg inn innhold etter hvert: nøkkel = bydelsnavn (må matche "navn" i BYDELER under).
+# nøkkel = bydelsnavn (må matche "navn" i BYDELER under).
 BYDEL_INFO = {
-    # "Sentrum": dict(nabolag="", innbyggere="", kjent="", mangler="", tilbud="", hoyde=""),
+    "Nordnes":     dict(nabolag="Nordnes", gate="Strandgaten & C. Sundts gate"),
+    "Verftet":     dict(nabolag="Nordnes", gate="Galgebakken"),
+    "Nøstet":      dict(nabolag="Sentrum", gate="Nøstegaten"),
+    "Engen":       dict(nabolag="Sentrum", gate="Håkonsgaten"),
+    "Strandsiden": dict(nabolag="Nordnes", gate="Strandkaien"),
+    "Sydnes":      dict(nabolag="Sentrum eller (Nygårds)Høyden", gate="Christies gate"),
+    "Møhlenpris":  dict(nabolag="Møhlenpris", gate="Welhavens gate"),
+    "Nygård":      dict(nabolag="Nygård", gate="Nygårdsgaten, Lars Hilles gate"),
+    "Sentrum":     dict(nabolag="Sentrum", gate="Torgallmenningen"),
+    "Kalfaret":    dict(nabolag="Kalfaret/Haukeland", gate="Kalfarveien"),
+    "Skansen":     dict(nabolag="Skansen/Fjellsiden", gate="Fjellveien"),
+    "Marken":      dict(nabolag="Marken", gate="Kong Oscars gate"),
+    "Vågsbunnen":  dict(nabolag="Sentrum", gate="Skostredet, Lille Øvregaten"),
+    "Fjellet":     dict(nabolag="", gate="Vetrlidsallmenningen"),
+    "Bryggen":     dict(nabolag="Bryggen", gate="Øvregaten"),
+    "Bergenhus":   dict(nabolag="Bryggen / Skuteviken", gate="Bontelabo"),
+    "Skuteviken":  dict(nabolag="Sandviken", gate="Sjøgaten"),
+    "Stølen":      dict(nabolag="Sandviken", gate="Steinkjellergaten"),
+    "Eidemarken":  dict(nabolag="Sandviken/Skansen", gate="Henrik Wergelandsgate"),
+    "Ladegården":  dict(nabolag="Sandviken", gate="Ladegårdsgaten/Nye Sandviksvei"),
+    "Sandviken":   dict(nabolag="Sandviken", gate="Sandviksveien"),
 }
-MAP_W, MAP_H = 1100, 1050
+MAP_W, MAP_H = 505, 330
 BYDELER = [
-    dict(navn="Ytre Sandviken", points="254.0,-75.0 262.0,-73.0 290.0,-39.0 307.0,-40.0 325.0,-18.0 327.0,14.0 339.0,28.0 339.0,42.0 351.0,64.0 388.0,101.0 414.0,113.0 421.0,124.0 423.0,148.0 433.0,172.0 431.0,196.0 439.0,218.0 439.0,230.0 418.0,245.0 410.0,257.0 392.0,253.0 376.0,237.0 369.0,248.0 367.0,266.0 358.0,267.0 351.0,260.0 351.0,244.0 345.0,232.0 345.0,222.0 351.0,216.0 347.0,192.0 340.0,189.0 335.0,200.0 328.0,203.0 313.0,184.0 313.0,168.0 317.0,160.0 299.0,140.0 295.0,124.0 297.0,118.0 287.0,94.0 289.0,86.0 282.0,79.0 270.0,75.0 265.0,68.0 241.0,12.0 241.0,2.0 250.0,3.0 253.0,-6.0 265.0,-12.0 253.0,-64.0 254.0,-75.0", cx=341.0, cy=111.8),
-    dict(navn="Sandviken", points="436.0,229.0 442.0,229.0 457.0,246.0 469.0,282.0 489.0,306.0 499.0,354.0 513.0,390.0 512.0,399.0 440.0,393.0 437.0,390.0 439.0,382.0 429.0,362.0 415.0,352.0 416.0,341.0 436.0,345.0 438.0,351.0 487.0,350.0 486.0,347.0 472.0,345.0 439.0,346.0 447.0,334.0 447.0,318.0 438.0,307.0 435.0,308.0 434.0,317.0 425.0,312.0 425.0,308.0 433.0,304.0 427.0,300.0 429.0,288.0 425.0,282.0 425.0,272.0 409.0,260.0 411.0,248.0 436.0,229.0", cx=459.2, cy=324.6),
-    dict(navn="Ladegården", points="434.0,393.0 512.0,399.0 511.0,450.0 504.0,451.0 480.0,443.0 450.0,455.0 449.0,442.0 437.0,434.0 427.0,410.0 427.0,396.0 434.0,393.0", cx=472.2, cy=420.8),
-    dict(navn="Nordnes", points="308.0,433.0 334.0,435.0 352.0,451.0 366.0,449.0 375.0,458.0 375.0,466.0 367.0,468.0 373.0,482.0 360.0,495.0 356.0,495.0 348.0,485.0 338.0,483.0 330.0,473.0 322.0,475.0 307.0,452.0 305.0,436.0 308.0,433.0", cx=340.4, cy=461.0),
-    dict(navn="Verftet", points="328.0,475.0 334.0,475.0 340.0,483.0 348.0,483.0 377.0,508.0 377.0,514.0 364.0,529.0 349.0,530.0 353.0,524.0 347.0,518.0 349.0,510.0 340.0,505.0 339.0,500.0 348.0,501.0 362.0,515.0 365.0,512.0 342.0,491.0 332.0,489.0 327.0,482.0 328.0,475.0", cx=353.8, cy=505.0),
-    dict(navn="Strandsiden", points="374.0,479.0 379.0,480.0 375.0,490.0 409.0,516.0 400.0,529.0 394.0,529.0 359.0,500.0 359.0,494.0 374.0,479.0", cx=383.0, cy=506.4),
-    dict(navn="Bergenhus", points="390.0,423.0 404.0,423.0 408.0,433.0 420.0,435.0 433.0,446.0 430.0,465.0 418.0,465.0 414.0,475.0 406.0,475.0 399.0,470.0 393.0,456.0 377.0,440.0 378.0,435.0 395.0,434.0 389.0,430.0 390.0,423.0", cx=407.0, cy=448.8),
-    dict(navn="Bryggen", points="430.0,455.0 434.0,455.0 439.0,462.0 441.0,484.0 449.0,492.0 449.0,498.0 459.0,506.0 459.0,510.0 452.0,515.0 442.0,515.0 411.0,476.0 413.0,464.0 416.0,461.0 424.0,463.0 430.0,455.0", cx=433.6, cy=485.4),
-    dict(navn="Fjellet", points="476.0,441.0 487.0,442.0 495.0,486.0 466.0,493.0 461.0,470.0 453.0,462.0 451.0,452.0 464.0,447.0 470.0,461.0 467.0,446.0 476.0,441.0", cx=474.8, cy=466.6),
-    dict(navn="Vågsbunnen", points="468.0,537.0 474.0,537.0 482.0,547.0 490.0,547.0 503.0,570.0 496.0,571.0 489.0,566.0 482.0,553.0 470.0,551.0 465.0,544.0 468.0,537.0", cx=484.2, cy=553.2),
-    dict(navn="Nøstet", points="374.0,513.0 384.0,515.0 385.0,522.0 374.0,537.0 368.0,537.0 363.0,532.0 363.0,524.0 374.0,513.0", cx=373.8, cy=524.8),
-    dict(navn="Engen", points="386.0,535.0 411.0,544.0 413.0,564.0 410.0,567.0 400.0,565.0 379.0,548.0 379.0,542.0 386.0,535.0", cx=397.6, cy=550.4),
-    dict(navn="Sentrum", points="406.0,521.0 414.0,521.0 429.0,536.0 425.0,542.0 428.0,545.0 431.0,538.0 442.0,531.0 461.0,554.0 459.0,562.0 441.0,576.0 441.0,582.0 420.0,595.0 414.0,595.0 403.0,586.0 403.0,580.0 413.0,568.0 413.0,546.0 416.0,541.0 423.0,540.0 414.0,535.0 410.0,541.0 395.0,538.0 395.0,532.0 406.0,521.0", cx=427.2, cy=558.0),
-    dict(navn="Marken og Skansen", points="472.0,491.0 498.0,491.0 525.0,532.0 526.0,543.0 510.0,541.0 490.0,531.0 490.0,537.0 532.0,547.0 547.0,564.0 545.0,576.0 524.0,599.0 520.0,599.0 505.0,580.0 483.0,542.0 467.0,500.0 472.0,491.0", cx=507.2, cy=542.6),
-    dict(navn="Sydnes", points="328.0,543.0 334.0,543.0 348.0,555.0 360.0,555.0 368.0,563.0 380.0,565.0 409.0,592.0 409.0,606.0 398.0,615.0 364.0,617.0 352.0,621.0 333.0,592.0 334.0,585.0 342.0,585.0 346.0,591.0 351.0,586.0 323.0,552.0 328.0,543.0", cx=365.6, cy=587.2),
-    dict(navn="Møhlenpris", points="390.0,617.0 400.0,617.0 409.0,632.0 433.0,654.0 433.0,662.0 424.0,665.0 388.0,629.0 385.0,636.0 393.0,646.0 404.0,651.0 423.0,670.0 424.0,675.0 430.0,675.0 440.0,685.0 464.0,685.0 467.0,690.0 466.0,703.0 442.0,705.0 424.0,695.0 415.0,688.0 414.0,681.0 402.0,677.0 363.0,638.0 355.0,628.0 360.0,619.0 390.0,617.0", cx=409.0, cy=658.6),
-    dict(navn="Gyldenpris", points="348.0,645.0 356.0,645.0 368.0,655.0 411.0,698.0 400.0,713.0 392.0,713.0 380.0,727.0 356.0,719.0 338.0,701.0 334.0,701.0 328.0,709.0 315.0,706.0 319.0,682.0 339.0,664.0 339.0,652.0 348.0,645.0", cx=361.2, cy=688.6),
-    dict(navn="Nygård", points="436.0,581.0 448.0,587.0 462.0,587.0 468.0,593.0 492.0,593.0 507.0,610.0 521.0,636.0 523.0,654.0 508.0,659.0 497.0,678.0 482.0,687.0 472.0,687.0 468.0,683.0 454.0,685.0 434.0,675.0 431.0,672.0 433.0,656.0 413.0,638.0 401.0,618.0 401.0,612.0 409.0,606.0 411.0,596.0 436.0,581.0", cx=462.6, cy=633.0),
-    dict(navn="Kalfaret", points="546.0,575.0 552.0,575.0 564.0,589.0 584.0,591.0 607.0,616.0 607.0,620.0 602.0,625.0 570.0,625.0 566.0,621.0 558.0,621.0 554.0,625.0 546.0,625.0 544.0,629.0 539.0,628.0 538.0,621.0 532.0,621.0 532.0,633.0 606.0,633.0 607.0,626.0 616.0,623.0 639.0,638.0 637.0,658.0 608.0,679.0 600.0,679.0 584.0,667.0 558.0,677.0 542.0,665.0 524.0,661.0 519.0,650.0 519.0,638.0 507.0,616.0 491.0,600.0 491.0,592.0 494.0,589.0 502.0,591.0 518.0,607.0 546.0,575.0", cx=567.2, cy=631.6),
-    dict(navn="Damsgård", points="254.0,559.0 263.0,560.0 263.0,580.0 278.0,597.0 282.0,591.0 294.0,593.0 308.0,609.0 328.0,615.0 351.0,640.0 339.0,656.0 339.0,666.0 319.0,684.0 314.0,715.0 294.0,713.0 290.0,705.0 282.0,707.0 266.0,695.0 258.0,697.0 249.0,668.0 233.0,644.0 231.0,620.0 215.0,596.0 217.0,576.0 226.0,575.0 232.0,583.0 241.0,576.0 241.0,564.0 254.0,559.0", cx=280.2, cy=639.0),
-    dict(navn="Kringsjå", points="158.0,495.0 174.0,497.0 185.0,506.0 185.0,524.0 190.0,529.0 204.0,523.0 210.0,515.0 218.0,515.0 230.0,521.0 259.0,548.0 259.0,552.0 246.0,555.0 236.0,551.0 241.0,562.0 241.0,576.0 230.0,581.0 220.0,573.0 215.0,578.0 214.0,593.0 196.0,595.0 170.0,573.0 155.0,554.0 151.0,522.0 158.0,495.0", cx=197.2, cy=546.4),
-    dict(navn="Solheim", points="408.0,703.0 414.0,703.0 448.0,731.0 455.0,730.0 455.0,718.0 462.0,711.0 472.0,711.0 473.0,722.0 489.0,762.0 489.0,790.0 498.0,791.0 508.0,779.0 512.0,779.0 525.0,800.0 525.0,818.0 529.0,826.0 515.0,840.0 511.0,850.0 515.0,872.0 505.0,880.0 505.0,898.0 501.0,902.0 504.0,933.0 456.0,925.0 447.0,920.0 445.0,874.0 419.0,768.0 379.0,730.0 379.0,724.0 390.0,711.0 398.0,713.0 408.0,703.0", cx=463.0, cy=812.4),
-    dict(navn="Kronstad", points="474.0,711.0 492.0,715.0 493.0,722.0 502.0,729.0 526.0,733.0 535.0,748.0 559.0,766.0 559.0,782.0 555.0,788.0 559.0,800.0 568.0,801.0 580.0,809.0 605.0,838.0 607.0,860.0 611.0,864.0 608.0,885.0 600.0,879.0 592.0,879.0 584.0,865.0 546.0,865.0 543.0,856.0 535.0,852.0 525.0,816.0 527.0,802.0 517.0,792.0 511.0,778.0 500.0,791.0 489.0,790.0 489.0,762.0 473.0,722.0 474.0,711.0", cx=542.6, cy=800.2),
-    dict(navn="Årstad", points="626.0,663.0 634.0,663.0 639.0,668.0 641.0,674.0 657.0,688.0 665.0,700.0 665.0,706.0 659.0,734.0 641.0,754.0 637.0,794.0 639.0,806.0 615.0,820.0 615.0,838.0 606.0,841.0 587.0,824.0 578.0,809.0 562.0,803.0 553.0,792.0 559.0,770.0 542.0,757.0 520.0,731.0 504.0,731.0 494.0,727.0 491.0,716.0 496.0,715.0 514.0,725.0 530.0,717.0 558.0,723.0 573.0,714.0 569.0,690.0 563.0,682.0 572.0,669.0 586.0,667.0 606.0,679.0 626.0,663.0", cx=598.8, cy=742.4),
+    dict(navn="Ytre Sandviken", points="19.7,26.1 23.2,24.0 45.1,26.1 50.8,19.8 64.9,21.2 76.9,31.8 86.1,32.5 91.1,37.4 103.1,41.0 129.3,41.0 142.7,36.0 149.1,37.4 158.2,45.2 170.3,50.2 178.0,59.4 188.7,64.3 192.9,68.6 190.8,81.3 192.2,88.4 184.4,93.3 173.1,93.3 174.5,99.7 180.2,106.7 177.3,110.3 172.4,110.3 166.7,104.6 160.4,102.5 156.8,99.0 156.8,94.7 146.9,87.6 143.4,89.1 145.5,94.7 144.1,98.3 132.1,96.8 126.4,91.2 125.0,86.9 111.6,86.2 104.5,82.0 103.1,79.2 91.1,74.2 88.9,70.7 84.0,70.7 78.3,73.5 74.1,72.8 45.8,61.5 42.3,57.9 45.8,55.1 43.7,50.9 45.8,44.5 23.2,30.4 19.7,26.1", cx=116.1, cy=67.2),
+    dict(navn="Sandviken", points="191.5,69.3 193.6,67.1 204.9,67.8 221.9,76.3 237.4,77.7 257.9,91.2 275.6,99.0 278.5,102.5 250.9,125.8 248.8,125.8 246.6,122.3 236.0,118.8 227.5,120.2 224.0,115.9 232.5,110.3 235.3,111.7 252.3,94.0 250.9,93.3 245.2,97.5 233.9,109.6 232.5,102.5 226.8,96.8 219.8,96.1 219.1,97.5 221.9,101.1 216.9,102.5 215.5,101.1 216.9,96.8 213.4,97.5 209.9,92.6 206.3,91.9 202.8,88.4 192.9,89.8 189.4,84.8 191.5,69.3", cx=226.3, cy=97.3),
+    dict(navn="Sydnes", points="265.7,223.4 287.6,225.5 287.6,229.1 284.1,228.4 281.3,231.2 283.4,234.0 300.4,237.6 303.2,231.9 314.5,219.2 315.2,212.1 310.3,207.1 290.5,207.9 285.5,211.4 279.9,211.4 275.6,215.6 266.4,216.3 264.3,218.5", cx=288.0, cy=221.2),
+    dict(navn="Møhlenpris", points="312.4,222.7 315.9,219.2 324.4,221.3 340.7,220.6 343.5,223.4 341.4,227.7 315.9,227.7 317.3,231.2 323.7,231.9 329.4,229.8 342.8,229.8 344.9,231.2 347.0,229.1 354.1,229.1 362.6,220.6 365.4,221.3 369.7,226.2 361.9,235.4 352.0,238.3 346.3,239.0 343.5,236.8 337.8,239.7 310.3,239.7 303.9,239.0 302.5,234.0 312.4,222.7", cx=335.5, cy=229.5),
+    dict(navn="Gyldenpris", points="307.4,247.5 310.3,244.6 318.1,243.9 348.5,243.9 349.9,253.1 347.0,255.9 347.7,265.1 336.4,270.8 323.7,270.8 322.3,272.2 323.0,277.2 317.3,280.7 310.3,270.8 311.0,257.4 306.7,253.1 307.4,247.5", cx=324.2, cy=259.7),
+    dict(navn="Nygård", points="322.3,191.6 317.2,193.3 318.1,194.4 315.9,203.6 312.7,206.8 312.4,207.9 315.2,212.1 314.5,217.0 316.6,219.2 328.0,222.0 341.4,221.3 346.3,227.7 348.5,227.7 359.1,224.1 363.3,218.5 366.1,218.5 369.7,214.9 371.8,206.4 369.0,195.8 372.1,189.7 369.7,188.8 365.4,184.5 353.4,181.0 342.1,181.0 339.6,178.5 330.8,187.4 327.2,187.4 326.8,187.0", cx=340.5, cy=203.1),
+    dict(navn="Kalfaret", points="354.1,173.9 342.8,173.9 339.3,176.0 339.3,178.2 342.1,181.0 353.4,181.0 365.4,184.5 369.7,188.8 375.3,190.9 383.1,185.9 393.0,184.5 398.7,171.8 408.6,170.4 411.4,167.6 414.2,149.9 407.9,142.1 394.4,144.9 392.3,149.2 394.4,152.0 390.2,150.6 390.2,147.0 388.8,145.6 371.8,144.9 364.0,151.3 354.8,150.6 352.7,152.7", cx=376.6, cy=165.0),
+    dict(navn="Damsgård", points="243.8,250.3 247.3,247.5 254.4,254.5 265.7,255.2 265.0,251.7 270.0,248.2 280.6,248.9 289.8,243.9 306.7,244.6 308.2,254.5 311.7,258.1 311.0,271.5 320.2,284.2 312.4,290.6 308.2,289.2 306.0,292.7 296.1,294.1 294.0,297.7 280.6,290.6 266.4,287.8 257.2,280.0 243.1,277.2 236.7,269.4 239.6,265.8 244.5,266.5 245.2,260.9 241.0,256.6 243.8,250.3", cx=274.6, cy=267.2),
+    dict(navn="Kringsjå", points="187.2,261.6 193.6,256.6 200.7,255.9 207.0,262.3 210.6,262.3 213.4,255.2 212.7,250.3 215.5,247.5 221.9,245.3 241.7,244.6 243.1,246.0 239.6,251.7 234.6,253.8 240.3,255.9 245.2,260.9 243.1,266.5 236.7,267.3 236.7,270.8 241.7,276.4 236.0,283.5 219.1,284.9 207.0,283.5 194.3,273.6 187.2,261.6", cx=221.2, cy=261.6),
+    dict(navn="Solheim", points="349.2,246.7 351.3,244.6 373.2,242.5 375.3,239.7 371.1,235.4 371.1,230.5 374.6,226.9 378.9,230.5 398.7,239.0 408.6,248.9 412.1,246.0 411.4,238.3 412.8,236.8 424.8,239.7 431.2,246.0 435.4,247.5 435.4,257.4 437.6,262.3 446.7,268.7 446.0,275.0 452.4,281.4 452.4,284.2 464.4,294.1 444.6,308.3 439.7,309.7 422.7,294.1 376.0,265.8 348.5,266.5 346.3,264.4 345.6,255.9 349.2,253.8 349.2,246.7", cx=401.1, cy=257.1),
+    dict(navn="Kronstad", points="378.9,230.5 398.7,239.0 408.6,248.9 412.8,245.3 412.1,236.8 419.2,239.7 426.2,239.7 430.5,245.3 446.7,254.5 451.0,253.1 455.2,255.2 468.7,241.8 476.4,243.9 479.3,241.1 484.2,240.4 477.9,231.9 475.0,231.9 466.5,224.8 447.5,223.4 440.4,224.8 436.8,227.7 431.2,224.8 430.5,221.3 424.8,215.6 410.0,217.8 401.5,215.6 391.6,222.7 385.9,223.4 383.1,221.3 375.3,226.2", cx=430.9, cy=233.6),
+    dict(navn="Årstad", points="412.1,155.5 414.9,152.7 418.5,152.7 421.3,154.1 431.9,153.4 439.0,154.8 441.1,156.9 448.9,169.0 449.6,182.4 462.3,198.0 467.3,201.5 463.7,214.9 470.1,221.3 468.0,225.5 455.2,226.2 446.7,224.1 439.0,227.7 431.9,226.9 426.2,217.0 415.6,218.5 398.7,217.0 393.0,222.7 388.1,224.8 383.1,222.0 384.5,219.9 394.4,217.0 397.2,208.6 409.3,200.8 411.4,192.3 401.5,185.2 396.5,184.5 395.1,176.7 399.4,171.1 410.7,168.3 412.1,155.5", cx=422.8, cy=194.3),
+    dict(navn="Ladegården", points="258.7,140.0 260.8,139.3 264.3,142.1 271.4,140.0 276.3,144.2 282.7,129.4 286.9,126.5 289.1,127.2 296.8,120.2 277.7,101.8 247.3,130.8 252.3,136.4", cx=272.0, cy=131.5),
+    dict(navn="Skuteviken", points="253.7,144.2 256.5,151.8 263.6,152.5 267.0,148.3 265.0,142.8 266.1,141.9 265.8,141.6 264.3,142.1 262.0,140.3 260.1,140.0", cx=262.4, cy=144.5),
+    dict(navn="Eidemarken", points="300.1,136.8 293.9,138.6 280.1,135.5 276.6,143.4 276.9,144.0 277.1,144.2 279.8,144.6 282.0,142.8 284.8,143.5 286.9,145.6 290.7,146.1 295.0,150.3 304.9,141.1 304.3,140.0", cx=288.1, cy=142.6),
+    dict(navn="Vågsbunnen", points="293.3,174.3 298.3,176.0 316.5,175.0 313.8,171.5 310.3,164.7 306.3,163.0 304.6,163.5 298.3,161.3 298.3,164.7 294.7,168.3 293.7,168.2 291.2,172.9", cx=301.6, cy=168.6),
+    dict(navn="Fjellet", points="299.0,152.0 294.0,152.0 291.8,153.6 290.5,156.9 290.0,157.4 291.2,159.8 292.8,159.9 294.0,158.4 296.8,160.2 300.4,160.5 310.3,164.7 313.8,171.5 330.0,175.0 342.8,173.9 354.1,173.9 342.1,173.0 330.0,169.0 325.7,167.1 315.6,164.7 313.6,160.5 311.5,158.0", cx=311.0, cy=163.0),
+    dict(navn="Stølen", points="267.1,148.5 281.3,159.8 286.9,160.5 290.5,156.9 292.6,151.3 284.8,143.5 282.0,142.8 278.5,145.6 276.5,143.7 276.3,144.2 271.4,140.0 266.6,141.4 265.0,142.8", cx=278.4, cy=147.8),
+    dict(navn="Bergenhus", points="248.5,152.0 241.0,164.0 243.1,166.1 247.3,163.3 254.4,164.0 256.5,166.1 265.7,167.6 269.1,164.2 265.7,159.8 270.7,155.5 270.0,153.4 263.6,152.5 256.5,151.8 256.4,151.5", cx=257.8, cy=159.4),
+    dict(navn="Bryggen", points="269.3,151.3 270.7,155.5 265.7,159.8 270.0,165.4 294.7,168.3 298.3,164.7 298.3,161.2 294.0,158.4 291.2,161.9 280.6,161.9 281.1,159.6 270.4,151.1", cx=282.0, cy=159.9),
+    dict(navn="Nordnes", points="221.9,192.3 233.9,195.8 237.4,195.8 241.0,192.3 247.3,194.4 250.9,190.9 255.8,191.6 258.7,188.8 257.9,181.7 248.8,175.3 248.0,171.8 244.5,171.8 240.3,177.5 236.0,177.5 234.6,181.0 236.7,183.1 243.8,181.7 253.7,185.2 233.9,184.5 231.1,183.1 232.5,180.3 229.7,178.2 219.8,185.2 218.3,188.8", cx=239.9, cy=184.5),
+    dict(navn="Verftet", points="252.0,196.8 262.6,206.2 260.1,210.7 261.5,212.1 269.5,204.8 270.2,194.0 267.3,191.1 262.7,191.5 263.8,194.4", cx=263.3, cy=200.2),
+    dict(navn="Strandsiden", points="259.6,191.8 281.7,189.7 290.8,185.8 290.4,184.7 291.6,184.2 292.0,180.0 284.8,177.5 256.6,180.8 257.9,181.7 258.7,188.8 257.6,189.9", cx=274.7, cy=185.0),
+    dict(navn="Nøstet", points="270.2,194.0 269.5,204.5 276.1,211.1 285.2,206.1 279.7,192.9 280.8,190.4 280.2,189.8 271.9,190.6 269.1,192.9", cx=275.9, cy=196.9),
+    dict(navn="Engen", points="282.0,196.5 282.0,198.4 283.2,201.3 284.1,202.2 297.5,200.8 300.8,198.6 292.0,189.8 291.2,187.4 290.5,186.5 281.5,190.0", cx=288.5, cy=195.2),
+    dict(navn="Sentrum", points="301.3,199.1 300.0,207.5 310.3,207.1 311.3,208.1 315.9,203.6 318.1,194.4 315.9,191.6 317.3,177.5 315.2,175.3 313.7,175.2 304.2,175.7 303.3,176.0 296.1,176.5 294.6,177.3 299.2,181.2 290.4,184.7 292.0,189.8", cx=305.8, cy=188.3),
+    dict(navn="Marken", points="323.7,183.8 327.2,187.4 330.8,187.4 338.6,179.6 338.6,177.5 337.1,176.0 322.3,176.0 316.2,174.6 316.5,175.0 315.8,175.0 316.5,175.5", cx=325.8, cy=178.9),
+    dict(navn="Skansen", points="349.2,145.6 346.3,147.0 337.1,145.6 304.5,140.4 304.9,141.1 300.8,144.9 313.6,160.5 315.6,164.7 342.1,171.1 352.0,171.8 353.8,170.0 352.7,152.7 353.9,151.5 353.4,149.9", cx=334.3, cy=154.1),
 ]
 
 # ---------- Bilder (plassholdere: bytt ut med egne .jpg og endre img-navn) ----------
@@ -128,16 +152,24 @@ form{display:grid;gap:18px;max-width:560px}
 .hint{font-size:.85rem;color:var(--muted);margin:0}
 
 .kart-intro{max-width:60ch;color:var(--muted);margin:0 0 20px}
-.kart-wrap{position:relative;border-radius:12px;overflow:hidden;background:var(--surface);border:1.5px solid var(--line)}
-.kart-wrap svg{width:100%;height:auto;display:block}
+.kart-wrap{position:relative;border-radius:12px;overflow:hidden;background:var(--surface);border:1.5px solid var(--line);touch-action:none}
+.kart-wrap svg{width:100%;height:auto;display:block;cursor:grab;user-select:none}
+.kart-wrap svg.panning{cursor:grabbing}
 .bydel{cursor:pointer}
 .bydel .hit{fill:transparent;stroke:transparent;stroke-width:7}
 .bydel .fill{fill:rgba(255,255,255,0);stroke:rgba(255,255,255,.85);stroke-width:1;pointer-events:none;transition:fill .15s,stroke-width .15s}
 .bydel:hover .fill,.bydel:focus-visible .fill{fill:rgba(255,255,255,.45);stroke-width:2.5}
 .bydel.active .fill{fill:rgba(168,55,42,.4);stroke:#A8372A;stroke-width:2.5}
 .bydel:focus-visible{outline:none}
-.bydel-label{font-family:var(--body);font-size:15px;font-weight:700;fill:#1B2932;paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round;text-anchor:middle;pointer-events:none;letter-spacing:-.01em}
-.bydel-label.sm{font-size:11px;font-weight:600;stroke-width:2.5px}
+.bydel-label{font-family:var(--body);font-size:4.5px;font-weight:600;fill:#1B2932;paint-order:stroke;stroke:#fff;stroke-width:1.3px;stroke-linejoin:round;text-anchor:middle;pointer-events:none;letter-spacing:-.005em}
+.bydel-label.sm{opacity:0;transition:opacity .15s}
+.kart-wrap.show-sm .bydel-label.sm{opacity:1}
+.kart-zoom{position:absolute;right:12px;bottom:12px;display:grid;gap:6px;z-index:5}
+.kart-zoom button{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:1.2rem;line-height:1;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.kart-zoom button:hover{background:var(--bg)}
+.kart-zoom button.reset{font-size:.7rem;font-family:var(--mono)}
+.kart-hint{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.85);color:var(--muted);font-size:.72rem;padding:4px 10px;border-radius:999px;pointer-events:none;z-index:5}
+@media(max-width:820px){ .kart-hint{display:none} }
 .kart-tip{position:fixed;z-index:60;background:var(--ink);color:var(--bg);border-radius:12px;padding:14px 18px;max-width:280px;font-size:.85rem;box-shadow:0 12px 30px rgba(0,0,0,.28);pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
 .kart-tip.show{opacity:1;transform:translateY(0)}
 .kart-tip h3{margin:0 0 10px;font:700 1.05rem var(--display);color:#fff}
@@ -145,6 +177,7 @@ form{display:grid;gap:18px;max-width:560px}
 .kart-tip dt{font:600 .68rem var(--mono);text-transform:uppercase;letter-spacing:.04em;color:#A9BDB3;margin-bottom:1px}
 .kart-tip dd{margin:0;font-size:.85rem}
 .kart-tip dd.empty{color:#9FB0AA;font-style:italic}
+.kart-tip-tekst{margin:0;font-size:.95rem}
 @media(max-width:820px){
  .kart-tip{max-width:calc(100vw - 32px)}
 }
@@ -183,31 +216,40 @@ FOOT = '<footer>&copy; 2026 Joa &middot; Laget i Bergen</footer>'
 
 FIELDS = [
     ("nabolag", "Faller ofte under nabolaget:"),
-    ("innbyggere", "Innbyggertall:"),
-    ("kjent", "Kjent for:"),
-    ("mangler", "Mangler/lite av:"),
-    ("tilbud", "Andre tilbud:"),
-    ("hoyde", "Gjennomsnittlig høyde over havet:"),
+    ("gate", "Mest kjente gate:"),
 ]
 
+# Disse bydelene har ingen infoboks i det hele tatt (verken felt eller spesialtekst).
+INGEN_BOKS = {"Solheim", "Gyldenpris", "Damsgård", "Ytre Sandviken"}
+# Disse har en egen, enkel tekst i stedet for de vanlige feltene.
+SPESIALTEKST = {"Kringsjå": "Overraskende navn!"}
+
 SMA_BYDELER = {"Bergenhus", "Bryggen", "Fjellet", "Vågsbunnen", "Nordnes", "Verftet",
-               "Strandsiden", "Nøstet", "Engen", "Sentrum", "Ladegården"}
+               "Strandsiden", "Nøstet", "Engen", "Sentrum", "Ladegården",
+               "Skuteviken", "Stølen", "Marken", "Skansen", "Eidemarken"}
 
 def kart_svg():
     groups = []
+    labels = []
     for b in BYDELER:
         navn = html.escape(b["navn"])
-        lbl_cls = "bydel-label sm" if b["navn"] in SMA_BYDELER else "bydel-label"
         groups.append(
             f'<g class="bydel" data-navn="{navn}" tabindex="0" role="button" aria-label="{navn}">'
             f'<polygon class="hit" points="{b["points"]}"/>'
-            f'<polygon class="fill" points="{b["points"]}"/>'
-            f'<text class="{lbl_cls}" x="{b["cx"]}" y="{b["cy"]}">{navn}</text></g>'
+            f'<polygon class="fill" points="{b["points"]}"/></g>'
         )
+        # de tette, små bydelene i sentrumsklyngen får en skjult tekst som først vises
+        # når man zoomer inn (klasse "sm") - ellers lå navnene oppå hverandre.
+        lbl_cls = "bydel-label sm" if b["navn"] in SMA_BYDELER else "bydel-label"
+        labels.append(f'<text class="{lbl_cls}" x="{b["cx"]}" y="{b["cy"]}">{navn}</text>')
     return (
-        f'<svg viewBox="0 0 {MAP_W} {MAP_H}" role="group" aria-label="Kart over bydeler i sentrum av Bergen">'
+        f'<svg viewBox="0 0 {MAP_W} {MAP_H}" id="kart-svg" role="group" aria-label="Kart over bydeler i sentrum av Bergen">'
         f'<image href="bilder/bergenskart-sentrum.webp" x="0" y="0" width="{MAP_W}" height="{MAP_H}"/>'
-        + "".join(groups) + "</svg>"
+        + "".join(groups)
+        # eget lag for tekst HELT til slutt, slik at navnene alltid tegnes foran
+        # bydelsgrensene og over andre felters fyll/hover, uansett rekkefølge.
+        + '<g class="kart-labels" style="pointer-events:none">' + "".join(labels) + "</g>"
+        + "</svg>"
     )
 
 def kart_data_js():
@@ -217,6 +259,14 @@ def kart_data_js():
         info = BYDEL_INFO.get(b["navn"], {})
         data[b["navn"]] = {key: info.get(key, "") for key, _ in FIELDS}
     return _json.dumps(data, ensure_ascii=False)
+
+def kart_ingen_boks_js():
+    import json as _json
+    return _json.dumps(sorted(INGEN_BOKS), ensure_ascii=False)
+
+def kart_spesialtekst_js():
+    import json as _json
+    return _json.dumps(SPESIALTEKST, ensure_ascii=False)
 
 import glob
 for old in glob.glob(f"{BASE}/innlegg/*.html"):
@@ -260,16 +310,27 @@ w("index.html", head("Joa's Bergen – blogg", "Blogg om Bergen: mat, turer og h
 <div><button class="btn" type="submit">Send melding</button><p class="status" id="st" aria-live="polite"></p></div>
 </form></section>
 <section class="section" id="kart"><h2 class="h">Bydeler i Bergen</h2>
-<p class="kart-intro">Nærbilde av de sentrale bydelene. Hold musen over eller trykk på en bydel for å se mer.</p>
-<div class="kart-wrap">{kart_svg()}</div>
+<p class="kart-intro">Nærbilde av de sentrale bydelene. Hold musen over eller trykk på en bydel for å se mer. Rull med musen (eller klyp) for å zoome inn og se navnene på de minste bydelene.</p>
+<div class="kart-wrap" id="kart-wrap">{kart_svg()}
+<span class="kart-hint">Rull for å zoome · dra for å flytte</span>
+<div class="kart-zoom">
+<button type="button" id="kart-in" aria-label="Zoom inn">+</button>
+<button type="button" id="kart-out" aria-label="Zoom ut">−</button>
+<button type="button" class="reset" id="kart-reset" aria-label="Nullstill zoom">100%</button>
+</div>
+</div>
 </section>
 {FOOT}</main></div>
 <div class="kart-tip" id="kart-tip" role="status" aria-live="polite"></div>
 <script>
 var BYDEL_DATA={kart_data_js()};
-var FELT=[["nabolag","Faller ofte under nabolaget:"],["innbyggere","Innbyggertall:"],["kjent","Kjent for:"],["mangler","Mangler/lite av:"],["tilbud","Andre tilbud:"],["hoyde","Gjennomsnittlig høyde over havet:"]];
+var INGEN_BOKS={kart_ingen_boks_js()};
+var SPESIALTEKST={kart_spesialtekst_js()};
+var FELT=[["nabolag","Faller ofte under nabolaget:"],["gate","Mest kjente gate:"]];
 var tip=document.getElementById("kart-tip"),bydeler=[].slice.call(document.querySelectorAll(".bydel")),pinned=false;
+function harBoks(navn){{ return INGEN_BOKS.indexOf(navn)===-1; }}
 function tipHtml(navn){{
+  if(SPESIALTEKST[navn]){{ return "<h3>"+navn+"</h3><p class=\\"kart-tip-tekst\\">"+SPESIALTEKST[navn]+"</p>"; }}
   var d=BYDEL_DATA[navn]||{{}},h="<h3>"+navn+"</h3><dl>";
   FELT.forEach(function(f){{var v=d[f[0]]||"";h+="<dt>"+f[1]+"</dt><dd"+(v?"":" class=\\"empty\\"")+">"+(v||"Fylles inn senere")+"</dd>"}});
   return h+"</dl>";
@@ -282,18 +343,124 @@ function placeTip(x,y){{
   tip.style.left=left+"px"; tip.style.top=top+"px";
 }}
 function showTip(navn,x,y){{
+  if(!harBoks(navn)) return;
   bydeler.forEach(function(g){{g.classList.toggle("active",g.dataset.navn===navn)}});
   tip.innerHTML=tipHtml(navn); tip.classList.add("show"); placeTip(x,y);
 }}
 function hideTip(){{ if(pinned) return; tip.classList.remove("show"); bydeler.forEach(function(g){{g.classList.remove("active")}}); }}
+var justDragged=false;
 bydeler.forEach(function(g){{
-  g.addEventListener("mousemove",function(e){{ if(!pinned) showTip(g.dataset.navn,e.clientX,e.clientY) }});
+  g.addEventListener("mousemove",function(e){{ if(!pinned && !justDragged) showTip(g.dataset.navn,e.clientX,e.clientY) }});
   g.addEventListener("mouseleave",function(){{ if(!pinned) hideTip() }});
-  g.addEventListener("click",function(e){{ pinned=(pinned&&g.classList.contains("active"))?false:true; showTip(g.dataset.navn,e.clientX,e.clientY) }});
-  g.addEventListener("keydown",function(e){{if(e.key==="Enter"||e.key===" "){{e.preventDefault();var r=g.getBoundingClientRect();pinned=true;showTip(g.dataset.navn,r.left+r.width/2,r.top+r.height/2)}}}});
+  g.addEventListener("keydown",function(e){{if(e.key==="Enter"||e.key===" "){{e.preventDefault();if(!harBoks(g.dataset.navn))return;var r=g.getBoundingClientRect();pinned=true;showTip(g.dataset.navn,r.left+r.width/2,r.top+r.height/2)}}}});
   g.addEventListener("blur",function(){{ pinned=false; hideTip() }});
 }});
-document.addEventListener("click",function(e){{ if(!e.target.closest(".bydel")){{ pinned=false; hideTip() }} }});
+// Lukk boksen når man klikker utenfor hele kartet (ikke mens man trykker inni det - se pointerup lenger ned).
+document.addEventListener("click",function(e){{ if(!e.target.closest("#kart-wrap")){{ pinned=false; hideTip() }} }});
+
+// ---------- Zoom og panorering ----------
+(function(){{
+  var svg=document.getElementById("kart-svg"), wrap=document.getElementById("kart-wrap");
+  var MAPW={MAP_W}, MAPH={MAP_H};
+  var MIN_W=MAPW/4.2, MAX_W=MAPW, SM_T=MAPW/2.1;
+  var START_W=MAPW/2.3, START_H=START_W*(MAPH/MAPW);
+  var START_CX=303.6, START_CY=188.1; // "Sentrum" - kartet åpner sentrert her
+  var DEFAULT_VB={{x:START_CX-START_W/2, y:START_CY-START_H/2, w:START_W, h:START_H}};
+  if(DEFAULT_VB.x<0) DEFAULT_VB.x=0; if(DEFAULT_VB.y<0) DEFAULT_VB.y=0;
+  if(DEFAULT_VB.x+DEFAULT_VB.w>MAPW) DEFAULT_VB.x=MAPW-DEFAULT_VB.w;
+  if(DEFAULT_VB.y+DEFAULT_VB.h>MAPH) DEFAULT_VB.y=MAPH-DEFAULT_VB.h;
+  var vb={{x:DEFAULT_VB.x,y:DEFAULT_VB.y,w:DEFAULT_VB.w,h:DEFAULT_VB.h}};
+  var resetBtn=document.getElementById("kart-reset");
+  function clampVB(){{
+    if(vb.w>MAX_W) vb.w=MAX_W;
+    if(vb.w<MIN_W) vb.w=MIN_W;
+    vb.h=vb.w*(MAPH/MAPW);
+    if(vb.x<0) vb.x=0;
+    if(vb.y<0) vb.y=0;
+    if(vb.x+vb.w>MAPW) vb.x=MAPW-vb.w;
+    if(vb.y+vb.h>MAPH) vb.y=MAPH-vb.h;
+  }}
+  function apply(){{
+    svg.setAttribute("viewBox", vb.x.toFixed(1)+" "+vb.y.toFixed(1)+" "+vb.w.toFixed(1)+" "+vb.h.toFixed(1));
+    wrap.classList.toggle("show-sm", vb.w<SM_T);
+    resetBtn.textContent=Math.round(MAPW/vb.w*100)+"%";
+  }}
+  function zoomToward(clientX,clientY,newW,baseVB){{
+    var r=svg.getBoundingClientRect();
+    var fx=(clientX-r.left)/r.width, fy=(clientY-r.top)/r.height;
+    var px=baseVB.x+fx*baseVB.w, py=baseVB.y+fy*baseVB.h;
+    vb.w=newW; vb.h=newW*(MAPH/MAPW);
+    if(vb.w>MAX_W) vb.w=MAX_W, vb.h=vb.w*(MAPH/MAPW);
+    if(vb.w<MIN_W) vb.w=MIN_W, vb.h=vb.w*(MAPH/MAPW);
+    vb.x=px-fx*vb.w; vb.y=py-fy*vb.h;
+    clampVB(); apply();
+  }}
+  svg.addEventListener("wheel",function(e){{
+    e.preventDefault();
+    var factor=e.deltaY<0?1.08:1/1.08;
+    zoomToward(e.clientX,e.clientY,vb.w/factor,vb);
+  }},{{passive:false}});
+  document.getElementById("kart-in").addEventListener("click",function(){{
+    var r=svg.getBoundingClientRect();
+    zoomToward(r.left+r.width/2,r.top+r.height/2,vb.w/1.4,vb);
+  }});
+  document.getElementById("kart-out").addEventListener("click",function(){{
+    var r=svg.getBoundingClientRect();
+    zoomToward(r.left+r.width/2,r.top+r.height/2,vb.w*1.4,vb);
+  }});
+  resetBtn.addEventListener("click",function(){{ vb={{x:DEFAULT_VB.x,y:DEFAULT_VB.y,w:DEFAULT_VB.w,h:DEFAULT_VB.h}}; apply(); }});
+
+  var pointers={{}}, dragMoved=0, lastX=0, lastY=0, pinchStartDist=0, pinchVB=null, pinchClient=null;
+  svg.addEventListener("pointerdown",function(e){{
+    try{{ svg.setPointerCapture(e.pointerId); }}catch(err){{}}
+    pointers[e.pointerId]={{x:e.clientX,y:e.clientY}};
+    var ids=Object.keys(pointers);
+    if(ids.length===1){{ dragMoved=0; lastX=e.clientX; lastY=e.clientY; svg.classList.add("panning"); }}
+    else if(ids.length===2){{
+      var pts=ids.map(function(k){{return pointers[k]}});
+      pinchStartDist=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+      pinchVB={{x:vb.x,y:vb.y,w:vb.w,h:vb.h}};
+      pinchClient={{x:(pts[0].x+pts[1].x)/2,y:(pts[0].y+pts[1].y)/2}};
+    }}
+  }});
+  svg.addEventListener("pointermove",function(e){{
+    if(!(e.pointerId in pointers)) return;
+    pointers[e.pointerId]={{x:e.clientX,y:e.clientY}};
+    var ids=Object.keys(pointers);
+    if(ids.length===2 && pinchVB){{
+      var pts=ids.map(function(k){{return pointers[k]}});
+      var dist=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+      var factor=dist/(pinchStartDist||1);
+      zoomToward(pinchClient.x,pinchClient.y,pinchVB.w/factor,pinchVB);
+    }} else if(ids.length===1){{
+      var dx=e.clientX-lastX, dy=e.clientY-lastY;
+      dragMoved+=Math.abs(dx)+Math.abs(dy);
+      var r=svg.getBoundingClientRect();
+      vb.x-=dx*(vb.w/r.width); vb.y-=dy*(vb.h/r.height);
+      clampVB(); apply();
+      lastX=e.clientX; lastY=e.clientY;
+    }}
+  }});
+  function endPointer(e){{
+    delete pointers[e.pointerId];
+    if(Object.keys(pointers).length<2){{ pinchVB=null; }}
+    if(Object.keys(pointers).length===0){{
+      svg.classList.remove("panning");
+      justDragged = dragMoved>6;
+      if(justDragged){{ setTimeout(function(){{ justDragged=false }},50); }}
+      else{{
+        // ikke en dra-bevegelse: velg bydelen man trykket på, eller lukk boksen
+        // hvis man trykket på vannet/fjellet/et parti uten nabolagsgrense.
+        var el=e.target.closest(".bydel");
+        if(el && harBoks(el.dataset.navn)){{ pinned=true; showTip(el.dataset.navn,e.clientX,e.clientY); }}
+        else{{ pinned=false; hideTip(); }}
+      }}
+    }}
+  }}
+  svg.addEventListener("pointerup",endPointer);
+  svg.addEventListener("pointercancel",endPointer);
+  apply();
+}})();
 var chips=[].slice.call(document.querySelectorAll(".chip")),cards=[].slice.call(document.querySelectorAll(".card")),cnt=document.getElementById("count"),none=document.getElementById("none"),rs=document.getElementById("reset");
 function filt(){{var cats=chips.filter(function(c){{return c.dataset.cat&&c.getAttribute("aria-pressed")==="true"}}).map(function(c){{return c.dataset.cat}}),rain=document.querySelector(".chip.rain").getAttribute("aria-pressed")==="true",n=0;
 cards.forEach(function(k){{var ok=(!cats.length||cats.some(function(c){{return k.dataset.cats.split("|").indexOf(c)>-1}}))&&(!rain||k.dataset.rain==="1");k.hidden=!ok;if(ok)n++}});
