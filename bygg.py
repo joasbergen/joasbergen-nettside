@@ -12,9 +12,17 @@ def w(path, text):
 
 # ---------- Innlegg (nyeste først). Bytt ut med egne. ----------
 # Mal for nytt innlegg (kopier inn i listen):
-# dict(slug="url-navn", img="bildefil", cats=["Fotturer"], rain=False, date="2026-09-14", label="14. september 2026",
+# dict(slug="url-navn", img="bildefil.webp/.jpg/.svg", cats=["Fotturer"], rain=False, date="2026-09-14", label="14. september 2026",
 #      title="Tittel", lead="Kort ingress.", body="<p>Tekst</p><h2>Mellomtittel</h2><p>Mer tekst</p>"),
-POSTS = []
+# Legg til kart=True for å sette inn det interaktive bydelskartet i innlegget.
+POSTS = [
+    dict(slug="strok-eller-nabolag", img="strok-kart.webp", cats=["Historie"], rain=False,
+         date="2026-09-22", label="22. september 2026",
+         title="Strøk eller nabolag i Bergen",
+         lead="Et interaktivt kart over strøkene i sentrum av Bergen.",
+         body="<p>Bergen sentrum er delt opp i en mengde små strøk og nabolag, og de færreste vet nøyaktig hvor grensene mellom dem går. Under er et forsøk på å tegne dem opp.</p>",
+         kart=True),
+]
 POSTS.sort(key=lambda p: p["date"], reverse=True)
 
 # ---------- Interaktivt kart (bydeler i sentrum). Formene er trukket ut fra bergenskart.webp.
@@ -151,7 +159,8 @@ form{display:grid;gap:18px;max-width:560px}
 .status{margin:12px 0 0;font-size:.92rem}.status.ok{color:var(--ok);font-weight:500}
 .hint{font-size:.85rem;color:var(--muted);margin:0}
 
-.kart-intro{max-width:60ch;color:var(--muted);margin:0 0 20px}
+.kart-figure{margin:32px 0 0}
+.kart-figure figcaption{max-width:60ch;color:var(--muted);font-size:.92rem;margin:0 0 14px}
 .kart-wrap{position:relative;border-radius:12px;overflow:hidden;background:var(--surface);border:1.5px solid var(--line);touch-action:none}
 .kart-wrap svg{width:100%;height:auto;display:block;cursor:grab;user-select:none}
 .kart-wrap svg.panning{cursor:grabbing}
@@ -228,7 +237,7 @@ SMA_BYDELER = {"Bergenhus", "Bryggen", "Fjellet", "Vågsbunnen", "Nordnes", "Ver
                "Strandsiden", "Nøstet", "Engen", "Sentrum", "Ladegården",
                "Skuteviken", "Stølen", "Marken", "Skansen", "Eidemarken"}
 
-def kart_svg():
+def kart_svg(pre=""):
     groups = []
     labels = []
     for b in BYDELER:
@@ -244,7 +253,7 @@ def kart_svg():
         labels.append(f'<text class="{lbl_cls}" x="{b["cx"]}" y="{b["cy"]}">{navn}</text>')
     return (
         f'<svg viewBox="0 0 {MAP_W} {MAP_H}" id="kart-svg" role="group" aria-label="Kart over bydeler i sentrum av Bergen">'
-        f'<image href="bilder/bergenskart-sentrum.webp" x="0" y="0" width="{MAP_W}" height="{MAP_H}"/>'
+        f'<image href="{pre}bilder/bergenskart-sentrum.webp" x="0" y="0" width="{MAP_W}" height="{MAP_H}"/>'
         + "".join(groups)
         # eget lag for tekst HELT til slutt, slik at navnene alltid tegnes foran
         # bydelsgrensene og over andre felters fyll/hover, uansett rekkefølge.
@@ -252,76 +261,18 @@ def kart_svg():
         + "</svg>"
     )
 
-def kart_data_js():
-    import json as _json
-    data = {}
-    for b in BYDELER:
-        info = BYDEL_INFO.get(b["navn"], {})
-        data[b["navn"]] = {key: info.get(key, "") for key, _ in FIELDS}
-    return _json.dumps(data, ensure_ascii=False)
-
-def kart_ingen_boks_js():
-    import json as _json
-    return _json.dumps(sorted(INGEN_BOKS), ensure_ascii=False)
-
-def kart_spesialtekst_js():
-    import json as _json
-    return _json.dumps(SPESIALTEKST, ensure_ascii=False)
-
-import glob
-for old in glob.glob(f"{BASE}/innlegg/*.html"):
-    os.remove(old)
-for p in POSTS:
-    w(f"innlegg/{p['slug']}.html", head(f"{p['title']} – Joa's Bergen", p["lead"], "../", p["img"]) + f'''<main><article class="article"><div class="hero"><img src="../bilder/{p['img']}.svg" alt=""></div>
-<span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h1>{html.escape(p['title'])}</h1>
-<div class="body"><p><strong>{html.escape(p['lead'])}</strong></p>{p['body']}</div>
-<a class="back" href="../index.html">&larr; Alle innlegg</a></article>
-{FOOT}</main></div></body></html>
-''')
-
-cards = "\n".join(
-    f'''<a class="card" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><div class="img"><img src="bilder/{p['img']}.svg" alt="" loading="lazy"></div><span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h2>{html.escape(p['title'])}</h2><p>{html.escape(p['lead'])}</p></a>'''
-    for p in POSTS)
-
-empty = "" if POSTS else '<p class="none">Innleggene kommer snart.</p>'
-CATS = sorted(["Byvandring", "Fotturer", "Historie", "Leserinnlegg", "Mat og drikke", "Solforhold"], key=str.casefold)
-chips = "".join(f'<button type="button" class="chip" aria-pressed="false" data-cat="{c}">{c}</button>' for c in CATS) + '<button type="button" class="chip rain" aria-pressed="false">☔ Regnværsdag</button>'
-
-w("index.html", head("Joa's Bergen – blogg", "Blogg om Bergen: mat, turer og historie.", "", "", hero="forside.webp") + f'''<main>
-<div class="filters" role="group" aria-label="Filtrer innlegg"{" hidden" if not POSTS else ""}>
-<div class="chips">{chips}</div>
-<div class="fmeta"><span id="count" aria-live="polite"></span><button type="button" id="reset" hidden>Nullstill filter</button></div></div>
-<div class="posts">
-{cards}
-</div>{empty}<p class="none" id="none" hidden>Ingen innlegg passer med filtrene dine.</p>
-<section class="section" id="om"><h2 class="h">Om meg</h2>
-<p>4de generasjons bergenser. Oppvokst ved foten av fjellsiden, nedenfor Skansen brannstasjon. Nabolaget heter Fjellet, men de færreste kaller det for, eller i det hele tatt vet at det heter det.</p>
-<p>Eg er en drømmer, bergensnostalgiker, for ikke å si: en urban melankoliker. Noen kunne til og med sagt: en kontrafaktisk historiker, men eg er ingen historiker. Eg tenker mye på hvordan byen ville ha sett ut hvis det ikke hadde for alle bybrannene (er det derfor forballaget heter Brann?). Hvordan hadde det vært her, hvis den kalde arkitekturen fra 60-tallet ikke hadde fått herje? Men for all del, det kunne vært mye verre, ta Oslo for eksempel, men nok om det.</p>
-<p>Eg tenker på gamle Hotell Norge. Bygget i 1885, som overlevde både bybrannen i 1916 og andre verdenskrig, da det hovedsakelig huset tyske offiserer. Revet i 1961 til fordel for dagens koordinatsystem i betong. Nei, gamle Hotell Norge lå der nye Hotell Norge ligger i dag, eg blandet med annet, like flott bygg som lå der Gulatinget ligger, nemlig Hotel Metropol, et hotell eg også tenker på. En (ukjent) bergensavis sa det kanskje best da dets på en gang imponerende og tiltrekkende ytre, lyser og liver opp i en av vårs by vakreste kvartaler med marmorets dans og fargevirkningens harmoni. Det var også 60 værelser.</p>
-<p>Takk</p>
-<p>J</p></section>
-<section class="section" id="kontakt"><h2 class="h">Kontakt</h2>
-<p>Fortell kort hva du lurer på, så svarer jeg så snart jeg kan.</p>
-<form id="contact" name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot" novalidate>
-<input type="hidden" name="form-name" value="kontakt"><p hidden><label>Ikke fyll ut: <input name="bot"></label></p>
-<div class="field"><label for="n">Navn</label><input id="n" name="navn" type="text" autocomplete="name" required><p class="err" id="en" role="alert"></p></div>
-<div class="field"><label for="e">E-post</label><input id="e" name="epost" type="email" autocomplete="email" required><p class="err" id="ee" role="alert"></p></div>
-<div class="field"><label for="m">Melding</label><textarea id="m" name="melding" required></textarea><p class="err" id="em" role="alert"></p></div>
-<div><button class="btn" type="submit">Send melding</button><p class="status" id="st" aria-live="polite"></p></div>
-</form></section>
-<section class="section" id="kart"><h2 class="h">Bydeler i Bergen</h2>
-<p class="kart-intro">Nærbilde av de sentrale bydelene. Hold musen over eller trykk på en bydel for å se mer. Rull med musen (eller klyp) for å zoome inn og se navnene på de minste bydelene.</p>
-<div class="kart-wrap" id="kart-wrap">{kart_svg()}
+def kart_section_html(pre=""):
+    return f'''<div class="kart-wrap" id="kart-wrap">{kart_svg(pre)}
 <span class="kart-hint">Rull for å zoome · dra for å flytte</span>
 <div class="kart-zoom">
 <button type="button" id="kart-in" aria-label="Zoom inn">+</button>
 <button type="button" id="kart-out" aria-label="Zoom ut">−</button>
 <button type="button" class="reset" id="kart-reset" aria-label="Nullstill zoom">100%</button>
 </div>
-</div>
-</section>
-{FOOT}</main></div>
-<div class="kart-tip" id="kart-tip" role="status" aria-live="polite"></div>
+</div>'''
+
+def kart_script():
+    return f'''<div class="kart-tip" id="kart-tip" role="status" aria-live="polite"></div>
 <script>
 var BYDEL_DATA={kart_data_js()};
 var INGEN_BOKS={kart_ingen_boks_js()};
@@ -461,6 +412,75 @@ document.addEventListener("click",function(e){{ if(!e.target.closest("#kart-wrap
   svg.addEventListener("pointercancel",endPointer);
   apply();
 }})();
+</script>'''
+
+def kart_data_js():
+    import json as _json
+    data = {}
+    for b in BYDELER:
+        info = BYDEL_INFO.get(b["navn"], {})
+        data[b["navn"]] = {key: info.get(key, "") for key, _ in FIELDS}
+    return _json.dumps(data, ensure_ascii=False)
+
+def kart_ingen_boks_js():
+    import json as _json
+    return _json.dumps(sorted(INGEN_BOKS), ensure_ascii=False)
+
+def kart_spesialtekst_js():
+    import json as _json
+    return _json.dumps(SPESIALTEKST, ensure_ascii=False)
+
+import glob
+for old in glob.glob(f"{BASE}/innlegg/*.html"):
+    os.remove(old)
+for p in POSTS:
+    kart_del = ""
+    if p.get("kart"):
+        kart_del = f'''<figure class="kart-figure">
+<figcaption>Interaktivt kart over Bergens strøk. Zoom inn og ut. Det er noe cirka laget, og noen hull og glipper i mellom strøkene, da mine datakunnskaper er begrenset.</figcaption>
+{kart_section_html("../")}
+</figure>'''
+    slutt_script = kart_script() if p.get("kart") else ""
+    w(f"innlegg/{p['slug']}.html", head(f"{p['title']} – Joa's Bergen", p["lead"], "../", p["img"]) + f'''<main><article class="article"><div class="hero"><img src="../bilder/{p['img']}" alt=""></div>
+<span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h1>{html.escape(p['title'])}</h1>
+<div class="body"><p><strong>{html.escape(p['lead'])}</strong></p>{p['body']}</div>
+{kart_del}
+<a class="back" href="../index.html">&larr; Alle innlegg</a></article>
+{FOOT}</main></div>{slutt_script}</body></html>
+''')
+
+cards = "\n".join(
+    f'''<a class="card" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><div class="img"><img src="bilder/{p['img']}" alt="" loading="lazy"></div><span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h2>{html.escape(p['title'])}</h2><p>{html.escape(p['lead'])}</p></a>'''
+    for p in POSTS)
+
+empty = "" if POSTS else '<p class="none">Innleggene kommer snart.</p>'
+CATS = sorted(["Byvandring", "Fotturer", "Historie", "Leserinnlegg", "Mat og drikke", "Solforhold"], key=str.casefold)
+chips = "".join(f'<button type="button" class="chip" aria-pressed="false" data-cat="{c}">{c}</button>' for c in CATS) + '<button type="button" class="chip rain" aria-pressed="false">☔ Regnværsdag</button>'
+
+w("index.html", head("Joa's Bergen – blogg", "Blogg om Bergen: mat, turer og historie.", "", "", hero="forside.webp") + f'''<main>
+<div class="filters" role="group" aria-label="Filtrer innlegg"{" hidden" if not POSTS else ""}>
+<div class="chips">{chips}</div>
+<div class="fmeta"><span id="count" aria-live="polite"></span><button type="button" id="reset" hidden>Nullstill filter</button></div></div>
+<div class="posts">
+{cards}
+</div>{empty}<p class="none" id="none" hidden>Ingen innlegg passer med filtrene dine.</p>
+<section class="section" id="om"><h2 class="h">Om meg</h2>
+<p>4de generasjons bergenser. Oppvokst ved foten av fjellsiden, nedenfor Skansen brannstasjon. Nabolaget heter Fjellet, men de færreste kaller det for, eller i det hele tatt vet at det heter det.</p>
+<p>Eg er en drømmer, bergensnostalgiker, for ikke å si: en urban melankoliker. Noen kunne til og med sagt: en kontrafaktisk historiker, men eg er ingen historiker. Eg tenker mye på hvordan byen ville ha sett ut hvis det ikke hadde for alle bybrannene (er det derfor forballaget heter Brann?). Hvordan hadde det vært her, hvis den kalde arkitekturen fra 60-tallet ikke hadde fått herje? Men for all del, det kunne vært mye verre, ta Oslo for eksempel, men nok om det.</p>
+<p>Eg tenker på gamle Hotell Norge. Bygget i 1885, som overlevde både bybrannen i 1916 og andre verdenskrig, da det hovedsakelig huset tyske offiserer. Revet i 1961 til fordel for dagens koordinatsystem i betong. Nei, gamle Hotell Norge lå der nye Hotell Norge ligger i dag, eg blandet med annet, like flott bygg som lå der Gulatinget ligger, nemlig Hotel Metropol, et hotell eg også tenker på. En (ukjent) bergensavis sa det kanskje best da dets på en gang imponerende og tiltrekkende ytre, lyser og liver opp i en av vårs by vakreste kvartaler med marmorets dans og fargevirkningens harmoni. Det var også 60 værelser.</p>
+<p>Takk</p>
+<p>J</p></section>
+<section class="section" id="kontakt"><h2 class="h">Kontakt</h2>
+<p>Fortell kort hva du lurer på, så svarer jeg så snart jeg kan.</p>
+<form id="contact" name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot" novalidate>
+<input type="hidden" name="form-name" value="kontakt"><p hidden><label>Ikke fyll ut: <input name="bot"></label></p>
+<div class="field"><label for="n">Navn</label><input id="n" name="navn" type="text" autocomplete="name" required><p class="err" id="en" role="alert"></p></div>
+<div class="field"><label for="e">E-post</label><input id="e" name="epost" type="email" autocomplete="email" required><p class="err" id="ee" role="alert"></p></div>
+<div class="field"><label for="m">Melding</label><textarea id="m" name="melding" required></textarea><p class="err" id="em" role="alert"></p></div>
+<div><button class="btn" type="submit">Send melding</button><p class="status" id="st" aria-live="polite"></p></div>
+</form></section>
+{FOOT}</main></div>
+<script>
 var chips=[].slice.call(document.querySelectorAll(".chip")),cards=[].slice.call(document.querySelectorAll(".card")),cnt=document.getElementById("count"),none=document.getElementById("none"),rs=document.getElementById("reset");
 function filt(){{var cats=chips.filter(function(c){{return c.dataset.cat&&c.getAttribute("aria-pressed")==="true"}}).map(function(c){{return c.dataset.cat}}),rain=document.querySelector(".chip.rain").getAttribute("aria-pressed")==="true",n=0;
 cards.forEach(function(k){{var ok=(!cats.length||cats.some(function(c){{return k.dataset.cats.split("|").indexOf(c)>-1}}))&&(!rain||k.dataset.rain==="1");k.hidden=!ok;if(ok)n++}});

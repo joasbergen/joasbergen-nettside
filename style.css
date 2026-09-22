@@ -69,7 +69,8 @@ form{display:grid;gap:18px;max-width:560px}
 .status{margin:12px 0 0;font-size:.92rem}.status.ok{color:var(--ok);font-weight:500}
 .hint{font-size:.85rem;color:var(--muted);margin:0}
 
-.kart-intro{max-width:60ch;color:var(--muted);margin:0 0 20px}
+.kart-figure{margin:32px 0 0}
+.kart-figure figcaption{max-width:60ch;color:var(--muted);font-size:.92rem;margin:0 0 14px}
 .kart-wrap{position:relative;border-radius:12px;overflow:hidden;background:var(--surface);border:1.5px solid var(--line);touch-action:none}
 .kart-wrap svg{width:100%;height:auto;display:block;cursor:grab;user-select:none}
 .kart-wrap svg.panning{cursor:grabbing}
