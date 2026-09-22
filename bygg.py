@@ -22,32 +22,32 @@ POSTS.sort(key=lambda p: p["date"], reverse=True)
 BYDEL_INFO = {
     # "Sentrum": dict(nabolag="", innbyggere="", kjent="", mangler="", tilbud="", hoyde=""),
 }
-MAP_W, MAP_H = 1623, 2000
+MAP_W, MAP_H = 1100, 1050
 BYDELER = [
-    dict(navn="Ytre Sandviken", points="412.0,562.5 416.0,563.5 430.0,580.5 438.5,580.0 447.5,591.0 448.5,607.0 454.5,614.0 454.5,621.0 460.5,632.0 479.0,650.5 492.0,656.5 495.5,662.0 496.5,674.0 501.5,686.0 500.5,698.0 504.5,709.0 504.5,715.0 494.0,722.5 490.0,728.5 481.0,726.5 473.0,718.5 469.5,724.0 468.5,733.0 464.0,733.5 460.5,730.0 460.5,722.0 457.5,716.0 457.5,711.0 460.5,708.0 458.5,696.0 455.0,694.5 452.5,700.0 449.0,701.5 441.5,692.0 441.5,684.0 443.5,680.0 434.5,670.0 432.5,662.0 433.5,659.0 428.5,647.0 429.5,643.0 426.0,639.5 420.0,637.5 417.5,634.0 405.5,606.0 405.5,601.0 410.0,601.5 411.5,597.0 417.5,594.0 411.5,568.0 412.0,562.5", cx=455.5, cy=655.9),
-    dict(navn="Sandviken", points="503.0,714.5 506.0,714.5 513.5,723.0 519.5,741.0 529.5,753.0 534.5,777.0 541.5,795.0 541.0,799.5 505.0,796.5 503.5,795.0 504.5,791.0 499.5,781.0 492.5,776.0 493.0,770.5 503.0,772.5 504.0,775.5 528.5,775.0 528.0,773.5 521.0,772.5 504.5,773.0 508.5,767.0 508.5,759.0 504.0,753.5 502.5,754.0 502.0,758.5 497.5,756.0 497.5,754.0 501.5,752.0 498.5,750.0 499.5,744.0 497.5,741.0 497.5,736.0 489.5,730.0 490.5,724.0 503.0,714.5", cx=514.6, cy=762.3),
-    dict(navn="Ladegården", points="502.0,796.5 541.0,799.5 540.5,825.0 537.0,825.5 525.0,821.5 510.0,827.5 509.5,821.0 503.5,817.0 498.5,805.0 498.5,798.0 502.0,796.5", cx=521.1, cy=810.4),
-    dict(navn="Nordnes", points="439.0,816.5 452.0,817.5 461.0,825.5 468.0,824.5 472.5,829.0 472.5,833.0 468.5,834.0 471.5,841.0 465.0,847.5 463.0,847.5 459.0,842.5 454.0,841.5 450.0,836.5 446.0,837.5 438.5,826.0 437.5,818.0 439.0,816.5", cx=455.2, cy=830.5),
-    dict(navn="Verftet", points="449.0,837.5 452.0,837.5 455.0,841.5 459.0,841.5 473.5,854.0 473.5,857.0 467.0,864.5 459.5,865.0 461.5,862.0 458.5,859.0 459.5,855.0 455.0,852.5 454.5,850.0 459.0,850.5 466.0,857.5 467.5,856.0 456.0,845.5 451.0,844.5 448.5,841.0 449.0,837.5", cx=461.9, cy=852.5),
-    dict(navn="Strandsiden", points="472.0,839.5 474.5,840.0 472.5,845.0 489.5,858.0 485.0,864.5 482.0,864.5 464.5,850.0 464.5,847.0 472.0,839.5", cx=476.5, cy=853.2),
-    dict(navn="Bergenhus", points="480.0,811.5 487.0,811.5 489.0,816.5 495.0,817.5 501.5,823.0 500.0,832.5 494.0,832.5 492.0,837.5 488.0,837.5 484.5,835.0 481.5,828.0 473.5,820.0 474.0,817.5 482.5,817.0 479.5,815.0 480.0,811.5", cx=488.5, cy=824.4),
-    dict(navn="Bryggen", points="500.0,827.5 502.0,827.5 504.5,831.0 505.5,842.0 509.5,846.0 509.5,849.0 514.5,853.0 514.5,855.0 511.0,857.5 506.0,857.5 490.5,838.0 491.5,832.0 493.0,830.5 497.0,831.5 500.0,827.5", cx=501.8, cy=842.7),
-    dict(navn="Fjellet", points="523.0,820.5 528.5,821.0 532.5,843.0 518.0,846.5 515.5,835.0 511.5,831.0 510.5,826.0 517.0,823.5 520.0,830.5 518.5,823.0 523.0,820.5", cx=522.4, cy=833.3),
-    dict(navn="Vågsbunnen", points="519.0,868.5 522.0,868.5 526.0,873.5 530.0,873.5 536.5,885.0 533.0,885.5 529.5,883.0 526.0,876.5 520.0,875.5 517.5,872.0 519.0,868.5", cx=527.1, cy=876.6),
-    dict(navn="Nøstet", points="472.0,856.5 477.0,857.5 477.5,861.0 472.0,868.5 469.0,868.5 466.5,866.0 466.5,862.0 472.0,856.5", cx=471.9, cy=862.4),
-    dict(navn="Engen", points="478.0,867.5 490.5,872.0 491.5,882.0 490.0,883.5 485.0,882.5 474.5,874.0 474.5,871.0 478.0,867.5", cx=483.8, cy=875.2),
-    dict(navn="Sentrum", points="488.0,860.5 492.0,860.5 499.5,868.0 497.5,871.0 499.0,872.5 500.5,869.0 506.0,865.5 515.5,877.0 514.5,881.0 505.5,888.0 505.5,891.0 495.0,897.5 492.0,897.5 486.5,893.0 486.5,890.0 491.5,884.0 491.5,873.0 493.0,870.5 496.5,870.0 492.0,867.5 490.0,870.5 482.5,869.0 482.5,866.0 488.0,860.5", cx=498.6, cy=879.0),
-    dict(navn="Marken og Skansen", points="521.0,845.5 534.0,845.5 547.5,866.0 548.0,871.5 540.0,870.5 530.0,865.5 530.0,868.5 551.0,873.5 558.5,882.0 557.5,888.0 547.0,899.5 545.0,899.5 537.5,890.0 526.5,871.0 518.5,850.0 521.0,845.5", cx=538.6, cy=871.3),
-    dict(navn="Sydnes", points="449.0,871.5 452.0,871.5 459.0,877.5 465.0,877.5 469.0,881.5 475.0,882.5 489.5,896.0 489.5,903.0 484.0,907.5 467.0,908.5 461.0,910.5 451.5,896.0 452.0,892.5 456.0,892.5 458.0,895.5 460.5,893.0 446.5,876.0 449.0,871.5", cx=467.8, cy=893.6),
-    dict(navn="Møhlenpris", points="480.0,908.5 485.0,908.5 489.5,916.0 501.5,927.0 501.5,931.0 497.0,932.5 479.0,914.5 477.5,918.0 481.5,923.0 487.0,925.5 496.5,935.0 497.0,937.5 500.0,937.5 505.0,942.5 517.0,942.5 518.5,945.0 518.0,951.5 506.0,952.5 497.0,947.5 492.5,944.0 492.0,940.5 486.0,938.5 466.5,919.0 462.5,914.0 465.0,909.5 480.0,908.5", cx=489.5, cy=929.3),
-    dict(navn="Gyldenpris", points="459.0,922.5 463.0,922.5 469.0,927.5 490.5,949.0 485.0,956.5 481.0,956.5 475.0,963.5 463.0,959.5 454.0,950.5 452.0,950.5 449.0,954.5 442.5,953.0 444.5,941.0 454.5,932.0 454.5,926.0 459.0,922.5", cx=465.6, cy=944.3),
-    dict(navn="Nygård", points="503.0,890.5 509.0,893.5 516.0,893.5 519.0,896.5 531.0,896.5 538.5,905.0 545.5,918.0 546.5,927.0 539.0,929.5 533.5,939.0 526.0,943.5 521.0,943.5 519.0,941.5 512.0,942.5 502.0,937.5 500.5,936.0 501.5,928.0 491.5,919.0 485.5,909.0 485.5,906.0 489.5,903.0 490.5,898.0 503.0,890.5", cx=516.3, cy=916.5),
-    dict(navn="Kalfaret", points="558.0,887.5 561.0,887.5 567.0,894.5 577.0,895.5 588.5,908.0 588.5,910.0 586.0,912.5 570.0,912.5 568.0,910.5 564.0,910.5 562.0,912.5 558.0,912.5 557.0,914.5 554.5,914.0 554.0,910.5 551.0,910.5 551.0,916.5 588.0,916.5 588.5,913.0 593.0,911.5 604.5,919.0 603.5,929.0 589.0,939.5 585.0,939.5 577.0,933.5 564.0,938.5 556.0,932.5 547.0,930.5 544.5,925.0 544.5,919.0 538.5,908.0 530.5,900.0 530.5,896.0 532.0,894.5 536.0,895.5 544.0,903.5 558.0,887.5", cx=568.6, cy=915.8),
-    dict(navn="Damsgård", points="412.0,879.5 416.5,880.0 416.5,890.0 424.0,898.5 426.0,895.5 432.0,896.5 439.0,904.5 449.0,907.5 460.5,920.0 454.5,928.0 454.5,933.0 444.5,942.0 442.0,957.5 432.0,956.5 430.0,952.5 426.0,953.5 418.0,947.5 414.0,948.5 409.5,934.0 401.5,922.0 400.5,910.0 392.5,898.0 393.5,888.0 398.0,887.5 401.0,891.5 405.5,888.0 405.5,882.0 412.0,879.5", cx=425.1, cy=919.5),
-    dict(navn="Kringsjå", points="364.0,847.5 372.0,848.5 377.5,853.0 377.5,862.0 380.0,864.5 387.0,861.5 390.0,857.5 394.0,857.5 400.0,860.5 414.5,874.0 414.5,876.0 408.0,877.5 403.0,875.5 405.5,881.0 405.5,888.0 400.0,890.5 395.0,886.5 392.5,889.0 392.0,896.5 383.0,897.5 370.0,886.5 362.5,877.0 360.5,861.0 364.0,847.5", cx=383.6, cy=873.2),
-    dict(navn="Solheim", points="489.0,951.5 492.0,951.5 509.0,965.5 512.5,965.0 512.5,959.0 516.0,955.5 521.0,955.5 521.5,961.0 529.5,981.0 529.5,995.0 534.0,995.5 539.0,989.5 541.0,989.5 547.5,1000.0 547.5,1009.0 549.5,1013.0 542.5,1020.0 540.5,1025.0 542.5,1036.0 537.5,1040.0 537.5,1049.0 535.5,1051.0 537.0,1066.5 513.0,1062.5 508.5,1060.0 507.5,1037.0 494.5,984.0 474.5,965.0 474.5,962.0 480.0,955.5 484.0,956.5 489.0,951.5", cx=516.5, cy=1006.2),
-    dict(navn="Kronstad", points="522.0,955.5 531.0,957.5 531.5,961.0 536.0,964.5 548.0,966.5 552.5,974.0 564.5,983.0 564.5,991.0 562.5,994.0 564.5,1000.0 569.0,1000.5 575.0,1004.5 587.5,1019.0 588.5,1030.0 590.5,1032.0 589.0,1042.5 585.0,1039.5 581.0,1039.5 577.0,1032.5 558.0,1032.5 556.5,1028.0 552.5,1026.0 547.5,1008.0 548.5,1001.0 543.5,996.0 540.5,989.0 535.0,995.5 529.5,995.0 529.5,981.0 521.5,961.0 522.0,955.5", cx=556.3, cy=1000.1),
-    dict(navn="Årstad", points="598.0,931.5 602.0,931.5 604.5,934.0 605.5,937.0 613.5,944.0 617.5,950.0 617.5,953.0 614.5,967.0 605.5,977.0 603.5,997.0 604.5,1003.0 592.5,1010.0 592.5,1019.0 588.0,1020.5 578.5,1012.0 574.0,1004.5 566.0,1001.5 561.5,996.0 564.5,985.0 556.0,978.5 545.0,965.5 537.0,965.5 532.0,963.5 530.5,958.0 533.0,957.5 542.0,962.5 550.0,958.5 564.0,961.5 571.5,957.0 569.5,945.0 566.5,941.0 571.0,934.5 578.0,933.5 588.0,939.5 598.0,931.5", cx=584.4, cy=971.2),
+    dict(navn="Ytre Sandviken", points="254.0,-75.0 262.0,-73.0 290.0,-39.0 307.0,-40.0 325.0,-18.0 327.0,14.0 339.0,28.0 339.0,42.0 351.0,64.0 388.0,101.0 414.0,113.0 421.0,124.0 423.0,148.0 433.0,172.0 431.0,196.0 439.0,218.0 439.0,230.0 418.0,245.0 410.0,257.0 392.0,253.0 376.0,237.0 369.0,248.0 367.0,266.0 358.0,267.0 351.0,260.0 351.0,244.0 345.0,232.0 345.0,222.0 351.0,216.0 347.0,192.0 340.0,189.0 335.0,200.0 328.0,203.0 313.0,184.0 313.0,168.0 317.0,160.0 299.0,140.0 295.0,124.0 297.0,118.0 287.0,94.0 289.0,86.0 282.0,79.0 270.0,75.0 265.0,68.0 241.0,12.0 241.0,2.0 250.0,3.0 253.0,-6.0 265.0,-12.0 253.0,-64.0 254.0,-75.0", cx=341.0, cy=111.8),
+    dict(navn="Sandviken", points="436.0,229.0 442.0,229.0 457.0,246.0 469.0,282.0 489.0,306.0 499.0,354.0 513.0,390.0 512.0,399.0 440.0,393.0 437.0,390.0 439.0,382.0 429.0,362.0 415.0,352.0 416.0,341.0 436.0,345.0 438.0,351.0 487.0,350.0 486.0,347.0 472.0,345.0 439.0,346.0 447.0,334.0 447.0,318.0 438.0,307.0 435.0,308.0 434.0,317.0 425.0,312.0 425.0,308.0 433.0,304.0 427.0,300.0 429.0,288.0 425.0,282.0 425.0,272.0 409.0,260.0 411.0,248.0 436.0,229.0", cx=459.2, cy=324.6),
+    dict(navn="Ladegården", points="434.0,393.0 512.0,399.0 511.0,450.0 504.0,451.0 480.0,443.0 450.0,455.0 449.0,442.0 437.0,434.0 427.0,410.0 427.0,396.0 434.0,393.0", cx=472.2, cy=420.8),
+    dict(navn="Nordnes", points="308.0,433.0 334.0,435.0 352.0,451.0 366.0,449.0 375.0,458.0 375.0,466.0 367.0,468.0 373.0,482.0 360.0,495.0 356.0,495.0 348.0,485.0 338.0,483.0 330.0,473.0 322.0,475.0 307.0,452.0 305.0,436.0 308.0,433.0", cx=340.4, cy=461.0),
+    dict(navn="Verftet", points="328.0,475.0 334.0,475.0 340.0,483.0 348.0,483.0 377.0,508.0 377.0,514.0 364.0,529.0 349.0,530.0 353.0,524.0 347.0,518.0 349.0,510.0 340.0,505.0 339.0,500.0 348.0,501.0 362.0,515.0 365.0,512.0 342.0,491.0 332.0,489.0 327.0,482.0 328.0,475.0", cx=353.8, cy=505.0),
+    dict(navn="Strandsiden", points="374.0,479.0 379.0,480.0 375.0,490.0 409.0,516.0 400.0,529.0 394.0,529.0 359.0,500.0 359.0,494.0 374.0,479.0", cx=383.0, cy=506.4),
+    dict(navn="Bergenhus", points="390.0,423.0 404.0,423.0 408.0,433.0 420.0,435.0 433.0,446.0 430.0,465.0 418.0,465.0 414.0,475.0 406.0,475.0 399.0,470.0 393.0,456.0 377.0,440.0 378.0,435.0 395.0,434.0 389.0,430.0 390.0,423.0", cx=407.0, cy=448.8),
+    dict(navn="Bryggen", points="430.0,455.0 434.0,455.0 439.0,462.0 441.0,484.0 449.0,492.0 449.0,498.0 459.0,506.0 459.0,510.0 452.0,515.0 442.0,515.0 411.0,476.0 413.0,464.0 416.0,461.0 424.0,463.0 430.0,455.0", cx=433.6, cy=485.4),
+    dict(navn="Fjellet", points="476.0,441.0 487.0,442.0 495.0,486.0 466.0,493.0 461.0,470.0 453.0,462.0 451.0,452.0 464.0,447.0 470.0,461.0 467.0,446.0 476.0,441.0", cx=474.8, cy=466.6),
+    dict(navn="Vågsbunnen", points="468.0,537.0 474.0,537.0 482.0,547.0 490.0,547.0 503.0,570.0 496.0,571.0 489.0,566.0 482.0,553.0 470.0,551.0 465.0,544.0 468.0,537.0", cx=484.2, cy=553.2),
+    dict(navn="Nøstet", points="374.0,513.0 384.0,515.0 385.0,522.0 374.0,537.0 368.0,537.0 363.0,532.0 363.0,524.0 374.0,513.0", cx=373.8, cy=524.8),
+    dict(navn="Engen", points="386.0,535.0 411.0,544.0 413.0,564.0 410.0,567.0 400.0,565.0 379.0,548.0 379.0,542.0 386.0,535.0", cx=397.6, cy=550.4),
+    dict(navn="Sentrum", points="406.0,521.0 414.0,521.0 429.0,536.0 425.0,542.0 428.0,545.0 431.0,538.0 442.0,531.0 461.0,554.0 459.0,562.0 441.0,576.0 441.0,582.0 420.0,595.0 414.0,595.0 403.0,586.0 403.0,580.0 413.0,568.0 413.0,546.0 416.0,541.0 423.0,540.0 414.0,535.0 410.0,541.0 395.0,538.0 395.0,532.0 406.0,521.0", cx=427.2, cy=558.0),
+    dict(navn="Marken og Skansen", points="472.0,491.0 498.0,491.0 525.0,532.0 526.0,543.0 510.0,541.0 490.0,531.0 490.0,537.0 532.0,547.0 547.0,564.0 545.0,576.0 524.0,599.0 520.0,599.0 505.0,580.0 483.0,542.0 467.0,500.0 472.0,491.0", cx=507.2, cy=542.6),
+    dict(navn="Sydnes", points="328.0,543.0 334.0,543.0 348.0,555.0 360.0,555.0 368.0,563.0 380.0,565.0 409.0,592.0 409.0,606.0 398.0,615.0 364.0,617.0 352.0,621.0 333.0,592.0 334.0,585.0 342.0,585.0 346.0,591.0 351.0,586.0 323.0,552.0 328.0,543.0", cx=365.6, cy=587.2),
+    dict(navn="Møhlenpris", points="390.0,617.0 400.0,617.0 409.0,632.0 433.0,654.0 433.0,662.0 424.0,665.0 388.0,629.0 385.0,636.0 393.0,646.0 404.0,651.0 423.0,670.0 424.0,675.0 430.0,675.0 440.0,685.0 464.0,685.0 467.0,690.0 466.0,703.0 442.0,705.0 424.0,695.0 415.0,688.0 414.0,681.0 402.0,677.0 363.0,638.0 355.0,628.0 360.0,619.0 390.0,617.0", cx=409.0, cy=658.6),
+    dict(navn="Gyldenpris", points="348.0,645.0 356.0,645.0 368.0,655.0 411.0,698.0 400.0,713.0 392.0,713.0 380.0,727.0 356.0,719.0 338.0,701.0 334.0,701.0 328.0,709.0 315.0,706.0 319.0,682.0 339.0,664.0 339.0,652.0 348.0,645.0", cx=361.2, cy=688.6),
+    dict(navn="Nygård", points="436.0,581.0 448.0,587.0 462.0,587.0 468.0,593.0 492.0,593.0 507.0,610.0 521.0,636.0 523.0,654.0 508.0,659.0 497.0,678.0 482.0,687.0 472.0,687.0 468.0,683.0 454.0,685.0 434.0,675.0 431.0,672.0 433.0,656.0 413.0,638.0 401.0,618.0 401.0,612.0 409.0,606.0 411.0,596.0 436.0,581.0", cx=462.6, cy=633.0),
+    dict(navn="Kalfaret", points="546.0,575.0 552.0,575.0 564.0,589.0 584.0,591.0 607.0,616.0 607.0,620.0 602.0,625.0 570.0,625.0 566.0,621.0 558.0,621.0 554.0,625.0 546.0,625.0 544.0,629.0 539.0,628.0 538.0,621.0 532.0,621.0 532.0,633.0 606.0,633.0 607.0,626.0 616.0,623.0 639.0,638.0 637.0,658.0 608.0,679.0 600.0,679.0 584.0,667.0 558.0,677.0 542.0,665.0 524.0,661.0 519.0,650.0 519.0,638.0 507.0,616.0 491.0,600.0 491.0,592.0 494.0,589.0 502.0,591.0 518.0,607.0 546.0,575.0", cx=567.2, cy=631.6),
+    dict(navn="Damsgård", points="254.0,559.0 263.0,560.0 263.0,580.0 278.0,597.0 282.0,591.0 294.0,593.0 308.0,609.0 328.0,615.0 351.0,640.0 339.0,656.0 339.0,666.0 319.0,684.0 314.0,715.0 294.0,713.0 290.0,705.0 282.0,707.0 266.0,695.0 258.0,697.0 249.0,668.0 233.0,644.0 231.0,620.0 215.0,596.0 217.0,576.0 226.0,575.0 232.0,583.0 241.0,576.0 241.0,564.0 254.0,559.0", cx=280.2, cy=639.0),
+    dict(navn="Kringsjå", points="158.0,495.0 174.0,497.0 185.0,506.0 185.0,524.0 190.0,529.0 204.0,523.0 210.0,515.0 218.0,515.0 230.0,521.0 259.0,548.0 259.0,552.0 246.0,555.0 236.0,551.0 241.0,562.0 241.0,576.0 230.0,581.0 220.0,573.0 215.0,578.0 214.0,593.0 196.0,595.0 170.0,573.0 155.0,554.0 151.0,522.0 158.0,495.0", cx=197.2, cy=546.4),
+    dict(navn="Solheim", points="408.0,703.0 414.0,703.0 448.0,731.0 455.0,730.0 455.0,718.0 462.0,711.0 472.0,711.0 473.0,722.0 489.0,762.0 489.0,790.0 498.0,791.0 508.0,779.0 512.0,779.0 525.0,800.0 525.0,818.0 529.0,826.0 515.0,840.0 511.0,850.0 515.0,872.0 505.0,880.0 505.0,898.0 501.0,902.0 504.0,933.0 456.0,925.0 447.0,920.0 445.0,874.0 419.0,768.0 379.0,730.0 379.0,724.0 390.0,711.0 398.0,713.0 408.0,703.0", cx=463.0, cy=812.4),
+    dict(navn="Kronstad", points="474.0,711.0 492.0,715.0 493.0,722.0 502.0,729.0 526.0,733.0 535.0,748.0 559.0,766.0 559.0,782.0 555.0,788.0 559.0,800.0 568.0,801.0 580.0,809.0 605.0,838.0 607.0,860.0 611.0,864.0 608.0,885.0 600.0,879.0 592.0,879.0 584.0,865.0 546.0,865.0 543.0,856.0 535.0,852.0 525.0,816.0 527.0,802.0 517.0,792.0 511.0,778.0 500.0,791.0 489.0,790.0 489.0,762.0 473.0,722.0 474.0,711.0", cx=542.6, cy=800.2),
+    dict(navn="Årstad", points="626.0,663.0 634.0,663.0 639.0,668.0 641.0,674.0 657.0,688.0 665.0,700.0 665.0,706.0 659.0,734.0 641.0,754.0 637.0,794.0 639.0,806.0 615.0,820.0 615.0,838.0 606.0,841.0 587.0,824.0 578.0,809.0 562.0,803.0 553.0,792.0 559.0,770.0 542.0,757.0 520.0,731.0 504.0,731.0 494.0,727.0 491.0,716.0 496.0,715.0 514.0,725.0 530.0,717.0 558.0,723.0 573.0,714.0 569.0,690.0 563.0,682.0 572.0,669.0 586.0,667.0 606.0,679.0 626.0,663.0", cx=598.8, cy=742.4),
 ]
 
 # ---------- Bilder (plassholdere: bytt ut med egne .jpg og endre img-navn) ----------
@@ -128,8 +128,7 @@ form{display:grid;gap:18px;max-width:560px}
 .hint{font-size:.85rem;color:var(--muted);margin:0}
 
 .kart-intro{max-width:60ch;color:var(--muted);margin:0 0 20px}
-.kart-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
-.kart-wrap{border-radius:12px;overflow:hidden;background:var(--surface);border:1.5px solid var(--line)}
+.kart-wrap{position:relative;border-radius:12px;overflow:hidden;background:var(--surface);border:1.5px solid var(--line)}
 .kart-wrap svg{width:100%;height:auto;display:block}
 .bydel{cursor:pointer}
 .bydel .hit{fill:transparent;stroke:transparent;stroke-width:7}
@@ -137,16 +136,17 @@ form{display:grid;gap:18px;max-width:560px}
 .bydel:hover .fill,.bydel:focus-visible .fill{fill:rgba(255,255,255,.45);stroke-width:2.5}
 .bydel.active .fill{fill:rgba(168,55,42,.4);stroke:#A8372A;stroke-width:2.5}
 .bydel:focus-visible{outline:none}
-.kart-info{position:sticky;top:40px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:20px 22px;min-height:220px}
-.kart-info h3{margin:0 0 14px;font:700 1.25rem var(--display);letter-spacing:-.01em}
-.kart-info .ph{color:var(--muted);font-size:.92rem}
-.kart-info dl{margin:0;display:grid;gap:10px}
-.kart-info dt{font:600 .74rem var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:2px}
-.kart-info dd{margin:0;font-size:.95rem}
-.kart-info dd.empty{color:var(--muted);font-style:italic}
+.bydel-label{font-family:var(--body);font-size:15px;font-weight:700;fill:#1B2932;paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round;text-anchor:middle;pointer-events:none;letter-spacing:-.01em}
+.bydel-label.sm{font-size:11px;font-weight:600;stroke-width:2.5px}
+.kart-tip{position:fixed;z-index:60;background:var(--ink);color:var(--bg);border-radius:12px;padding:14px 18px;max-width:280px;font-size:.85rem;box-shadow:0 12px 30px rgba(0,0,0,.28);pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
+.kart-tip.show{opacity:1;transform:translateY(0)}
+.kart-tip h3{margin:0 0 10px;font:700 1.05rem var(--display);color:#fff}
+.kart-tip dl{margin:0;display:grid;gap:6px}
+.kart-tip dt{font:600 .68rem var(--mono);text-transform:uppercase;letter-spacing:.04em;color:#A9BDB3;margin-bottom:1px}
+.kart-tip dd{margin:0;font-size:.85rem}
+.kart-tip dd.empty{color:#9FB0AA;font-style:italic}
 @media(max-width:820px){
- .kart-layout{grid-template-columns:minmax(0,1fr)}
- .kart-info{position:static}
+ .kart-tip{max-width:calc(100vw - 32px)}
 }
 footer{margin-top:64px;padding-top:20px;border-top:1px dashed var(--line);font:.8rem var(--mono);color:var(--muted)}
 
@@ -190,18 +190,23 @@ FIELDS = [
     ("hoyde", "Gjennomsnittlig høyde over havet:"),
 ]
 
+SMA_BYDELER = {"Bergenhus", "Bryggen", "Fjellet", "Vågsbunnen", "Nordnes", "Verftet",
+               "Strandsiden", "Nøstet", "Engen", "Sentrum", "Ladegården"}
+
 def kart_svg():
     groups = []
     for b in BYDELER:
         navn = html.escape(b["navn"])
+        lbl_cls = "bydel-label sm" if b["navn"] in SMA_BYDELER else "bydel-label"
         groups.append(
             f'<g class="bydel" data-navn="{navn}" tabindex="0" role="button" aria-label="{navn}">'
             f'<polygon class="hit" points="{b["points"]}"/>'
-            f'<polygon class="fill" points="{b["points"]}"/></g>'
+            f'<polygon class="fill" points="{b["points"]}"/>'
+            f'<text class="{lbl_cls}" x="{b["cx"]}" y="{b["cy"]}">{navn}</text></g>'
         )
     return (
         f'<svg viewBox="0 0 {MAP_W} {MAP_H}" role="group" aria-label="Kart over bydeler i sentrum av Bergen">'
-        f'<image href="bilder/bergenskart.webp" x="0" y="0" width="{MAP_W}" height="{MAP_H}"/>'
+        f'<image href="bilder/bergenskart-sentrum.webp" x="0" y="0" width="{MAP_W}" height="{MAP_H}"/>'
         + "".join(groups) + "</svg>"
     )
 
@@ -255,29 +260,40 @@ w("index.html", head("Joa's Bergen – blogg", "Blogg om Bergen: mat, turer og h
 <div><button class="btn" type="submit">Send melding</button><p class="status" id="st" aria-live="polite"></p></div>
 </form></section>
 <section class="section" id="kart"><h2 class="h">Bydeler i Bergen</h2>
-<p class="kart-intro">Kartet viser hele Bergen som referanse. Bydelene i sentrum er interaktive: hold musen over eller trykk på en bydel for å se mer.</p>
-<div class="kart-layout">
+<p class="kart-intro">Nærbilde av de sentrale bydelene. Hold musen over eller trykk på en bydel for å se mer.</p>
 <div class="kart-wrap">{kart_svg()}</div>
-<div class="kart-info" id="kart-info" aria-live="polite"><p class="ph">Velg en bydel i kartet for å se informasjon om den.</p></div>
-</div>
 </section>
 {FOOT}</main></div>
+<div class="kart-tip" id="kart-tip" role="status" aria-live="polite"></div>
 <script>
 var BYDEL_DATA={kart_data_js()};
 var FELT=[["nabolag","Faller ofte under nabolaget:"],["innbyggere","Innbyggertall:"],["kjent","Kjent for:"],["mangler","Mangler/lite av:"],["tilbud","Andre tilbud:"],["hoyde","Gjennomsnittlig høyde over havet:"]];
-var kartInfo=document.getElementById("kart-info"),bydeler=[].slice.call(document.querySelectorAll(".bydel"));
-function visBydel(navn){{
-  bydeler.forEach(function(g){{g.classList.toggle("active",g.dataset.navn===navn)}});
-  var d=BYDEL_DATA[navn]||{{}},html="<h3>"+navn+"</h3><dl>";
-  FELT.forEach(function(f){{var v=d[f[0]]||"";html+="<dt>"+f[1]+"</dt><dd"+(v?"":" class=\\"empty\\"")+">"+(v||"Fylles inn senere")+"</dd>"}});
-  kartInfo.innerHTML=html+"</dl>";
+var tip=document.getElementById("kart-tip"),bydeler=[].slice.call(document.querySelectorAll(".bydel")),pinned=false;
+function tipHtml(navn){{
+  var d=BYDEL_DATA[navn]||{{}},h="<h3>"+navn+"</h3><dl>";
+  FELT.forEach(function(f){{var v=d[f[0]]||"";h+="<dt>"+f[1]+"</dt><dd"+(v?"":" class=\\"empty\\"")+">"+(v||"Fylles inn senere")+"</dd>"}});
+  return h+"</dl>";
 }}
+function placeTip(x,y){{
+  var pad=14,w=tip.offsetWidth,h=tip.offsetHeight,left=x+18,top=y+18;
+  if(left+w+pad>innerWidth) left=x-w-18;
+  if(top+h+pad>innerHeight) top=y-h-18;
+  if(left<pad) left=pad; if(top<pad) top=pad;
+  tip.style.left=left+"px"; tip.style.top=top+"px";
+}}
+function showTip(navn,x,y){{
+  bydeler.forEach(function(g){{g.classList.toggle("active",g.dataset.navn===navn)}});
+  tip.innerHTML=tipHtml(navn); tip.classList.add("show"); placeTip(x,y);
+}}
+function hideTip(){{ if(pinned) return; tip.classList.remove("show"); bydeler.forEach(function(g){{g.classList.remove("active")}}); }}
 bydeler.forEach(function(g){{
-  g.addEventListener("mouseenter",function(){{visBydel(g.dataset.navn)}});
-  g.addEventListener("click",function(){{visBydel(g.dataset.navn)}});
-  g.addEventListener("keydown",function(e){{if(e.key==="Enter"||e.key===" "){{e.preventDefault();visBydel(g.dataset.navn)}}}});
-  g.addEventListener("focus",function(){{visBydel(g.dataset.navn)}});
+  g.addEventListener("mousemove",function(e){{ if(!pinned) showTip(g.dataset.navn,e.clientX,e.clientY) }});
+  g.addEventListener("mouseleave",function(){{ if(!pinned) hideTip() }});
+  g.addEventListener("click",function(e){{ pinned=(pinned&&g.classList.contains("active"))?false:true; showTip(g.dataset.navn,e.clientX,e.clientY) }});
+  g.addEventListener("keydown",function(e){{if(e.key==="Enter"||e.key===" "){{e.preventDefault();var r=g.getBoundingClientRect();pinned=true;showTip(g.dataset.navn,r.left+r.width/2,r.top+r.height/2)}}}});
+  g.addEventListener("blur",function(){{ pinned=false; hideTip() }});
 }});
+document.addEventListener("click",function(e){{ if(!e.target.closest(".bydel")){{ pinned=false; hideTip() }} }});
 var chips=[].slice.call(document.querySelectorAll(".chip")),cards=[].slice.call(document.querySelectorAll(".card")),cnt=document.getElementById("count"),none=document.getElementById("none"),rs=document.getElementById("reset");
 function filt(){{var cats=chips.filter(function(c){{return c.dataset.cat&&c.getAttribute("aria-pressed")==="true"}}).map(function(c){{return c.dataset.cat}}),rain=document.querySelector(".chip.rain").getAttribute("aria-pressed")==="true",n=0;
 cards.forEach(function(k){{var ok=(!cats.length||cats.some(function(c){{return k.dataset.cats.split("|").indexOf(c)>-1}}))&&(!rain||k.dataset.rain==="1");k.hidden=!ok;if(ok)n++}});
