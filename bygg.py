@@ -11,33 +11,15 @@ def w(path, text):
         f.write(text)
 
 # ---------- Innlegg (nyeste først). Bytt ut med egne. ----------
-POSTS = [
-    dict(slug="fjelltur-ulriken", img="tur", cats=["Fotturer"], rain=False, date="2026-09-14", label="14. september 2026",
-         title="Fjelltur på Ulriken i motvind",
-         lead="Fire timer, tre regnbyger og en termos som reddet dagen.",
-         body="<p>Jeg startet fra Fløyen og gikk over mot Ulriken. Det er en tur jeg har gjort mange ganger, men aldri i så mye vind.</p><h2>Utstyret</h2><p>Gode sko, ullundertøy og en termos med kaffe. Resten er stort sett sekundært.</p><h2>Utsikten</h2><p>På toppen åpnet skyene seg i ti sekunder. Det holdt.</p>"),
-    dict(slug="kanelboller", img="mat", cats=["Mat og drikke"], rain=True, date="2026-08-30", label="30. august 2026",
-         title="Kanelboller til en regnfull søndag",
-         lead="En oppskrift jeg stadig vender tilbake til.",
-         body="<p>Dette er en enkel oppskrift som ikke krever noe spesielt utstyr.</p><h2>Slik gjør du</h2><p>Elt deigen, la den heve i en time, rull ut, fyll med smør, sukker og kanel, og stek på 225 grader i ti minutter.</p>"),
-    dict(slug="regnvaersguide", img="regn", cats=["Aktiviteter"], rain=True, date="2026-08-12", label="12. august 2026",
-         title="Slik overlever du Bergens regnvær",
-         lead="Paraply, skaljakke eller bare gi opp? Mitt ærlige svar.",
-         body="<p>Etter mange år her har jeg landet på en klar mening.</p><h2>Skaljakke, ikke paraply</h2><p>Vinden i Bergen tar paraplyen din. Skaljakken blir med deg hjem.</p><h2>Kaffe innendørs</h2><p>Når det øser ned, finnes det alltid en kaffebar med ledig stol.</p>"),
-    dict(slug="bryggen-historie", img="historie", cats=["Historie"], rain=True, date="2026-07-25", label="25. juli 2026",
-         title="Bryggen: husene som brant, igjen og igjen",
-         lead="Om hvorfor trehusene langs havnen ser ut som de gjør.",
-         body="<p>Bryggen har brent flere ganger, og hver gang har husene blitt bygget opp igjen på de gamle tomtene.</p><h2>Hansatiden</h2><p>Tyske kjøpmenn drev handel herfra i flere hundre år, og de smale gårdene stammer fra den tiden.</p><h2>Verdt et besøk</h2><p>Gå inn i gangene mellom husene. Der er det tørt når det regner.</p>"),
-]
+# Mal for nytt innlegg (kopier inn i listen):
+# dict(slug="url-navn", img="bildefil", cats=["Fotturer"], rain=False, date="2026-09-14", label="14. september 2026",
+#      title="Tittel", lead="Kort ingress.", body="<p>Tekst</p><h2>Mellomtittel</h2><p>Mer tekst</p>"),
+POSTS = []
 POSTS.sort(key=lambda p: p["date"], reverse=True)
 
 # ---------- Bilder (plassholdere: bytt ut med egne .jpg og endre img-navn) ----------
 def scene(name, bg, sun, c1, c2, hill):
     w(f"bilder/{name}.svg", f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450"><rect width="800" height="450" fill="{bg}"/><circle cx="640" cy="90" r="46" fill="{sun}" opacity=".9"/><path d="M0 330 Q200 270 400 320 T800 300 V450 H0Z" fill="{hill}" opacity=".55"/><polygon points="120,380 120,230 190,170 260,230 260,380" fill="{c1}"/><polygon points="270,380 270,250 340,190 410,250 410,380" fill="{c2}"/><polygon points="420,380 420,220 495,155 570,220 570,380" fill="{sun}"/><rect x="175" y="250" width="30" height="30" fill="{bg}"/><rect x="325" y="270" width="30" height="30" fill="{bg}"/><rect x="480" y="245" width="30" height="30" fill="{bg}"/><rect y="380" width="800" height="70" fill="#1B2932" opacity=".85"/></svg>''')
-scene("tur", "#CFE0E8", "#C08A1E", "#2F6F8F", "#B23A2B", "#4C7A5A")
-scene("mat", "#F1DDD3", "#C08A1E", "#B23A2B", "#F7F5EE", "#C08A1E")
-scene("regn", "#C9D2D6", "#8FA1AA", "#4C7A5A", "#2F6F8F", "#55666F")
-scene("historie", "#E6DCC8", "#A8372A", "#C08A1E", "#2F6F8F", "#55666F")
 w("favicon.svg", '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#EAEEED"/><polygon points="12,52 12,30 32,12 52,30 52,52" fill="#A8372A"/><rect x="26" y="34" width="12" height="12" fill="#EAEEED"/></svg>')
 
 # ---------- Stil ----------
@@ -123,10 +105,11 @@ footer{margin-top:64px;padding-top:20px;border-top:1px dashed var(--line);font:.
 # ---------- Felles hode ----------
 def head(title, desc, pre, img):
     t, d = html.escape(title), html.escape(desc)
+    og = f'<meta property="og:image" content="{pre}bilder/{img}.svg">' if img else ''
     return f'''<!doctype html>
 <html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{t}</title><meta name="description" content="{d}">
-<meta property="og:title" content="{t}"><meta property="og:description" content="{d}"><meta property="og:image" content="{pre}bilder/{img}.svg">
+<meta property="og:title" content="{t}"><meta property="og:description" content="{d}">{og}
 <link rel="icon" href="{pre}favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400&family=Instrument+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="{pre}style.css"></head><body><div class="layout">
@@ -136,6 +119,9 @@ def head(title, desc, pre, img):
 
 FOOT = '<footer>&copy; 2026 Joa &middot; Laget i Bergen</footer>'
 
+import glob
+for old in glob.glob(f"{BASE}/innlegg/*.html"):
+    os.remove(old)
 for p in POSTS:
     w(f"innlegg/{p['slug']}.html", head(f"{p['title']} – Joa's Bergen", p["lead"], "../", p["img"]) + f'''<main><article class="article"><div class="hero"><img src="../bilder/{p['img']}.svg" alt=""></div>
 <span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h1>{html.escape(p['title'])}</h1>
@@ -148,33 +134,34 @@ cards = "\n".join(
     f'''<a class="card" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><div class="img"><img src="bilder/{p['img']}.svg" alt="" loading="lazy"></div><span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h2>{html.escape(p['title'])}</h2><p>{html.escape(p['lead'])}</p></a>'''
     for p in POSTS)
 
-CATS = ["Mat og drikke", "Historie", "Fotturer", "Aktiviteter"]
+empty = "" if POSTS else '<p class="none">Innleggene kommer snart.</p>'
+CATS = sorted(["Byvandring", "Fotturer", "Historie", "Leserinnlegg", "Mat og drikke", "Solforhold"], key=str.casefold)
 chips = "".join(f'<button type="button" class="chip" aria-pressed="false" data-cat="{c}">{c}</button>' for c in CATS) + '<button type="button" class="chip rain" aria-pressed="false">☔ Regnværsdag</button>'
 
-w("index.html", head("Joa's Bergen – blogg", "Notater fra en regnfull by.", "", POSTS[0]["img"]) + f'''<main>
-<div class="filters" role="group" aria-label="Filtrer innlegg">
+w("index.html", head("Joa's Bergen – blogg", "Notater fra en regnfull by.", "", "") + f'''<main>
+<div class="filters" role="group" aria-label="Filtrer innlegg"{" hidden" if not POSTS else ""}>
 <div class="chips">{chips}</div>
 <div class="fmeta"><span id="count" aria-live="polite"></span><button type="button" id="reset" hidden>Nullstill filter</button></div></div>
 <div class="posts">
 {cards}
-</div><p class="none" id="none" hidden>Ingen innlegg passer med filtrene dine.</p>
+</div>{empty}<p class="none" id="none" hidden>Ingen innlegg passer med filtrene dine.</p>
 <section class="section" id="om"><h2 class="h">Om meg</h2>
-<p class="lead">4de generasjons bergenser. Oppvokst ved foten av fjellsiden, nedenfor Skansen brannstasjon. Nabolaget heter Fjellet, men de færreste kaller det for, eller i det hele tatt vet at det heter det.</p>
+<p>4de generasjons bergenser. Oppvokst ved foten av fjellsiden, nedenfor Skansen brannstasjon. Nabolaget heter Fjellet, men de færreste kaller det for, eller i det hele tatt vet at det heter det.</p>
 <p>Eg er en drømmer, bergensnostalgiker, for ikke å si: en urban melankoliker. Noen kunne til og med sagt: en kontrafaktisk historiker, men eg er ingen historiker. Eg tenker mye på hvordan byen ville ha sett ut hvis det ikke hadde for alle bybrannene (er det derfor forballaget heter Brann?). Hvordan hadde det vært her, hvis den kalde arkitekturen fra 60-tallet ikke hadde fått herje? Men for all del, det kunne vært mye verre, ta Oslo for eksempel. Men nok om det.</p>
-<p>Eg tenker på gamle hotell Norge. Bygget i 1885, som overlevde både bybrannen i 1916 og andre verdenskrig, da det hovedsakelig huset tyske offiserer. Revet i 1961 til fordel for dagens frastøtende koordinatsystem i betong. Nei, gamle hotell Norge lå der nye hotell Norge ligger i dag, eg blandet med annet, like flott bygg som lå der Gulatinget ligger, nemlig Hotel Metropol, et hotell eg forsåvidt også tenker på. Dets på en gang imponerende og tiltrekkende ytre, lyser og liver opp i en av vårs by vakreste kvartaler med marmorets dans og fargevirkningens harmoni. Det var også 60 værelser.</p>
+<p>Eg tenker på gamle hotell Norge. Bygget i 1885, som overlevde både bybrannen i 1916 og andre verdenskrig, da det hovedsakelig huset tyske offiserer. Revet i 1961 til fordel for dagens koordinatsystem i betong. Nei, gamle hotell Norge lå der nye hotell Norge ligger i dag, eg blandet med annet, like flott bygg som lå der Gulatinget ligger, nemlig Hotel Metropol, et hotell eg også tenker på. En (ukjent) bergensavis sa det kanskje best da dets på en gang imponerende og tiltrekkende ytre, lyser og liver opp i en av vårs by vakreste kvartaler med marmorets dans og fargevirkningens harmoni. Det var også 60 værelser.</p>
 <p>Takk</p>
 <p>J</p></section>
 <section class="section" id="kontakt"><h2 class="h">Kontakt</h2>
 <p>Fortell kort hva du lurer på, så svarer jeg så snart jeg kan.</p>
-<form id="contact" novalidate>
-<div class="field"><label for="n">Navn</label><input id="n" type="text" autocomplete="name" required><p class="err" id="en" role="alert"></p></div>
-<div class="field"><label for="e">E-post</label><input id="e" type="email" autocomplete="email" required><p class="err" id="ee" role="alert"></p></div>
-<div class="field"><label for="m">Melding</label><textarea id="m" required></textarea><p class="err" id="em" role="alert"></p></div>
+<form id="contact" name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot" novalidate>
+<input type="hidden" name="form-name" value="kontakt"><p hidden><label>Ikke fyll ut: <input name="bot"></label></p>
+<div class="field"><label for="n">Navn</label><input id="n" name="navn" type="text" autocomplete="name" required><p class="err" id="en" role="alert"></p></div>
+<div class="field"><label for="e">E-post</label><input id="e" name="epost" type="email" autocomplete="email" required><p class="err" id="ee" role="alert"></p></div>
+<div class="field"><label for="m">Melding</label><textarea id="m" name="melding" required></textarea><p class="err" id="em" role="alert"></p></div>
 <div><button class="btn" type="submit">Send melding</button><p class="status" id="st" aria-live="polite"></p></div>
-<p class="hint">Når du trykker send, åpnes e-postprogrammet ditt med meldingen ferdig utfylt.</p></form></section>
+</form></section>
 {FOOT}</main></div>
 <script>
-var CONTACT_EMAIL="din@epost.no"; // bytt ut med din adresse
 var chips=[].slice.call(document.querySelectorAll(".chip")),cards=[].slice.call(document.querySelectorAll(".card")),cnt=document.getElementById("count"),none=document.getElementById("none"),rs=document.getElementById("reset");
 function filt(){{var cats=chips.filter(function(c){{return c.dataset.cat&&c.getAttribute("aria-pressed")==="true"}}).map(function(c){{return c.dataset.cat}}),rain=document.querySelector(".chip.rain").getAttribute("aria-pressed")==="true",n=0;
 cards.forEach(function(k){{var ok=(!cats.length||cats.some(function(c){{return k.dataset.cats.split("|").indexOf(c)>-1}}))&&(!rain||k.dataset.rain==="1");k.hidden=!ok;if(ok)n++}});
@@ -186,10 +173,8 @@ function chk(id,eid,ok,msg){{var i=document.getElementById(id),v=i.value.trim(),
 f.addEventListener("submit",function(x){{x.preventDefault();st.textContent="";st.className="status";
 var a=chk("n","en",function(v){{return v}},"Skriv inn navnet ditt."),b=chk("e","ee",function(v){{return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v)}},"Skriv inn en gyldig e-postadresse."),c=chk("m","em",function(v){{return v.length>=5}},"Skriv en kort melding.");
 if(!(a&&b&&c))return;
-if(CONTACT_EMAIL==="din@epost.no"){{st.textContent="Skjemaet fungerer, men er ikke koblet til en e-postadresse ennå.";return}}
-var body="Fra: "+n.value.trim()+" ("+e.value.trim()+")\\n\\n"+m.value.trim();
-st.className="status ok";st.textContent="Takk! E-postprogrammet ditt åpnes nå.";
-location.href="mailto:"+CONTACT_EMAIL+"?subject="+encodeURIComponent("Melding fra bloggen")+"&body="+encodeURIComponent(body)}});
+var btn=f.querySelector("button");btn.disabled=true;
+fetch("/",{{method:"POST",headers:{{"Content-Type":"application/x-www-form-urlencoded"}},body:new URLSearchParams(new FormData(f)).toString()}}).then(function(r){{if(!r.ok)throw 0;st.className="status ok";st.textContent="Takk! Meldingen er sendt.";f.reset()}}).catch(function(){{st.textContent="Noe gikk galt. Prøv igjen, eller send e-post direkte."}}).then(function(){{btn.disabled=false}})}});
 </script></body></html>
 ''')
 print("Ferdig")

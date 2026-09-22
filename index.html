@@ -1,39 +1,36 @@
 <!doctype html>
 <html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Joa&#x27;s Bergen – blogg</title><meta name="description" content="Notater fra en regnfull by.">
-<meta property="og:title" content="Joa&#x27;s Bergen – blogg"><meta property="og:description" content="Notater fra en regnfull by."><meta property="og:image" content="bilder/tur.svg">
+<meta property="og:title" content="Joa&#x27;s Bergen – blogg"><meta property="og:description" content="Notater fra en regnfull by.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400&family=Instrument+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="style.css"></head><body><div class="layout">
 <header class="side"><a class="brand" href="index.html"><svg class="street" viewBox="0 0 300 74" role="img" aria-label="Trehusene på Bryggen"><polygon fill="#C08A1E" points="0,72 0,34 23,10 46,34 46,72"/><rect class="w" x="19" y="26" width="8" height="8"/><rect class="w" x="17" y="46" width="12" height="12"/><polygon fill="#B23A2B" points="50,72 50,36 73,14 96,36 96,72"/><rect class="w" x="69" y="28" width="8" height="8"/><rect class="w" x="67" y="48" width="12" height="12"/><polygon fill="#F7F5EE" stroke="#A9BDB3" points="100,72 100,32 123,8 146,32 146,72"/><rect class="w" x="119" y="24" width="8" height="8"/><rect class="w" x="117" y="44" width="12" height="12"/><polygon fill="#2F6F8F" points="150,72 150,35 173,12 196,35 196,72"/><rect class="w" x="169" y="27" width="8" height="8"/><rect class="w" x="167" y="47" width="12" height="12"/><polygon fill="#C08A1E" points="200,72 200,34 223,10 246,34 246,72"/><rect class="w" x="219" y="26" width="8" height="8"/><rect class="w" x="217" y="46" width="12" height="12"/><polygon fill="#4C7A5A" points="250,72 250,37 273,15 296,37 296,72"/><rect class="w" x="269" y="29" width="8" height="8"/><rect class="w" x="267" y="49" width="12" height="12"/><line class="g" x1="0" y1="73" x2="300" y2="73"/></svg>Joa's Bergen<small>Notater fra en regnfull by.</small></a>
 <nav class="nav" aria-label="Meny"><a href="index.html#om">Om meg</a><a href="index.html#kontakt">Kontakt</a></nav></header>
 <main>
-<div class="filters" role="group" aria-label="Filtrer innlegg">
-<div class="chips"><button type="button" class="chip" aria-pressed="false" data-cat="Mat og drikke">Mat og drikke</button><button type="button" class="chip" aria-pressed="false" data-cat="Historie">Historie</button><button type="button" class="chip" aria-pressed="false" data-cat="Fotturer">Fotturer</button><button type="button" class="chip" aria-pressed="false" data-cat="Aktiviteter">Aktiviteter</button><button type="button" class="chip rain" aria-pressed="false">☔ Regnværsdag</button></div>
+<div class="filters" role="group" aria-label="Filtrer innlegg" hidden>
+<div class="chips"><button type="button" class="chip" aria-pressed="false" data-cat="Byvandring">Byvandring</button><button type="button" class="chip" aria-pressed="false" data-cat="Fotturer">Fotturer</button><button type="button" class="chip" aria-pressed="false" data-cat="Historie">Historie</button><button type="button" class="chip" aria-pressed="false" data-cat="Leserinnlegg">Leserinnlegg</button><button type="button" class="chip" aria-pressed="false" data-cat="Mat og drikke">Mat og drikke</button><button type="button" class="chip" aria-pressed="false" data-cat="Solforhold">Solforhold</button><button type="button" class="chip rain" aria-pressed="false">☔ Regnværsdag</button></div>
 <div class="fmeta"><span id="count" aria-live="polite"></span><button type="button" id="reset" hidden>Nullstill filter</button></div></div>
 <div class="posts">
-<a class="card" href="innlegg/fjelltur-ulriken.html" data-cats="Fotturer" data-rain="0"><div class="img"><img src="bilder/tur.svg" alt="" loading="lazy"></div><span class="cats">Fotturer</span><time class="date" datetime="2026-09-14">14. september 2026</time><h2>Fjelltur på Ulriken i motvind</h2><p>Fire timer, tre regnbyger og en termos som reddet dagen.</p></a>
-<a class="card" href="innlegg/kanelboller.html" data-cats="Mat og drikke" data-rain="1"><div class="img"><img src="bilder/mat.svg" alt="" loading="lazy"></div><span class="cats">Mat og drikke · Regnværsdag</span><time class="date" datetime="2026-08-30">30. august 2026</time><h2>Kanelboller til en regnfull søndag</h2><p>En oppskrift jeg stadig vender tilbake til.</p></a>
-<a class="card" href="innlegg/regnvaersguide.html" data-cats="Aktiviteter" data-rain="1"><div class="img"><img src="bilder/regn.svg" alt="" loading="lazy"></div><span class="cats">Aktiviteter · Regnværsdag</span><time class="date" datetime="2026-08-12">12. august 2026</time><h2>Slik overlever du Bergens regnvær</h2><p>Paraply, skaljakke eller bare gi opp? Mitt ærlige svar.</p></a>
-<a class="card" href="innlegg/bryggen-historie.html" data-cats="Historie" data-rain="1"><div class="img"><img src="bilder/historie.svg" alt="" loading="lazy"></div><span class="cats">Historie · Regnværsdag</span><time class="date" datetime="2026-07-25">25. juli 2026</time><h2>Bryggen: husene som brant, igjen og igjen</h2><p>Om hvorfor trehusene langs havnen ser ut som de gjør.</p></a>
-</div><p class="none" id="none" hidden>Ingen innlegg passer med filtrene dine.</p>
+
+</div><p class="none">Innleggene kommer snart.</p><p class="none" id="none" hidden>Ingen innlegg passer med filtrene dine.</p>
 <section class="section" id="om"><h2 class="h">Om meg</h2>
-<p class="lead">4de generasjons bergenser. Oppvokst ved foten av fjellsiden, nedenfor Skansen brannstasjon. Nabolaget heter Fjellet, men de færreste kaller det for, eller i det hele tatt vet at det heter det.</p>
+<p>4de generasjons bergenser. Oppvokst ved foten av fjellsiden, nedenfor Skansen brannstasjon. Nabolaget heter Fjellet, men de færreste kaller det for, eller i det hele tatt vet at det heter det.</p>
 <p>Eg er en drømmer, bergensnostalgiker, for ikke å si: en urban melankoliker. Noen kunne til og med sagt: en kontrafaktisk historiker, men eg er ingen historiker. Eg tenker mye på hvordan byen ville ha sett ut hvis det ikke hadde for alle bybrannene (er det derfor forballaget heter Brann?). Hvordan hadde det vært her, hvis den kalde arkitekturen fra 60-tallet ikke hadde fått herje? Men for all del, det kunne vært mye verre, ta Oslo for eksempel. Men nok om det.</p>
-<p>Eg tenker på gamle hotell Norge. Bygget i 1885, som overlevde både bybrannen i 1916 og andre verdenskrig, da det hovedsakelig huset tyske offiserer. Revet i 1961 til fordel for dagens frastøtende koordinatsystem i betong. Nei, gamle hotell Norge lå der nye hotell Norge ligger i dag, eg blandet med annet, like flott bygg som lå der Gulatinget ligger, nemlig Hotel Metropol, et hotell eg forsåvidt også tenker på. Dets på en gang imponerende og tiltrekkende ytre, lyser og liver opp i en av vårs by vakreste kvartaler med marmorets dans og fargevirkningens harmoni. Det var også 60 værelser.</p>
+<p>Eg tenker på gamle hotell Norge. Bygget i 1885, som overlevde både bybrannen i 1916 og andre verdenskrig, da det hovedsakelig huset tyske offiserer. Revet i 1961 til fordel for dagens koordinatsystem i betong. Nei, gamle hotell Norge lå der nye hotell Norge ligger i dag, eg blandet med annet, like flott bygg som lå der Gulatinget ligger, nemlig Hotel Metropol, et hotell eg også tenker på. En (ukjent) bergensavis sa det kanskje best da dets på en gang imponerende og tiltrekkende ytre, lyser og liver opp i en av vårs by vakreste kvartaler med marmorets dans og fargevirkningens harmoni. Det var også 60 værelser.</p>
 <p>Takk</p>
 <p>J</p></section>
 <section class="section" id="kontakt"><h2 class="h">Kontakt</h2>
 <p>Fortell kort hva du lurer på, så svarer jeg så snart jeg kan.</p>
-<form id="contact" novalidate>
-<div class="field"><label for="n">Navn</label><input id="n" type="text" autocomplete="name" required><p class="err" id="en" role="alert"></p></div>
-<div class="field"><label for="e">E-post</label><input id="e" type="email" autocomplete="email" required><p class="err" id="ee" role="alert"></p></div>
-<div class="field"><label for="m">Melding</label><textarea id="m" required></textarea><p class="err" id="em" role="alert"></p></div>
+<form id="contact" name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot" novalidate>
+<input type="hidden" name="form-name" value="kontakt"><p hidden><label>Ikke fyll ut: <input name="bot"></label></p>
+<div class="field"><label for="n">Navn</label><input id="n" name="navn" type="text" autocomplete="name" required><p class="err" id="en" role="alert"></p></div>
+<div class="field"><label for="e">E-post</label><input id="e" name="epost" type="email" autocomplete="email" required><p class="err" id="ee" role="alert"></p></div>
+<div class="field"><label for="m">Melding</label><textarea id="m" name="melding" required></textarea><p class="err" id="em" role="alert"></p></div>
 <div><button class="btn" type="submit">Send melding</button><p class="status" id="st" aria-live="polite"></p></div>
-<p class="hint">Når du trykker send, åpnes e-postprogrammet ditt med meldingen ferdig utfylt.</p></form></section>
+</form></section>
 <footer>&copy; 2026 Joa &middot; Laget i Bergen</footer></main></div>
 <script>
-var CONTACT_EMAIL="din@epost.no"; // bytt ut med din adresse
 var chips=[].slice.call(document.querySelectorAll(".chip")),cards=[].slice.call(document.querySelectorAll(".card")),cnt=document.getElementById("count"),none=document.getElementById("none"),rs=document.getElementById("reset");
 function filt(){var cats=chips.filter(function(c){return c.dataset.cat&&c.getAttribute("aria-pressed")==="true"}).map(function(c){return c.dataset.cat}),rain=document.querySelector(".chip.rain").getAttribute("aria-pressed")==="true",n=0;
 cards.forEach(function(k){var ok=(!cats.length||cats.some(function(c){return k.dataset.cats.split("|").indexOf(c)>-1}))&&(!rain||k.dataset.rain==="1");k.hidden=!ok;if(ok)n++});
@@ -45,8 +42,6 @@ function chk(id,eid,ok,msg){var i=document.getElementById(id),v=i.value.trim(),r
 f.addEventListener("submit",function(x){x.preventDefault();st.textContent="";st.className="status";
 var a=chk("n","en",function(v){return v},"Skriv inn navnet ditt."),b=chk("e","ee",function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)},"Skriv inn en gyldig e-postadresse."),c=chk("m","em",function(v){return v.length>=5},"Skriv en kort melding.");
 if(!(a&&b&&c))return;
-if(CONTACT_EMAIL==="din@epost.no"){st.textContent="Skjemaet fungerer, men er ikke koblet til en e-postadresse ennå.";return}
-var body="Fra: "+n.value.trim()+" ("+e.value.trim()+")\n\n"+m.value.trim();
-st.className="status ok";st.textContent="Takk! E-postprogrammet ditt åpnes nå.";
-location.href="mailto:"+CONTACT_EMAIL+"?subject="+encodeURIComponent("Melding fra bloggen")+"&body="+encodeURIComponent(body)});
+var btn=f.querySelector("button");btn.disabled=true;
+fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(f)).toString()}).then(function(r){if(!r.ok)throw 0;st.className="status ok";st.textContent="Takk! Meldingen er sendt.";f.reset()}).catch(function(){st.textContent="Noe gikk galt. Prøv igjen, eller send e-post direkte."}).then(function(){btn.disabled=false})});
 </script></body></html>
