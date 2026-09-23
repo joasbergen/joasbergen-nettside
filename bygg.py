@@ -18,6 +18,20 @@ def w(path, text):
 # enkel=True: ingen stort bilde øverst i innlegget (kortet på forsiden viser bilde+overskrift).
 # body2: valgfri tekst som kommer ETTER kartet (kartet settes mellom body og body2).
 POSTS = [
+    dict(slug="botanikk", img="botanikk.svg", cats=["Leserinnlegg"], rain=False,
+         date="2026-09-23", label="23. september 2026",
+         title="Botanikk",
+         lead="Et leserinnlegg om Knut Fægri, botanikk og hva du bør lese.",
+         body="""<p>Vet du hva Knut Fægri, professor i botanikk, (sågar ceremonimester ved studentersamfunnet i Bergen) skriver om løvetann? At det e for mange av de! Nei, botanikk…det må du bare kunne. Shakespeare? vår egen Henrik Wergeland? Botanikere av dimensjoner begge to. Du må lære deg å beskrive naturen… prestekrage, blåklokke, rødkløver… de må ligge høyt oppe i bevisstheten, det må de bare. Du må kunne alt om blomster. Det botaniske studiet omfatter om lag 400 000 arter, og så, etter det, kan du starte med etnobotanikken. Det vil si, 400 000 er et høyt tall, men det kunne vært mye høyere om vi inkluderte sopp i det botaniske fagfelt, som noen stadig gjør, riktignok færre og færre.</p>
+<p>Botanikken kan spores noen tusen år tilbake i tid, helt til oldtiden, der, spesielt inderne, hadde en utpreget interesse av å beskrive trær og planter og deres tilhørende egenskaper, blant annet det 4000 år gamle diktet «Rig Veda», som er ett av de første litterære bevis på aktiv inndeling av planter. Det er essensielt at botanisk allmennkunnskap består, du må bare kunne det. Så det du gjør er at du går på biblioteket og spør etter en eller flere av disse bøkene, som eg antar for å være nevnte Fægris fire viktigste verk:</p>
+<ul>
+<li>Über die Längenvariationen einiger Gletscher des Jostedalsbre und die dadurch bedingten Pflanzensukzessionen (1934)</li>
+<li>Quartärgeologische Untersuchungen im westlichen Norwegen I-II (1935-1940)</li>
+<li>Norges planter I (1958)</li>
+<li>Norges planter II (1960)</li>
+</ul>
+<p>Ta gjerne med deg bøkene til Muséhagen ved Universitetet i Bergen og til det tilhørende plantehuset. Her leser og observerer du om en annen, prøv å finn levende eksempler på det du lærer om i bøkene, og prøv å gjøre deg noen tanker om plantenes struktur og metabolisme, og ikkje minst, slektskapsforhold. Oppsøk også gjerne din lokale botaniker for å diksutere funnene dine nærmere.</p>
+<p>Takk,<br>HH</p>"""),
     dict(slug="strok-eller-nabolag", img="strok-kart.webp", cats=["Historie"], rain=False,
          date="2026-09-22", label="22. september 2026",
          title="Strøk og nabolag i Bergen",
@@ -92,6 +106,7 @@ BYDELER = [
 # ---------- Bilder (plassholdere: bytt ut med egne .jpg og endre img-navn) ----------
 def scene(name, bg, sun, c1, c2, hill):
     w(f"bilder/{name}.svg", f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450"><rect width="800" height="450" fill="{bg}"/><circle cx="640" cy="90" r="46" fill="{sun}" opacity=".9"/><path d="M0 330 Q200 270 400 320 T800 300 V450 H0Z" fill="{hill}" opacity=".55"/><polygon points="120,380 120,230 190,170 260,230 260,380" fill="{c1}"/><polygon points="270,380 270,250 340,190 410,250 410,380" fill="{c2}"/><polygon points="420,380 420,220 495,155 570,220 570,380" fill="{sun}"/><rect x="175" y="250" width="30" height="30" fill="{bg}"/><rect x="325" y="270" width="30" height="30" fill="{bg}"/><rect x="480" y="245" width="30" height="30" fill="{bg}"/><rect y="380" width="800" height="70" fill="#1B2932" opacity=".85"/></svg>''')
+scene("botanikk", "#DDEFD9", "#C08A1E", "#4C7A5A", "#2F6F8F", "#4C7A5A")
 w("favicon.svg", '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#EAEEED"/><polygon points="12,52 12,30 32,12 52,30 52,52" fill="#A8372A"/><rect x="26" y="34" width="12" height="12" fill="#EAEEED"/></svg>')
 
 # ---------- Stil ----------
