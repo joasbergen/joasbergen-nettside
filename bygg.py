@@ -18,7 +18,7 @@ def w(path, text):
 # enkel=True: ingen stort bilde øverst i innlegget (kortet på forsiden viser bilde+overskrift).
 # body2: valgfri tekst som kommer ETTER kartet (kartet settes mellom body og body2).
 POSTS = [
-    dict(slug="botanikk", img="botanikk.svg", cats=["Leserinnlegg"], rain=False,
+    dict(slug="botanikk", img="botanikk.webp", cats=["Leserinnlegg"], rain=False,
          date="2026-09-23", label="23. september 2026",
          title="Botanikk",
          lead="Et leserinnlegg om Knut Fægri, botanikk og hva du bør lese.",
@@ -39,9 +39,10 @@ POSTS = [
          body="""<p>De fleste strøkene i sentrumskjernen fantes allerede på 1800-tallet, og noen enda tidligere, helt tilbake til middelalderen og Hansatiden (fra ca. 1278). Fra byutvidelsen 1877 ble Sandviken, Kalfaret, Nygård, Møhlenpris og Ytre Sandviken lagt til som egne strøk.</p>
 <p>Endringen fra Bjørgvin, som betydde “den grønne engen mellom fjellene”, til Bergen skjedde i løpet av hansatiden, da det norrøne navnet var vanskelig for tyske kjøpmenn å uttale. Hansatiden begynte for alvor på 1300-tallet, og de brukte navn som Bergen, Bergin eller Bervin, og sikkert andre nyanseringer som er utenfor mitt interessefelt, langt utenfor.</p>
 <p>På denne tiden endret også den lokale uttalen seg og fremmedord kom inn i den bergenske dialekten, ja.</p>""",
-         body2="""<p>Skal eg si litt om navnestriden i 1929? Eg tenkte det også: kommunister. Nei, det var målfolket, altså nynorskforkjempere, eller snarere nasjonalromantiske språkfolk, som ønsket en tilbakeføring av det norrøne bynavnet Bjørgvin. Forslaget ble skrinlagt etter et protestmøte på festplassen, hvor 25 000 innbyggere møtte opp.</p>
-<p>Når vi igjen skal bytte hovedstad i dette landet, har eg tenkt litt. Er det nok plass? Ja, man lager en ny bydel, det vil si, flere ambassade- og byråkratstrøk. Men det er jo typisk, det, at ambassader skal være i gamle, herskapelige villaer. Javel, lag det, da. Vi tar å fyller igjen utover i sjøen fra Arkitektskolen (Sandviken) og det maset av et sjøfly som holder på der nede, og rundt Heggernestet i Breiviken (Ytre Sandviken). At det var? Nettopp, Skolten og Bontalabo (Bergenhus), ta det vekk. Hva er det eg ser? Tyskere, bleke og jævlige sådan, de er jo ikke tidig engang, som skal ha enerett på å legge til med båten sin? Er det hansatiden på nytt her igjen, eller? Det eg prøver å si er at det er plass.</p>
-<p>Ellers er det alltid den nederlandske modellen: kongehus, parlament, regjering og hele røkle i Haag, hovedstad i Amsterdam. For å være tydelig: Bergen er Amsterdam, og Oslo Haag, med andre ord: Oslo blir Athen for Bergens Roma.</p>""",
+         body2="""<p>Nevnte eg navnestriden i 1929? Eg tenkte det også: kommunister. Nei, det var målfolket, altså nynorskforkjempere, eller snarere nasjonalromantiske språkfolk, som ønsket en tilbakeføring av det norrøne bynavnet Bjørgvin. Forslaget ble skrinlagt etter et protestmøte på festplassen, hvor 25 000 innbyggere møtte opp.</p>
+<p>Når vi igjen skal bytte hovedstad i dette landet, har eg tenkt litt. Er det nok plass? Ja, man lager en ny bydel, det vil si, flere ambassade- og byråkratstrøk. Men det er jo typisk, det, at ambassader skal være i gamle, herskapelige villaer. Javel, lag det, da. Vi tar å fyller igjen utover i sjøen fra Arkitektskolen (Sandviken) og det maset av et sjøfly som holder på der nede, og rundt Heggernestet i Breiviken (Ytre Sandviken). At det var? Jo, Skolten og Bontalabo (Bergenhus), ta det vekk. Hva er det eg ser? Tyskere, bleke og jævlige sådan, de er jo ikke tidige engang, som skal ha enerett på å legge til med båten sin? Er det hansatiden på nytt her igjen? Du må ikke glemme at fjæresjøen en gang gikk opp til domkirken. Det eg prøver å si er at det er plass.</p>
+<p>Ellers er det alltid den nederlandske modellen: kongehus, parlament, regjering og hele røkle i Haag, hovedstad i Amsterdam. For å være tydelig: Bergen er Amsterdam, og Oslo Haag, med andre ord: Oslo blir på mange måter Athen for Bergens Roma.</p>
+<p>J</p>""",
          kart=True, enkel=True),
 ]
 POSTS.sort(key=lambda p: p["date"], reverse=True)
@@ -106,7 +107,6 @@ BYDELER = [
 # ---------- Bilder (plassholdere: bytt ut med egne .jpg og endre img-navn) ----------
 def scene(name, bg, sun, c1, c2, hill):
     w(f"bilder/{name}.svg", f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450"><rect width="800" height="450" fill="{bg}"/><circle cx="640" cy="90" r="46" fill="{sun}" opacity=".9"/><path d="M0 330 Q200 270 400 320 T800 300 V450 H0Z" fill="{hill}" opacity=".55"/><polygon points="120,380 120,230 190,170 260,230 260,380" fill="{c1}"/><polygon points="270,380 270,250 340,190 410,250 410,380" fill="{c2}"/><polygon points="420,380 420,220 495,155 570,220 570,380" fill="{sun}"/><rect x="175" y="250" width="30" height="30" fill="{bg}"/><rect x="325" y="270" width="30" height="30" fill="{bg}"/><rect x="480" y="245" width="30" height="30" fill="{bg}"/><rect y="380" width="800" height="70" fill="#1B2932" opacity=".85"/></svg>''')
-scene("botanikk", "#DDEFD9", "#C08A1E", "#4C7A5A", "#2F6F8F", "#4C7A5A")
 w("favicon.svg", '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#EAEEED"/><polygon points="12,52 12,30 32,12 52,30 52,52" fill="#A8372A"/><rect x="26" y="34" width="12" height="12" fill="#EAEEED"/></svg>')
 
 # ---------- Stil ----------
@@ -540,9 +540,6 @@ for p in POSTS:
 ''')
 
 def card_html(p):
-    if p.get("enkel"):
-        # enkel innlegg: bilde + overskrift på forsiden, ingen dato/kategori/ingress.
-        return f'''<a class="card card-enkel" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><div class="img"><img src="bilder/{p['img']}" alt="" loading="lazy"></div><h2>{html.escape(p['title'])}</h2></a>'''
     return f'''<a class="card" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><div class="img"><img src="bilder/{p['img']}" alt="" loading="lazy"></div><span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h2>{html.escape(p['title'])}</h2><p>{html.escape(p['lead'])}</p></a>'''
 
 cards = "\n".join(card_html(p) for p in POSTS)
