@@ -43,8 +43,7 @@ button,input,textarea{font:inherit;color:inherit}
 .card h2{font:700 clamp(1.5rem,3vw,2rem)/1.15 var(--display);letter-spacing:-.015em;margin:6px 0 0;text-wrap:balance}
 .card:hover h2{color:var(--accent)}
 .card p{margin:8px 0 0;color:var(--muted);max-width:60ch}
-.card-enkel{padding:20px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
-.card-enkel h2{margin:0}
+.card-enkel h2{margin-top:16px}
 
 .kommentar-liste{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:18px}
 .kommentar{border-top:1px dashed var(--line);padding-top:14px}

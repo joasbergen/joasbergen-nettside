@@ -134,8 +134,7 @@ button,input,textarea{font:inherit;color:inherit}
 .card h2{font:700 clamp(1.5rem,3vw,2rem)/1.15 var(--display);letter-spacing:-.015em;margin:6px 0 0;text-wrap:balance}
 .card:hover h2{color:var(--accent)}
 .card p{margin:8px 0 0;color:var(--muted);max-width:60ch}
-.card-enkel{padding:20px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
-.card-enkel h2{margin:0}
+.card-enkel h2{margin-top:16px}
 
 .kommentar-liste{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:18px}
 .kommentar{border-top:1px dashed var(--line);padding-top:14px}
@@ -495,7 +494,8 @@ for p in POSTS:
 
 def card_html(p):
     if p.get("enkel"):
-        return f'''<a class="card card-enkel" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><h2>{html.escape(p['title'])}</h2></a>'''
+        # enkel innlegg: bilde + overskrift på forsiden, ingen dato/kategori/ingress.
+        return f'''<a class="card card-enkel" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><div class="img"><img src="bilder/{p['img']}" alt="" loading="lazy"></div><h2>{html.escape(p['title'])}</h2></a>'''
     return f'''<a class="card" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><div class="img"><img src="bilder/{p['img']}" alt="" loading="lazy"></div><span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h2>{html.escape(p['title'])}</h2><p>{html.escape(p['lead'])}</p></a>'''
 
 cards = "\n".join(card_html(p) for p in POSTS)
