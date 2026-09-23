@@ -27,14 +27,16 @@
 <p>Når vi igjen skal bytte hovedstad i dette landet, har eg tenkt litt. Er det nok plass? Ja, man lager en ny bydel, det vil si, flere ambassade- og byråkratstrøk. Men det er jo typisk, det, at ambassader skal være i gamle, herskapelige villaer. Javel, lag det, da. Vi tar å fyller igjen utover i sjøen fra Arkitektskolen (Sandviken) og det maset av et sjøfly som holder på der nede, og rundt Heggernestet i Breiviken (Ytre Sandviken). At det var? Nettopp, Skolten og Bontalabo (Bergenhus), ta det vekk. Hva er det eg ser? Tyskere, bleke og jævlige sådan, de er jo ikke tidig engang, som skal ha enerett på å legge til med båten sin? Er det hansatiden på nytt her igjen, eller? Det eg prøver å si er at det er plass.</p>
 <p>Ellers er det alltid den nederlandske modellen: kongehus, parlament, regjering og hele røkle i Haag, hovedstad i Amsterdam. For å være tydelig: Bergen er Amsterdam, og Oslo Haag, med andre ord: Oslo blir Athen for Bergens Roma.</p></div>
 <a class="back" href="../index.html">&larr; Alle innlegg</a></article>
-<section class="section" id="kommentarer"><h2 class="h">Kommentarer</h2>
-<p class="ingen-kommentarer">Ingen kommentarer ennå. Bli den første!</p>
-<form id="kommentar-form" name="kommentar-strok-eller-nabolag" method="POST" data-netlify="true" netlify-honeypot="kbot" novalidate>
-<input type="hidden" name="form-name" value="kommentar-strok-eller-nabolag"><p hidden><label>Ikke fyll ut: <input name="kbot"></label></p>
-<div class="field"><label for="kn">Navn</label><input id="kn" name="navn" type="text" autocomplete="name" required><p class="err" id="ken" role="alert"></p></div>
-<div class="field"><label for="kk">Kommentar</label><textarea id="kk" name="kommentar" required></textarea><p class="err" id="kek" role="alert"></p></div>
+<section class="section" id="kommentarer" data-slug="strok-eller-nabolag"><h2 class="h">Kommentarer</h2>
+<ul class="kommentar-liste" id="kommentar-liste"></ul>
+<p class="ingen-kommentarer" id="kommentar-tom" hidden>Ingen kommentarer ennå. Bli den første!</p>
+<form id="kommentar-form" novalidate>
+<p hidden><label>Ikke fyll ut: <input id="kbot"></label></p>
+<div class="field"><label for="kn">Navn</label><input id="kn" type="text" autocomplete="name" required><p class="err" id="ken" role="alert"></p></div>
+<div class="field"><label for="kk">Kommentar</label><textarea id="kk" required></textarea><p class="err" id="kek" role="alert"></p></div>
 <div><button class="btn" type="submit">Send kommentar</button><p class="status" id="kst" aria-live="polite"></p></div>
-<p class="hint">Kommentarer blir lest gjennom før de eventuelt legges ut.</p>
+<p class="hint">Kommentaren publiseres med en gang.</p>
+<p class="hint kommentar-admin-link">Kun for meg: <a href="#" id="kommentar-admin">administrer kommentarer</a></p>
 </form></section>
 <footer>&copy; 2026 Joa &middot; Laget i Bergen</footer></main></div><div class="kart-tip" id="kart-tip" role="status" aria-live="polite"></div>
 <script>
@@ -177,11 +179,40 @@ document.addEventListener("click",function(e){ if(!e.target.closest("#kart-wrap"
   apply();
 })();
 </script><script>
+(function(){
+var sec=document.getElementById("kommentarer"); if(!sec) return;
+var slug=sec.dataset.slug, endpoint="/.netlify/functions/comments?slug="+encodeURIComponent(slug);
+var liste=document.getElementById("kommentar-liste"), tom=document.getElementById("kommentar-tom");
+function adminPass(){try{return sessionStorage.getItem("kommentarAdmin")||""}catch(e){return ""}}
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+function render(data){
+liste.innerHTML="";tom.hidden=data.length>0;
+var pass=adminPass();
+data.forEach(function(k){
+var li=document.createElement("li");li.className="kommentar";
+var slett=pass?' <button type="button" class="kommentar-slett" data-id="'+k.id+'">Slett</button>':"";
+li.innerHTML='<p class="kommentar-meta"><strong>'+esc(k.navn)+'</strong> · '+esc(k.dato)+slett+'</p><p>'+esc(k.tekst)+'</p>';
+liste.appendChild(li)});
+[].slice.call(liste.querySelectorAll(".kommentar-slett")).forEach(function(btn){
+btn.addEventListener("click",function(){
+if(!confirm("Slette denne kommentaren?"))return;
+fetch(endpoint+"&id="+encodeURIComponent(btn.dataset.id),{method:"DELETE",headers:{"Authorization":"Bearer "+adminPass()}})
+.then(function(r){if(!r.ok)throw 0;return last()}).catch(function(){alert("Kunne ikke slette. Feil passord?")})})})}
+function last(){return fetch(endpoint).then(function(r){return r.json()}).then(render)}
+last().catch(function(){tom.hidden=false;tom.textContent="Kunne ikke laste kommentarer akkurat nå."});
+var adminLink=document.getElementById("kommentar-admin");
+adminLink.addEventListener("click",function(e){e.preventDefault();var p=prompt("Adminpassord:");if(p===null)return;try{sessionStorage.setItem("kommentarAdmin",p)}catch(err){}last()});
 var kf=document.getElementById("kommentar-form"),kst=document.getElementById("kst");
 function kchk(id,eid,ok,msg){var i=document.getElementById(id),v=i.value.trim(),r=ok(v);document.getElementById(eid).textContent=r?"":msg;if(r)i.removeAttribute("aria-invalid");else i.setAttribute("aria-invalid","true");return r}
 kf.addEventListener("submit",function(x){x.preventDefault();kst.textContent="";kst.className="status";
 var a=kchk("kn","ken",function(v){return v},"Skriv inn navnet ditt."),b=kchk("kk","kek",function(v){return v.length>=2},"Skriv en kommentar.");
 if(!(a&&b))return;
+if(document.getElementById("kbot").value)return;
 var btn=kf.querySelector("button");btn.disabled=true;
-fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(kf)).toString()}).then(function(r){if(!r.ok)throw 0;kst.className="status ok";kst.textContent="Takk! Kommentaren er sendt inn.";kf.reset()}).catch(function(){kst.textContent="Noe gikk galt. Prøv igjen litt senere."}).then(function(){btn.disabled=false})});
+fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({navn:document.getElementById("kn").value.trim(),tekst:document.getElementById("kk").value.trim()})})
+.then(function(r){if(!r.ok)throw 0;return last()})
+.then(function(){kst.className="status ok";kst.textContent="Takk! Kommentaren er publisert.";kf.reset()})
+.catch(function(){kst.textContent="Noe gikk galt. Prøv igjen litt senere."})
+.then(function(){btn.disabled=false})});
+})();
 </script></body></html>

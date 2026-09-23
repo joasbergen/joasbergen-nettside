@@ -147,6 +147,9 @@ button,input,textarea{font:inherit;color:inherit}
 .kommentar-meta{margin:0 0 4px;font-size:.85rem;color:var(--muted)}
 .kommentar p:last-child{margin:0}
 .ingen-kommentarer{color:var(--muted);margin:0 0 28px}
+.kommentar-slett{background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:.8rem;padding:0;margin-left:8px}
+.kommentar-admin-link{margin-top:18px}
+.kommentar-admin-link a{color:var(--muted)}
 
 .section{margin-top:72px;padding-top:44px;border-top:1px dashed var(--line)}
 .section h2.h{font:700 1.8rem/1.1 var(--display);letter-spacing:-.015em;margin:0 0 20px}
@@ -448,35 +451,56 @@ import glob
 for old in glob.glob(f"{BASE}/innlegg/*.html"):
     os.remove(old)
 def kommentar_html(p):
-    liste = p.get("kommentarer") or []
-    if liste:
-        items = "".join(
-            f'<li class="kommentar"><p class="kommentar-meta"><strong>{html.escape(k["navn"])}</strong> · {k["dato"]}</p><p>{html.escape(k["tekst"])}</p></li>'
-            for k in liste
-        )
-        liste_html = f'<ul class="kommentar-liste">{items}</ul>'
-    else:
-        liste_html = '<p class="ingen-kommentarer">Ingen kommentarer ennå. Bli den første!</p>'
-    navn = f"kommentar-{p['slug']}"
-    return f'''<section class="section" id="kommentarer"><h2 class="h">Kommentarer</h2>
-{liste_html}
-<form id="kommentar-form" name="{navn}" method="POST" data-netlify="true" netlify-honeypot="kbot" novalidate>
-<input type="hidden" name="form-name" value="{navn}"><p hidden><label>Ikke fyll ut: <input name="kbot"></label></p>
-<div class="field"><label for="kn">Navn</label><input id="kn" name="navn" type="text" autocomplete="name" required><p class="err" id="ken" role="alert"></p></div>
-<div class="field"><label for="kk">Kommentar</label><textarea id="kk" name="kommentar" required></textarea><p class="err" id="kek" role="alert"></p></div>
+    return f'''<section class="section" id="kommentarer" data-slug="{p['slug']}"><h2 class="h">Kommentarer</h2>
+<ul class="kommentar-liste" id="kommentar-liste"></ul>
+<p class="ingen-kommentarer" id="kommentar-tom" hidden>Ingen kommentarer ennå. Bli den første!</p>
+<form id="kommentar-form" novalidate>
+<p hidden><label>Ikke fyll ut: <input id="kbot"></label></p>
+<div class="field"><label for="kn">Navn</label><input id="kn" type="text" autocomplete="name" required><p class="err" id="ken" role="alert"></p></div>
+<div class="field"><label for="kk">Kommentar</label><textarea id="kk" required></textarea><p class="err" id="kek" role="alert"></p></div>
 <div><button class="btn" type="submit">Send kommentar</button><p class="status" id="kst" aria-live="polite"></p></div>
-<p class="hint">Kommentarer blir lest gjennom før de eventuelt legges ut.</p>
+<p class="hint">Kommentaren publiseres med en gang.</p>
+<p class="hint kommentar-admin-link">Kun for meg: <a href="#" id="kommentar-admin">administrer kommentarer</a></p>
 </form></section>'''
 
 def kommentar_script():
     return '''<script>
+(function(){
+var sec=document.getElementById("kommentarer"); if(!sec) return;
+var slug=sec.dataset.slug, endpoint="/.netlify/functions/comments?slug="+encodeURIComponent(slug);
+var liste=document.getElementById("kommentar-liste"), tom=document.getElementById("kommentar-tom");
+function adminPass(){try{return sessionStorage.getItem("kommentarAdmin")||""}catch(e){return ""}}
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+function render(data){
+liste.innerHTML="";tom.hidden=data.length>0;
+var pass=adminPass();
+data.forEach(function(k){
+var li=document.createElement("li");li.className="kommentar";
+var slett=pass?' <button type="button" class="kommentar-slett" data-id="'+k.id+'">Slett</button>':"";
+li.innerHTML='<p class="kommentar-meta"><strong>'+esc(k.navn)+'</strong> · '+esc(k.dato)+slett+'</p><p>'+esc(k.tekst)+'</p>';
+liste.appendChild(li)});
+[].slice.call(liste.querySelectorAll(".kommentar-slett")).forEach(function(btn){
+btn.addEventListener("click",function(){
+if(!confirm("Slette denne kommentaren?"))return;
+fetch(endpoint+"&id="+encodeURIComponent(btn.dataset.id),{method:"DELETE",headers:{"Authorization":"Bearer "+adminPass()}})
+.then(function(r){if(!r.ok)throw 0;return last()}).catch(function(){alert("Kunne ikke slette. Feil passord?")})})})}
+function last(){return fetch(endpoint).then(function(r){return r.json()}).then(render)}
+last().catch(function(){tom.hidden=false;tom.textContent="Kunne ikke laste kommentarer akkurat nå."});
+var adminLink=document.getElementById("kommentar-admin");
+adminLink.addEventListener("click",function(e){e.preventDefault();var p=prompt("Adminpassord:");if(p===null)return;try{sessionStorage.setItem("kommentarAdmin",p)}catch(err){}last()});
 var kf=document.getElementById("kommentar-form"),kst=document.getElementById("kst");
 function kchk(id,eid,ok,msg){var i=document.getElementById(id),v=i.value.trim(),r=ok(v);document.getElementById(eid).textContent=r?"":msg;if(r)i.removeAttribute("aria-invalid");else i.setAttribute("aria-invalid","true");return r}
 kf.addEventListener("submit",function(x){x.preventDefault();kst.textContent="";kst.className="status";
 var a=kchk("kn","ken",function(v){return v},"Skriv inn navnet ditt."),b=kchk("kk","kek",function(v){return v.length>=2},"Skriv en kommentar.");
 if(!(a&&b))return;
+if(document.getElementById("kbot").value)return;
 var btn=kf.querySelector("button");btn.disabled=true;
-fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(kf)).toString()}).then(function(r){if(!r.ok)throw 0;kst.className="status ok";kst.textContent="Takk! Kommentaren er sendt inn.";kf.reset()}).catch(function(){kst.textContent="Noe gikk galt. Prøv igjen litt senere."}).then(function(){btn.disabled=false})});
+fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({navn:document.getElementById("kn").value.trim(),tekst:document.getElementById("kk").value.trim()})})
+.then(function(r){if(!r.ok)throw 0;return last()})
+.then(function(){kst.className="status ok";kst.textContent="Takk! Kommentaren er publisert.";kf.reset()})
+.catch(function(){kst.textContent="Noe gikk galt. Prøv igjen litt senere."})
+.then(function(){btn.disabled=false})});
+})();
 </script>'''
 
 for p in POSTS:
