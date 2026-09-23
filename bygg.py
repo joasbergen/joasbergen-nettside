@@ -15,13 +15,19 @@ def w(path, text):
 # dict(slug="url-navn", img="bildefil.webp/.jpg/.svg", cats=["Fotturer"], rain=False, date="2026-09-14", label="14. september 2026",
 #      title="Tittel", lead="Kort ingress.", body="<p>Tekst</p><h2>Mellomtittel</h2><p>Mer tekst</p>"),
 # Legg til kart=True for å sette inn det interaktive bydelskartet i innlegget.
-# enkel=True: ingen stort bilde øverst i innlegget, og kortet på forsiden viser kun overskrift.
+# enkel=True: ingen stort bilde øverst i innlegget (kortet på forsiden viser bilde+overskrift).
+# body2: valgfri tekst som kommer ETTER kartet (kartet settes mellom body og body2).
 POSTS = [
     dict(slug="strok-eller-nabolag", img="strok-kart.webp", cats=["Historie"], rain=False,
          date="2026-09-22", label="22. september 2026",
-         title="Strøk eller nabolag i Bergen",
+         title="Strøk og nabolag i Bergen",
          lead="Et interaktivt kart over strøkene i sentrum av Bergen.",
-         body="<p>Bergen sentrum er delt opp i en mengde små strøk og nabolag, og de færreste vet nøyaktig hvor grensene mellom dem går. Under er et forsøk på å tegne dem opp.</p>",
+         body="""<p>De fleste strøkene i sentrumskjernen fantes allerede på 1800-tallet, og noen enda tidligere, helt tilbake til middelalderen og Hansatiden (fra ca. 1278). Fra byutvidelsen 1877 ble Sandviken, Kalfaret, Nygård, Møhlenpris og Ytre Sandviken lagt til som egne strøk.</p>
+<p>Endringen fra Bjørgvin, som betydde “den grønne engen mellom fjellene”, til Bergen skjedde i løpet av hansatiden, da det norrøne navnet var vanskelig for tyske kjøpmenn å uttale. Hansatiden begynte for alvor på 1300-tallet, og de brukte navn som Bergen, Bergin eller Bervin, og sikkert andre nyanseringer som er utenfor mitt interessefelt, langt utenfor.</p>
+<p>På denne tiden endret også den lokale uttalen seg og fremmedord kom inn i den bergenske dialekten, ja.</p>""",
+         body2="""<p>Skal eg si litt om navnestriden i 1929? Eg tenkte det også: kommunister. Nei, det var målfolket, altså nynorskforkjempere, eller snarere nasjonalromantiske språkfolk, som ønsket en tilbakeføring av det norrøne bynavnet Bjørgvin. Forslaget ble skrinlagt etter et protestmøte på festplassen, hvor 25 000 innbyggere møtte opp.</p>
+<p>Når vi igjen skal bytte hovedstad i dette landet, har eg tenkt litt. Er det nok plass? Ja, man lager en ny bydel, det vil si, flere ambassade- og byråkratstrøk. Men det er jo typisk, det, at ambassader skal være i gamle, herskapelige villaer. Javel, lag det, da. Vi tar å fyller igjen utover i sjøen fra Arkitektskolen (Sandviken) og det maset av et sjøfly som holder på der nede, og rundt Heggernestet i Breiviken (Ytre Sandviken). At det var? Nettopp, Skolten og Bontalabo (Bergenhus), ta det vekk. Hva er det eg ser? Tyskere, bleke og jævlige sådan, de er jo ikke tidig engang, som skal ha enerett på å legge til med båten sin? Er det hansatiden på nytt her igjen, eller? Det eg prøver å si er at det er plass.</p>
+<p>Ellers er det alltid den nederlandske modellen: kongehus, parlament, regjering og hele røkle i Haag, hovedstad i Amsterdam. For å være tydelig: Bergen er Amsterdam, og Oslo Haag, med andre ord: Oslo blir Athen for Bergens Roma.</p>""",
          kart=True, enkel=True),
 ]
 POSTS.sort(key=lambda p: p["date"], reverse=True)
@@ -483,10 +489,12 @@ for p in POSTS:
     slutt_script = (kart_script() if p.get("kart") else "") + kommentar_script()
     hero_html = "" if p.get("enkel") else f'<div class="hero"><img src="../bilder/{p["img"]}" alt=""></div>'
     lead_html = "" if p.get("enkel") else f'<p><strong>{html.escape(p["lead"])}</strong></p>'
+    body2_html = f'<div class="body">{p["body2"]}</div>' if p.get("body2") else ""
     w(f"innlegg/{p['slug']}.html", head(f"{p['title']} – Joa's Bergen", p["lead"], "../", p["img"]) + f'''<main><article class="article">{hero_html}
 <span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h1>{html.escape(p['title'])}</h1>
 <div class="body">{lead_html}{p['body']}</div>
 {kart_del}
+{body2_html}
 <a class="back" href="../index.html">&larr; Alle innlegg</a></article>
 {kommentar_html(p)}
 {FOOT}</main></div>{slutt_script}</body></html>
