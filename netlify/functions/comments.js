@@ -1,6 +1,7 @@
-const { getStore } = require("@netlify/blobs");
+const { getStore, connectLambda } = require("@netlify/blobs");
 
 exports.handler = async (event) => {
+  connectLambda(event);
   const params = event.queryStringParameters || {};
   const slug = params.slug;
   if (!slug) return { statusCode: 400, body: "Mangler slug" };
