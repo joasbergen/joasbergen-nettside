@@ -18,6 +18,13 @@ def w(path, text):
 # enkel=True: ingen stort bilde øverst i innlegget (kortet på forsiden viser bilde+overskrift).
 # body2: valgfri tekst som kommer ETTER kartet (kartet settes mellom body og body2).
 POSTS = [
+    dict(slug="sitronskall", img="sitronskall.jpg", cats=["Mat og drikke", "Leserinnlegg"], rain=False,
+         date="2026-09-29", label="29. september 2026",
+         title="Kandiserte sitronskall",
+         lead="Hva gjør man med sitronskallene etter en runde limoncello?",
+         body="""<p>Når jeg så Mat og Drikke så tenkte jeg, hva gjør man om man har laget limoncello, denne drikk som italienerne blir våte i blikket av, og sitter igjen med masse sitronskallbiter, du vet slike biter som har blitt fint skåret ut som om det var en carpaccio, altså noe helt rått og fint og som bare blir bedre og bedre jo mer du tenker på det, og som ikke på noen som helst måte kan brukes til noe annet enn bare å be om mer og mer og mer, ja du skjønner vel poenget, eller om du ikke gjør så er det ikke så farlig for det er uansett det jeg lurte på, hva gjør man med slike biter man da sitter igjen med, fine og gjennomalkoholisert av å ligge i høy prosent mange uker, med en gulfarge som kan vekke minner om en sommer som likevel ikke er så langt unna der den ligger og slumrer i bakhodet mens tankene flyr over alle hauger og raskt lander tilbake der den var, blant disse sitronskallbitene som vi med det samme, før vi igjen ender på avveier, skynder oss å legge i kokende sukkervann i noen minutter og så ruller dem i mer sukker og legger dem til tørk.</p>
+<p>Basta!</p>
+<p>JAT</p>"""),
     dict(slug="botanikk", img="botanikk.webp", cats=["Leserinnlegg"], rain=False,
          date="2026-09-23", label="23. september 2026",
          title="Botanikk",
