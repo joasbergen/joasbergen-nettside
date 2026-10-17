@@ -188,16 +188,17 @@ button,input,textarea{font:inherit;color:inherit}
 
 .article .hero{border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:var(--line)}
 .article .hero img{width:100%;height:100%;object-fit:cover}
-.article .avis{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:#0b0b0b;isolation:isolate}
-.article .avis img{position:absolute;top:34px;right:0;height:calc(100% - 34px);width:auto;aspect-ratio:16/9;filter:grayscale(1) contrast(1.55) brightness(.85);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 34%);mask-image:linear-gradient(90deg,transparent 0,#000 34%)}
-.article .avis::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(200,16,46,.55),rgba(200,16,46,0) 70%);mix-blend-mode:multiply;pointer-events:none}
-.article .avis .kicker{position:absolute;z-index:3;top:0;left:0;right:0;background:#c8102e;color:#fff;font:700 .78rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;padding:10px 18px}
-.article .avis .ov{position:absolute;z-index:2;left:0;bottom:0;top:0;width:58%;display:flex;flex-direction:column;justify-content:center;padding:44px 0 24px 26px}
-.article .avis h1{margin:0;color:#fff;font:900 clamp(2rem,7vw,4.8rem)/.93 Impact,"Arial Black",Haettenschweiler,sans-serif;text-transform:uppercase;letter-spacing:.005em;text-shadow:0 2px 14px rgba(0,0,0,.7)}
-.article .avis h1 span{display:block}
-.article .avis h1 span:last-child{color:#ffd400}
-.article .avis .sub{margin:14px 0 0;color:#fff;font:600 clamp(.85rem,1.9vw,1.2rem)/1.3 Georgia,serif;border-top:3px solid #ffd400;padding-top:10px;max-width:30ch;text-shadow:0 1px 8px rgba(0,0,0,.8)}
-@media(max-width:640px){.article .avis{aspect-ratio:auto;padding-top:34px}.article .avis img{position:static;display:block;width:100%;transform:none;height:auto;aspect-ratio:16/9;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}.article .avis::before{background:linear-gradient(180deg,rgba(200,16,46,.35),rgba(200,16,46,0) 60%)}.article .avis .ov{position:relative;width:auto;margin-top:-34px;padding:0 18px 20px}.article .avis .sub{max-width:none}}
+.card:hover div.avis img{transform:none}
+div.avis{container-type:inline-size;position:relative;border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:#0b0b0b;isolation:isolate}
+div.avis img{position:absolute;top:34px;right:0;height:calc(100% - 34px);width:auto;aspect-ratio:16/9;filter:grayscale(1) contrast(1.55) brightness(.85);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 34%);mask-image:linear-gradient(90deg,transparent 0,#000 34%)}
+div.avis::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(200,16,46,.55),rgba(200,16,46,0) 70%);mix-blend-mode:multiply;pointer-events:none}
+div.avis .kicker{position:absolute;z-index:3;top:0;left:0;right:0;background:#c8102e;color:#fff;font:700 .78rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;padding:10px 18px}
+div.avis .ov{position:absolute;z-index:2;left:0;bottom:0;top:0;width:58%;display:flex;flex-direction:column;justify-content:center;padding:44px 0 24px 26px}
+div.avis .t{margin:0;color:#fff;font:900 clamp(1.5rem,8.6cqw,4.8rem)/.93 Impact,"Arial Black",Haettenschweiler,sans-serif;text-transform:uppercase;letter-spacing:.005em;text-shadow:0 2px 14px rgba(0,0,0,.7)}
+div.avis .t span{display:block}
+div.avis .t span:last-child{color:#ffd400}
+div.avis .sub{margin:14px 0 0;color:#fff;font:600 clamp(.8rem,2.8cqw,1.2rem)/1.3 Georgia,serif;border-top:3px solid #ffd400;padding-top:10px;max-width:30ch;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+@media(max-width:640px){div.avis{aspect-ratio:auto;padding-top:34px}div.avis img{position:static;display:block;width:100%;transform:none;height:auto;aspect-ratio:16/9;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}div.avis::before{background:linear-gradient(180deg,rgba(200,16,46,.35),rgba(200,16,46,0) 60%)}div.avis .ov{position:relative;width:auto;margin-top:-34px;padding:0 18px 20px}div.avis .sub{max-width:none}}
 .article h1{font:700 clamp(2rem,5vw,3.2rem)/1.05 var(--display);letter-spacing:-.025em;margin:8px 0 0;text-wrap:balance}
 .article .body{margin-top:24px;max-width:62ch;font-size:1.08rem}
 .article .body p{margin:0 0 1.1em}
@@ -543,6 +544,11 @@ fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:J
 })();
 </script>'''
 
+def avis_html(p, pre, tag):
+    ord_ = [o for o in p["title"].split(". ") if o]
+    t = "".join(f"<span>{html.escape(o.rstrip('.'))}.</span>" for o in ord_)
+    return f'<div class="avis"><img src="{pre}bilder/{p["img"]}" alt="" loading="lazy"><div class="kicker">{html.escape(" · ".join(p["cats"]))}</div><div class="ov"><{tag} class="t">{t}</{tag}><p class="sub">{html.escape(p["lead"])}</p></div></div>'
+
 for p in POSTS:
     kart_del = ""
     if p.get("kart"):
@@ -553,9 +559,7 @@ for p in POSTS:
     slutt_script = (kart_script() if p.get("kart") else "") + kommentar_script()
     hero_html = "" if p.get("enkel") else f'<div class="hero"><img src="../bilder/{p["img"]}" alt=""></div>'
     if p.get("avis"):
-        ord_ = [o for o in p["title"].split(". ") if o]
-        h1_avis = "".join(f"<span>{html.escape(o.rstrip('.'))}.</span>" for o in ord_)
-        hero_html = f'<div class="avis"><img src="../bilder/{p["img"]}" alt=""><div class="kicker">{html.escape(" · ".join(p["cats"]))}</div><div class="ov"><h1>{h1_avis}</h1><p class="sub">{html.escape(p["lead"])}</p></div></div>'
+        hero_html = avis_html(p, "../", "h1")
     h1_html = "" if p.get("avis") else f'<h1>{html.escape(p["title"])}</h1>'
     lead_html = "" if (p.get("enkel") or p.get("avis")) else f'<p><strong>{html.escape(p["lead"])}</strong></p>'
     body2_html = f'<div class="body">{p["body2"]}</div>' if p.get("body2") else ""
@@ -570,7 +574,11 @@ for p in POSTS:
 ''')
 
 def card_html(p):
-    return f'''<a class="card" href="innlegg/{p['slug']}.html" data-cats="{'|'.join(p['cats'])}" data-rain="{int(p['rain'])}"><div class="img"><img src="bilder/{p['img']}" alt="" loading="lazy"></div><span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h2>{html.escape(p['title'])}</h2><p>{html.escape(p['lead'])}</p></a>'''
+    meta = f"""<span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time>"""
+    attrs = 'class="card" href="innlegg/%s.html" data-cats="%s" data-rain="%d"' % (p['slug'], '|'.join(p['cats']), int(p['rain']))
+    if p.get("avis"):
+        return f'<a {attrs}>{avis_html(p, "", "h2")}{meta}</a>'
+    return f'''<a {attrs}><div class="img"><img src="bilder/{p['img']}" alt="" loading="lazy"></div>{meta}<h2>{html.escape(p['title'])}</h2><p>{html.escape(p['lead'])}</p></a>'''
 
 cards = "\n".join(card_html(p) for p in POSTS)
 
