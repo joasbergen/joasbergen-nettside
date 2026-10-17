@@ -15,9 +15,17 @@ def w(path, text):
 # dict(slug="url-navn", img="bildefil.webp/.jpg/.svg", cats=["Fotturer"], rain=False, date="2026-09-14", label="14. september 2026",
 #      title="Tittel", lead="Kort ingress.", body="<p>Tekst</p><h2>Mellomtittel</h2><p>Mer tekst</p>"),
 # Legg til kart=True for å sette inn det interaktive bydelskartet i innlegget.
+# avis=True: avisforside-stil, overskrift og ingress over bildet (bruk korte setninger i tittelen, delt på ". ").
 # enkel=True: ingen stort bilde øverst i innlegget (kortet på forsiden viser bilde+overskrift).
 # body2: valgfri tekst som kommer ETTER kartet (kartet settes mellom body og body2).
 POSTS = [
+    dict(slug="nedbrutt-forfalt-perfekt", img="craig-bond.jpg", cats=["Film", "Leserinnlegg"], rain=False,
+         date="2026-10-17", label="17. oktober 2026", avis=True,
+         title="NEDBRUTT. FORFALT. PERFEKT.",
+         lead="Hvorfor Daniel Craigs knuste Bond er den eneste vi kan tro på.",
+         body="""<p>«Bleik», «Sint», «Følelsesløs», «Endimensjonal»… dette er bare noen av ordene som ble slengt rundt hvermannsen i både øst og vest da den Chester-fødte skuespilleren, Daniel Craig, debuterte i rollen som James Bond (007). Han er ikke den James vi er vant til, han er ikke den James vi vil ha, og han er heller ikke den James vi ser opp til, men jeg skal si deg en ting: Han er den James vi trenger. Sjonglere en hverdag som massemorder, familiefar, skjørtejeger, alkoholiker og pliktoppfyllende britisk soldat, ispedd en god dose indre demoner og psykologiske traumer, med et egentlig ønske om å leve et stille liv i ensomhet. Det er realiteten her. Og hvordan løser man denne kabalen? Nok søvn om nettene? Riktig kosthold? En halvtime meditasjon før leggetid? Nei, nei. Den er uløselig. Selvfølgelig er den det, men Craig prøver og han fortsetter å prøve. Dette fører naturligvis til en hel del kroppslige bøter, og, mest av alt, en svindyr mental faktura adressert Craigs topplokk. Her ligger nøkkelen! Vi kjenner denne mannens evige strev helt inn på kroppen… livet nekter han en eneste hvil. Vi ser en nedbrutt James, en James i forfall, i skam. Han gjør utilgivelige ting, men vi tilgir han. Denne ødelagte mannens umulige gjenreisning, han vet det godt selv, og det gjør vi og! Vi ser det i de krystallblå øynene... Det kan ikke ende godt, men vi og alle rundt han krever at han fortsetter å kjempe, fordi det er det eneste han kan. Det knuser han, men han trenger det. Han må ha det. Slutter han denne kampen, opphører James sin eksistens. Dette er anti-heltens gullsone, skjæringspunktet mellom genialitet og forfall.</p>
+<p>Hvil i fred!</p>
+<p>Takk,<br>HH</p>"""),
     dict(slug="sitronskall", img="sitronskall.jpg", cats=["Mat og drikke", "Leserinnlegg"], rain=False,
          date="2026-09-29", label="29. september 2026",
          title="Kandiserte sitronskall",
@@ -180,6 +188,16 @@ button,input,textarea{font:inherit;color:inherit}
 
 .article .hero{border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:var(--line)}
 .article .hero img{width:100%;height:100%;object-fit:cover}
+.article .avis{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:#0b0b0b;isolation:isolate}
+.article .avis img{position:absolute;top:34px;right:0;height:calc(100% - 34px);width:auto;aspect-ratio:16/9;filter:grayscale(1) contrast(1.55) brightness(.85);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 34%);mask-image:linear-gradient(90deg,transparent 0,#000 34%)}
+.article .avis::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(200,16,46,.55),rgba(200,16,46,0) 70%);mix-blend-mode:multiply;pointer-events:none}
+.article .avis .kicker{position:absolute;z-index:3;top:0;left:0;right:0;background:#c8102e;color:#fff;font:700 .78rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;padding:10px 18px}
+.article .avis .ov{position:absolute;z-index:2;left:0;bottom:0;top:0;width:58%;display:flex;flex-direction:column;justify-content:center;padding:44px 0 24px 26px}
+.article .avis h1{margin:0;color:#fff;font:900 clamp(2rem,7vw,4.8rem)/.93 Impact,"Arial Black",Haettenschweiler,sans-serif;text-transform:uppercase;letter-spacing:.005em;text-shadow:0 2px 14px rgba(0,0,0,.7)}
+.article .avis h1 span{display:block}
+.article .avis h1 span:last-child{color:#ffd400}
+.article .avis .sub{margin:14px 0 0;color:#fff;font:600 clamp(.85rem,1.9vw,1.2rem)/1.3 Georgia,serif;border-top:3px solid #ffd400;padding-top:10px;max-width:30ch;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+@media(max-width:640px){.article .avis{aspect-ratio:auto;padding-top:34px}.article .avis img{position:static;display:block;width:100%;transform:none;height:auto;aspect-ratio:16/9;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}.article .avis::before{background:linear-gradient(180deg,rgba(200,16,46,.35),rgba(200,16,46,0) 60%)}.article .avis .ov{position:relative;width:auto;margin-top:-34px;padding:0 18px 20px}.article .avis .sub{max-width:none}}
 .article h1{font:700 clamp(2rem,5vw,3.2rem)/1.05 var(--display);letter-spacing:-.025em;margin:8px 0 0;text-wrap:balance}
 .article .body{margin-top:24px;max-width:62ch;font-size:1.08rem}
 .article .body p{margin:0 0 1.1em}
@@ -534,10 +552,15 @@ for p in POSTS:
 </figure>'''
     slutt_script = (kart_script() if p.get("kart") else "") + kommentar_script()
     hero_html = "" if p.get("enkel") else f'<div class="hero"><img src="../bilder/{p["img"]}" alt=""></div>'
-    lead_html = "" if p.get("enkel") else f'<p><strong>{html.escape(p["lead"])}</strong></p>'
+    if p.get("avis"):
+        ord_ = [o for o in p["title"].split(". ") if o]
+        h1_avis = "".join(f"<span>{html.escape(o.rstrip('.'))}.</span>" for o in ord_)
+        hero_html = f'<div class="avis"><img src="../bilder/{p["img"]}" alt=""><div class="kicker">{html.escape(" · ".join(p["cats"]))}</div><div class="ov"><h1>{h1_avis}</h1><p class="sub">{html.escape(p["lead"])}</p></div></div>'
+    h1_html = "" if p.get("avis") else f'<h1>{html.escape(p["title"])}</h1>'
+    lead_html = "" if (p.get("enkel") or p.get("avis")) else f'<p><strong>{html.escape(p["lead"])}</strong></p>'
     body2_html = f'<div class="body">{p["body2"]}</div>' if p.get("body2") else ""
     w(f"innlegg/{p['slug']}.html", head(f"{p['title']} – Joa's Bergen", p["lead"], "../", p["img"]) + f'''<main><article class="article">{hero_html}
-<span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time><h1>{html.escape(p['title'])}</h1>
+<span class="cats">{' · '.join(p['cats'])}{' · Regnværsdag' if p['rain'] else ''}</span><time class="date" datetime="{p['date']}">{p['label']}</time>{h1_html}
 <div class="body">{lead_html}{p['body']}</div>
 {kart_del}
 {body2_html}
@@ -552,7 +575,7 @@ def card_html(p):
 cards = "\n".join(card_html(p) for p in POSTS)
 
 empty = "" if POSTS else '<p class="none">Innleggene kommer snart.</p>'
-CATS = sorted(["Byvandring", "Fotturer", "Historie", "Leserinnlegg", "Mat og drikke", "Solforhold"], key=str.casefold)
+CATS = sorted(["Byvandring", "Film", "Fotturer", "Historie", "Leserinnlegg", "Mat og drikke", "Solforhold"], key=str.casefold)
 chips = "".join(f'<button type="button" class="chip" aria-pressed="false" data-cat="{c}">{c}</button>' for c in CATS) + '<button type="button" class="chip rain" aria-pressed="false">☔ Regnværsdag</button>'
 
 w("index.html", head("Joa's Bergen – blogg", "Blogg om Bergen: mat, turer og historie.", "", "", hero="forside.webp") + f'''<main>

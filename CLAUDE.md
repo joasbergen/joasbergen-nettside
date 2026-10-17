@@ -18,7 +18,7 @@ dict(slug="url-navn", img="bildefil.jpg", cats=["Mat og drikke", "Leserinnlegg"]
      body="""<p>Tekst</p><p>Mer tekst</p>"""),
 ```
 - Bildet kopieres til `bilder/` (jpg/webp). Det vises på forsidekortet og som stort bilde øverst i innlegget.
-- Kategorier som finnes (`CATS`): Byvandring, Fotturer, Historie, Leserinnlegg, Mat og drikke, Solforhold. `rain=True` gir "Regnværsdag"-merke.
+- Kategorier som finnes (`CATS`): Byvandring, Film, Fotturer, Historie, Leserinnlegg, Mat og drikke, Solforhold. `rain=True` gir "Regnværsdag"-merke.
 - Avsnitt som `<p>`, lister som `<ul><li>`, mellomtitler som `<h2>`. Signatur (f.eks. HH, JAT, J) som eget `<p>`.
 - Valgfritt: `kart=True` setter inn det interaktive bydelskartet, `body2` er tekst etter kartet, `enkel=True` fjerner toppbilde og ingress i selve innlegget (brukes bare av kart-innlegget).
 - Forsidekortet viser alltid bilde, kategorier, dato, tittel og ingress.
