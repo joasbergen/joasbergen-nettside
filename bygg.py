@@ -19,6 +19,11 @@ def w(path, text):
 # enkel=True: ingen stort bilde øverst i innlegget (kortet på forsiden viser bilde+overskrift).
 # body2: valgfri tekst som kommer ETTER kartet (kartet settes mellom body og body2).
 POSTS = [
+    dict(slug="pils-i-plastkopper", img="konsert.jpg", cats=["Leserinnlegg"], rain=False,
+         date="2026-10-21", label="21. oktober 2026",
+         title="Er det eg som er problemet?",
+         lead="Hvorfor står jeg her og kjeder meg, mens alle andre digger det?",
+         body="""<p>Jeg gjør det for å ta del i noe sosialt. Jeg tillater meg selv å henfalle til det konforme. Når mine venner koser seg, pleier jeg som regel å kose meg også. Det er en slags mekanisme der. At jeg da må stå og høre på pisse-intetsigende musikk, får jeg bare leve med. Jeg pilser og tar innover meg stemningen. Det har for så vidt fascinert meg i lang tid hvor tilsynelatende intenst det går an å hylle musikk som er så lite interessant. Er det misunnelse som snakker? Er jeg bare irritert over at det står mennesker på en scene som virkelig har klart å skape noe? Hva jeg mener om musikken, har åpenbart lite å si for deres suksess. Publikum digger det, men det kan ikke bare være meg som kjeder seg. Kanskje jeg ikke liker konserter? Nei, det kan ikke være så enkelt. Jeg elsker musikk, men problemet er vel at jeg antageligvis har omringet meg med venner som ikke helt deler min mening om hva som er bra musikk. Meg og Jo har veldig lik musikksmak, men jeg kan egentlig ikke huske at vi har vært så mye på konsert sammen. Vi var tross alt på et par konserter på Mojo’s Blues Bar, da vi bodde i København dette siste semesteret. Der var vi samstemt om at musikken fra scenen var bra. En tanke som slår meg er: hadde de jeg vanligvis trakterer diverse konserter med her hjemme i Bergen, vært av samme oppfatning? Muligens ikke. Så da står jeg igjen her, uten å ha noen å dra på de riktige konsertene med. Da blir det å hive seg med på disse møkkjedelige konsertene, mens jeg nummer min kritiske sans med iskald pils i plastkopper.</p>"""),
     dict(slug="nedbrutt-forfalt-perfekt", img="craig-bond.jpg", cats=["Film", "Leserinnlegg"], rain=False,
          date="2026-10-17", label="17. oktober 2026", avis=True,
          title="NEDBRUTT. FORFALT. PERFEKT.",
@@ -600,7 +605,7 @@ w("index.html", head("Joa's Bergen – blogg", "Blogg om Bergen: mat, turer og h
 <p>Takk</p>
 <p>J</p></section>
 <section class="section" id="kontakt"><h2 class="h">Kontakt</h2>
-<p>Fortell kort hva du lurer på, så svarer jeg så snart jeg kan.</p>
+<p>Spørsmål eller sende inn leserinnlegg? Send gjerne direkte til <a href="mailto:joasbergen@gmail.com">joasbergen@gmail.com</a>, eller bruk skjemaet under.</p>
 <form id="contact" name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot" novalidate>
 <input type="hidden" name="form-name" value="kontakt"><p hidden><label>Ikke fyll ut: <input name="bot"></label></p>
 <div class="field"><label for="n">Navn</label><input id="n" name="navn" type="text" autocomplete="name" required><p class="err" id="en" role="alert"></p></div>
