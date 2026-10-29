@@ -142,6 +142,7 @@ a{color:inherit}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
 button,input,textarea{font:inherit;color:inherit}
 
+.varsel{background:#c8102e;color:#fff;font:600 .9rem/1.35 var(--body);padding:10px 14px;border-radius:8px;margin:14px 0}
 .layout{display:grid;grid-template-columns:240px minmax(0,1fr);column-gap:56px;row-gap:56px;max-width:1080px;margin:0 auto;padding:40px clamp(16px,4vw,32px) 48px}
 .layout.has-hero{row-gap:22px}
 .hero-banner{grid-column:1/-1;border-radius:16px;overflow:hidden;height:clamp(200px,28vw,360px);background:var(--line)}
@@ -595,6 +596,7 @@ chips = "".join(f'<button type="button" class="chip" aria-pressed="false" data-c
 w("index.html", head("Joa's Bergen – blogg", "Blogg om Bergen: mat, turer og historie.", "", "", hero="forside.webp") + f'''<main>
 <div class="filters" role="group" aria-label="Filtrer innlegg"{" hidden" if not POSTS else ""}>
 <div class="chips">{chips}</div>
+<div class="varsel" role="status">Nytt innlegg kommer fredag formiddag før lunsj</div>
 <div class="fmeta"><span id="count" aria-live="polite"></span><button type="button" id="reset" hidden>Nullstill filter</button></div></div>
 <div class="posts">
 {cards}
