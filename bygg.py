@@ -23,7 +23,7 @@ POSTS = [
     dict(slug="bergen-omkring-1850", img="strandgaden.webp", cats=["Historie"], rain=False,
          caption="Strandgaten (omkr. 1870). Foto: Knud Knudsen",
          date="2026-10-30", label="30. oktober 2026",
-         title="Bergen sett omkring 1850-tallet",
+         title="Bergen sett omkring 1850",
          lead="Smug og fisk: slik beskrev de reisende Bergen i sin tid.",
          body="""<p>Kysten ved Bergen er absolutt vakrere enn Christianafjorden, som det heter. Byen ligger rundt havnen som et amfiteater, innesluttet fra alle kanter av høye og steile, grønnkledde fjeller, som det nesten er umulig å få hestene til å klatre over. Ikke i noen retning kan man noenlunde bekvemt komme seg mer enn en mil utenfor bygrensen.</p>
 <p>Den beste måte å lære en by å kjenne på, er å gå seg vill i den, intet er lettere i Bergen. Byen kan verken sammenlignes med Trondheim eller Christiania, <em>Der</em> er det brede gater, som krysser hverandre i rette vinkler, og lave pene huser på begge sider, mens <em>her</em> må man brukte seg gjennom en labyrint av smale smug.</p>
