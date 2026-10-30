@@ -33,7 +33,8 @@ POSTS = [
 <p>Etter hva det er å se av kloakkvesenet i Bergen, fremgår det tydelig at det meste, for ikke å si alt, er av det mest primitive slaget. Man kan derfor ikke undre seg over den motbydelige stank i gatene. Det er derfor et hell at byens 25 000 innbyggerne ellers er velsignet med frisk luft, usmittet av kull og røk.</p>
 <p>Man kunne være fristet til å tro at bergenserne bare er fiske etende. Aldri treffer man i gatene menn bærende på brød eller kvinner belesset med frukt, eller unge piker som selger blomster. Menn, kvinner, unge menn og piker: halve byen selger fisk til den annen halvdel, og innbyggerne lever som en oter-koloni, på fisk.</p>
 <p>Drukkenskap har vært denne bys ruin fra kong Sverres tid til våre dager, og man tror at det er hovedgrunnen til at spedalskhet er så alminnelig i dette området. Drikking av dårlig spiritus, skittenferdige vaner, og spesielt spising av halvråtten fisk, har gitt sykdommen næring.</p>
-<p>Forbindelsene med nabobyene Trondheim og Christiania er lik null. Bergenserne reiser nok til Christiania, men christianeserne legger en slags affektasjon i ikke å reise til Bergen. Samtidig forstår Bergen at hennes liv ikke ligger der, og hun vender seg til havet.</p>"""),
+<p>Forbindelsene med nabobyene Trondheim og Christiania er lik null. Bergenserne reiser nok til Christiania, men christianeserne legger en slags affektasjon i ikke å reise til Bergen. Samtidig forstår Bergen at hennes liv ikke ligger der, og hun vender seg til havet.</p>
+<p>Joa</p>"""),
     dict(slug="pils-i-plastkopper", img="konsert.jpg", cats=["Leserinnlegg"], rain=False,
          date="2026-10-21", label="21. oktober 2026",
          title="Er det eg som er problemet?",
@@ -614,7 +615,7 @@ chips = "".join(f'<button type="button" class="chip" aria-pressed="false" data-c
 w("index.html", head("Joa's Bergen – blogg", "Blogg om Bergen: mat, turer og historie.", "", "", hero="forside.webp") + f'''<main>
 <div class="filters" role="group" aria-label="Filtrer innlegg"{" hidden" if not POSTS else ""}>
 <div class="chips">{chips}</div>
-<div class="varsel" role="status">Nytt innlegg kommer fredag formiddag før lunsj</div>
+<div class="varsel" role="status">Nytt leserinnlegg kommer søndag ettermiddag</div>
 <div class="fmeta"><span id="count" aria-live="polite"></span><button type="button" id="reset" hidden>Nullstill filter</button></div></div>
 <div class="posts">
 {cards}
