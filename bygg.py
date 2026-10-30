@@ -16,9 +16,24 @@ def w(path, text):
 #      title="Tittel", lead="Kort ingress.", body="<p>Tekst</p><h2>Mellomtittel</h2><p>Mer tekst</p>"),
 # Legg til kart=True for å sette inn det interaktive bydelskartet i innlegget.
 # avis=True: avisforside-stil, overskrift og ingress over bildet (bruk korte setninger i tittelen, delt på ". ").
+# caption="Bildetekst": vises under toppbildet (valgfritt).
 # enkel=True: ingen stort bilde øverst i innlegget (kortet på forsiden viser bilde+overskrift).
 # body2: valgfri tekst som kommer ETTER kartet (kartet settes mellom body og body2).
 POSTS = [
+    dict(slug="bergen-omkring-1850", img="strandgaden.webp", cats=["Historie"], rain=False,
+         caption="Strandgaten (omkr. 1870). Foto: Knud Knudsen",
+         date="2026-10-30", label="30. oktober 2026",
+         title="Bergen sett omkring 1850-tallet",
+         lead="Smug og fisk: slik beskrev de reisende Bergen i sin tid.",
+         body="""<p>Kysten ved Bergen er absolutt vakrere enn Christianafjorden, som det heter. Byen ligger rundt havnen som et amfiteater, innesluttet fra alle kanter av høye og steile, grønnkledde fjeller, som det nesten er umulig å få hestene til å klatre over. Ikke i noen retning kan man noenlunde bekvemt komme seg mer enn en mil utenfor bygrensen.</p>
+<p>Den beste måte å lære en by å kjenne på, er å gå seg vill i den, intet er lettere i Bergen. Byen kan verken sammenlignes med Trondheim eller Christiania, <em>Der</em> er det brede gater, som krysser hverandre i rette vinkler, og lave pene huser på begge sider, mens <em>her</em> må man brukte seg gjennom en labyrint av smale smug.</p>
+<p>Gatenes brosteiner er lagt uregelmessig, slitt og dårlig vedlikehold. De danner de ubehageligste små bakker og daler, meget trettende for gående. Det er et hell for innbyggerne at der ikke er stor ferdsel, for støyen av kjerrens skrangling ville ellers være uutholdelig.</p>
+<p>Alle husene er bygget av tre, og istedenfor å være malt røde eller grønne, er de hvite. Det varer ikke lenge før denne strålende lyse fargen under den glansløse nordiske himmel antar en blek og gusten farge, og tilslører hele byen som i et liklaken.</p>
+<p>De fleste hus vender sine forsirede gavler mot gaten, og i gatesvinger kunne man tro seg ikke mere i Norge, men i en eller annen by i Nord-Tyskland. Hennes tyske karakter: nesten gjennomgående tysk, tysk husbygningskunst, tysk klesdrakt, og blir i det indre Norge kalles hun for <em>Lille Hamburg</em>, og regnes ikke med i Norge ...</p>
+<p>Etter hva det er å se av kloakkvesenet i Bergen, fremgår det tydelig at det meste, for ikke å si alt, er av det mest primitive slaget. Man kan derfor ikke undre seg over den motbydelige stank i gatene. Det er derfor et hell at byens 25 000 innbyggerne ellers er velsignet med frisk luft, usmittet av kull og røk.</p>
+<p>Man kunne være fristet til å tro at bergenserne bare er fiske etende. Aldri treffer man i gatene menn bærende på brød eller kvinner belesset med frukt, eller unge piker som selger blomster. Menn, kvinner, unge menn og piker: halve byen selger fisk til den annen halvdel, og innbyggerne lever som en oter-koloni, på fisk.</p>
+<p>Drukkenskap har vært denne bys ruin fra kong Sverres tid til våre dager, og man tror at det er hovedgrunnen til at spedalskhet er så alminnelig i dette området. Drikking av dårlig spiritus, skittenferdige vaner, og spesielt spising av halvråtten fisk, har gitt sykdommen næring.</p>
+<p>Forbindelsene med nabobyene Trondheim og Christiania er lik null. Bergenserne reiser nok til Christiania, men christianeserne legger en slags affektasjon i ikke å reise til Bergen. Samtidig forstår Bergen at hennes liv ikke ligger der, og hun vender seg til havet.</p>"""),
     dict(slug="pils-i-plastkopper", img="konsert.jpg", cats=["Leserinnlegg"], rain=False,
          date="2026-10-21", label="21. oktober 2026",
          title="Er det eg som er problemet?",
@@ -206,6 +221,7 @@ div.avis .t span{display:block}
 div.avis .t span:last-child{color:#ffd400}
 div.avis .sub{margin:14px 0 0;color:#fff;font:600 clamp(.8rem,2.8cqw,1.2rem)/1.3 Georgia,serif;border-top:3px solid #ffd400;padding-top:10px;max-width:30ch;text-shadow:0 1px 8px rgba(0,0,0,.8)}
 @media(max-width:640px){div.avis{aspect-ratio:auto;padding-top:34px}div.avis img{position:static;display:block;width:100%;transform:none;height:auto;aspect-ratio:16/9;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}div.avis::before{background:linear-gradient(180deg,rgba(200,16,46,.35),rgba(200,16,46,0) 60%)}div.avis .ov{position:relative;width:auto;margin-top:-34px;padding:0 18px 20px}div.avis .sub{max-width:none}}
+.article .bildetekst{font:.8rem/1.4 var(--mono);color:var(--muted);margin:8px 2px 0}
 .article h1{font:700 clamp(2rem,5vw,3.2rem)/1.05 var(--display);letter-spacing:-.025em;margin:8px 0 0;text-wrap:balance}
 .article .body{margin-top:24px;max-width:62ch;font-size:1.08rem}
 .article .body p{margin:0 0 1.1em}
@@ -567,6 +583,8 @@ for p in POSTS:
     hero_html = "" if p.get("enkel") else f'<div class="hero"><img src="../bilder/{p["img"]}" alt=""></div>'
     if p.get("avis"):
         hero_html = avis_html(p, "../", "h1")
+    if p.get("caption") and not p.get("enkel") and not p.get("avis"):
+        hero_html += f'<p class="bildetekst">{html.escape(p["caption"])}</p>'
     h1_html = "" if p.get("avis") else f'<h1>{html.escape(p["title"])}</h1>'
     lead_html = "" if (p.get("enkel") or p.get("avis")) else f'<p><strong>{html.escape(p["lead"])}</strong></p>'
     body2_html = f'<div class="body">{p["body2"]}</div>' if p.get("body2") else ""
