@@ -20,6 +20,20 @@ def w(path, text):
 # enkel=True: ingen stort bilde øverst i innlegget (kortet på forsiden viser bilde+overskrift).
 # body2: valgfri tekst som kommer ETTER kartet (kartet settes mellom body og body2).
 POSTS = [
+    dict(slug="aad-gjelle", img="aad-gjelles-gate.jpg", cats=["Historie"], rain=False,
+         date="2026-11-09", label="9. november 2026",
+         title="Aad Gjelle",
+         lead="Mannen bak gaten.",
+         body="""<p>Midt i smørøyet av Sandviken ligger det en gate. Den står i parallell med Ekrebakken, er i umiddelbar nærhet av en koselig dagligvarehandler og en høyskole. Litt bortenfor ligger det en lekeplass. Går man 200-300 meter mot Sentrum, finner man en skjenk, kirke, barnehage og gamlehjem i umiddelbar nærhet. Buekorpsene som streifer gaten, er i hopetall. Det nærmeste er Sandvikens Bataljon som har råd og plan skilnaden mellom Ekregaten og Gørbitz gate.</p>
+<p>I denne gaten kan man leve et helt liv uten å måtte bevege seg mer enn et par hundre meter hver himmelretning.</p>
+<p>Gatenavnet? Aad Gjelles gate</p>
+<p>Mannen med navnet står i et celebert selskap. Store bergenske personligheter som Eidsvollmannen Fredrik Meltzer, landets første statsminister Christan Michelsen, kongen og Stamford Brigde-kjemperen Olav Kyrre og hans sønn Magnus Barfot har sine navn klistret på sine respektive gater innenfor Bergen – etter både eldre og nyere kommunegrenser.</p>
+<p>Aad Gjelle? Kartograf og bygdekunstner. Hans mellomnavn er Knutsson og han ble født på Voss 31. desember 1768.</p>
+<p>Med store begavelser innenfor matematikkene og et drivende behov for å gjøre disse til nytte for allmennheten, fattet han interesse i kartet og landmåling.</p>
+<p>I kjølvannet av at han leverte et kart over Nordhordland Sorenskriverdistrikt i 1813, påbegynte en prosess der han til slutt endte opp som landmåler for Bergens bispedømme. Etter feiring av «den søttendes» i 1814, ble det bestemt at han kunne opp i eksamen. Den ble siden referert i Bergens-pressen, hvor det står at han «udmærkede sig iøvrigt ligesaa meget ved Beskedenhed og klog Adfærd som ved sine Talenter».</p>
+<p>Stillingen hadde han i 26 år. Han arbeidet mange steder på Vestlandet, men hans mest omfattende arbeider ble gjort i og rundt Bergen. Gjelle var også i rettssalen, hvor han førte eiendomstvister og brukte kombinasjonen av sine kartografiske og juridiske kunnskaper.</p>
+<p>Gjelle tok til å kartlegge de evige jaktmarker den 27. februar 1840. Han ble på dagen 72 år og to måneder gammel.</p>
+<p>–Bell</p>"""),
     dict(slug="bergen-omkring-1850", img="strandgaden.webp", cats=["Historie"], rain=False,
          caption="Strandgaten (omkr. 1870). Foto: Knud Knudsen",
          date="2026-10-30", label="30. oktober 2026",
